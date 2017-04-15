@@ -1,0 +1,28 @@
+<!--panorama-equirectangular texture="/assets/textures/2294472375_24a3b8ef46_o.jpg"
+    [widthSegments]="60"
+    [heightSegments]="40"
+    [radius]="500"
+    [fieldOfView]="75"
+    [nearClipping]="1"
+    [farClipping]="1100"></panorama-equirectangular-->
+<!--
+<geometry-cube texture="/assets/textures/crate.gif"
+    [size]="200"
+    [rotationSpeedX]="0.005"
+    [rotationSpeedY]="0.01"
+    [cameraZ]="400"
+    [fieldOfView]="70"
+    [nearClipping]="1"
+    [farClipping]="1000"></geometry-cube>
+-->
+<main>
+    <nav><button
+          type="button"
+          title="Full Screen Toggle"
+          (click)="toggleFullScreen()">
+          <i class="icon-ic-zoom-out-map-black-24px"></i>
+        </button>
+    </nav>
+    <app-three>
+    </app-three>
+</main>
