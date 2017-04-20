@@ -23,7 +23,7 @@ export class SceneDirective implements AfterContentInit {
   referentielService: ReferentielService = new ReferentielService();
 
   get referentiel() {
-    return this.referentielService.getObject();
+    return this.referentielService.getObjects();
   }
   get camera() {
     return this.cameraComp.camera;
@@ -31,8 +31,8 @@ export class SceneDirective implements AfterContentInit {
 
   ngAfterContentInit() {
     //this.camera.lookAt(this.scene.position);
-    this.camera.position.y = 100;
-    this.camera.position.z = 100;
+    this.camera.position.y = 1;
+    this.camera.position.z = 1;
     //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
    this.scene.add(this.camera);
 
@@ -43,9 +43,12 @@ export class SceneDirective implements AfterContentInit {
     ];
 
     this.referentielService.initialize(this.camera);
-    this.scene.add(this.referentiel);
+    for (let obj of this.referentielService.getObjects()) {
+      this.scene.add(obj);
+    }
 
     for (let mesh of meshes) {
+      console.log(mesh);
       if(mesh.object) {
         this.scene.add(mesh.object);
       } else if (mesh.attachScene) {

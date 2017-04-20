@@ -63,7 +63,7 @@ export class RendererDirective implements OnChanges, AfterContentInit {
     if (this.flyDir) {
       this.flyDir.updateControls(this.scene, this.camera, this.clock.getDelta());
     }
-
+    this.referentielService.update(this.scene, this.camera);
     //this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);
 
