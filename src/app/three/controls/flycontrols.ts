@@ -55,7 +55,7 @@ export class FlyControls {
         if (event.altKey) {
             return;
         }
-        //event.preventDefault();
+        // event.preventDefault();
         switch (event.keyCode) {
             case 16: /* shift */ this.movementSpeedMultiplier = .1; break;
             case 87: /*W*/ this.moveState.forward = 1; break;
@@ -115,9 +115,9 @@ export class FlyControls {
     public mousemove = (event: MouseEvent) => {
         if (!this.dragToLook || this.mouseStatus > 0) {
 
-            var container = this.getContainerDimensions();
-            var halfWidth = container.size[0] / 2;
-            var halfHeight = container.size[1] / 2;
+            const container = this.getContainerDimensions();
+            const halfWidth = container.size[0] / 2;
+            const halfHeight = container.size[1] / 2;
 
             this.moveState.yawLeft = - ((event.pageX - container.offset[0]) - halfWidth) / halfWidth;
             this.moveState.pitchDown = ((event.pageY - container.offset[1]) - halfHeight) / halfHeight;
@@ -154,14 +154,18 @@ export class FlyControls {
         } else {
             this.movementSpeedMultiplier = 0;
         }
-        var moveMult = delta * (this.movementSpeed * this.movementSpeedMultiplier);
-        var rotMult = delta * this.rollSpeed;
+        const moveMult = delta * (this.movementSpeed * this.movementSpeedMultiplier);
+        const rotMult = delta * this.rollSpeed;
 
         this.camera.translateX(this.moveVector.x * moveMult);
         this.camera.translateY(this.moveVector.y * moveMult);
         this.camera.translateZ(this.moveVector.z * moveMult);
 
-        this.tmpQuaternion.set(this.rotationVector.x * rotMult, this.rotationVector.y * rotMult, this.rotationVector.z * rotMult, 1).normalize();
+        this.tmpQuaternion.set(
+            this.rotationVector.x * rotMult,
+            this.rotationVector.y * rotMult,
+            this.rotationVector.z * rotMult,
+            1).normalize();
         this.camera.quaternion.multiply(this.tmpQuaternion);
 
         // expose the rotation vector for convenience
@@ -169,7 +173,7 @@ export class FlyControls {
     }
 
     public updateMovementVector = () => {
-        var forward = (this.moveState.forward || (this.autoForward && !this.moveState.back)) ? 1 : 0;
+        const forward = (this.moveState.forward || (this.autoForward && !this.moveState.back)) ? 1 : 0;
         this.moveVector.x = (- this.moveState.left + this.moveState.right);
         this.moveVector.y = (- this.moveState.down + this.moveState.up);
         this.moveVector.z = (- forward + this.moveState.back);

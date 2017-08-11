@@ -11,7 +11,7 @@ export class FlyControlsDirective {
     setupControls(camera, renderer) {
         this.controls = new FlyControls();
         this.controls.init(camera, renderer.domElement);
-        //this.controls.dragToLook = true;
+        // this.controls.dragToLook = true;
         this.controls.movementSpeed = 100;
         this.controls.rollSpeed = Math.PI / 24;
     }
