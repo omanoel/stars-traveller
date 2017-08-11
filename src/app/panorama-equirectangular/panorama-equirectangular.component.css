@@ -10,10 +10,8 @@ canvas {
 #info {
     position: abslute;
     top: 0;
-    
     width: 100%;
     padding: 5px;
-
     color: #ffffff;
     font-family: monospace;
     font-size: 13px;

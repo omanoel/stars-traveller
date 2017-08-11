@@ -11,54 +11,54 @@ import { FakeStarsDirective } from './objects/fakestars.directive';
 @Directive({ selector: '[appThreeScene]' })
 export class SceneDirective implements AfterContentInit {
 
-  @ContentChild(PerspectiveCameraComponent) cameraComp: any;
-  @ContentChildren(PointLightComponent) lightComps: any;
+    @ContentChild(PerspectiveCameraComponent) cameraComp: any;
+    @ContentChildren(PointLightComponent) lightComps: any;
 
-  @ContentChildren(TextureComponent) textureComps: any;
-  @ContentChildren(FakeStarsDirective) fakeStarsDir: any;
+    @ContentChildren(TextureComponent) textureComps: any;
+    @ContentChildren(FakeStarsDirective) fakeStarsDir: any;
 
-  scene: THREE.Scene = new THREE.Scene();
-  fog: THREE.FogExp2;
+    scene: THREE.Scene = new THREE.Scene();
+    fog: THREE.FogExp2;
 
-  referentielService: ReferentielService = new ReferentielService();
+    referentielService: ReferentielService = new ReferentielService();
 
-  get referentiel() {
-    return this.referentielService.getObjects();
-  }
-  get camera() {
-    return this.cameraComp.camera;
-  }
-
-  ngAfterContentInit() {
-    //this.camera.lookAt(this.scene.position);
-    this.camera.position.y = 1;
-    this.camera.position.z = 1;
-    //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
-   this.scene.add(this.camera);
-
-    const meshes = [
-      ...this.lightComps.toArray(),
-      ...this.textureComps.toArray(),
-      ...this.fakeStarsDir.toArray()
-    ];
-
-    this.referentielService.initialize(this.camera);
-    for (let obj of this.referentielService.getObjects()) {
-      this.scene.add(obj);
+    get referentiel() {
+        return this.referentielService.getObjects();
+    }
+    get camera() {
+        return this.cameraComp.camera;
     }
 
-    for (let mesh of meshes) {
-      console.log(mesh);
-      if(mesh.object) {
-        this.scene.add(mesh.object);
-      } else if (mesh.attachScene) {
-        mesh.attachScene(this.scene);
-      } else if (mesh.objects) {
-        for (let obj of mesh.objects) {
-          this.scene.add(obj);
+    ngAfterContentInit() {
+        //this.camera.lookAt(this.scene.position);
+        this.camera.position.y = 1;
+        this.camera.position.z = 1;
+        //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
+        this.scene.add(this.camera);
+
+        const meshes = [
+            ...this.lightComps.toArray(),
+            ...this.textureComps.toArray(),
+            ...this.fakeStarsDir.toArray()
+        ];
+
+        this.referentielService.initialize(this.camera);
+        for (let obj of this.referentielService.getObjects()) {
+            this.scene.add(obj);
         }
-      }
+
+        for (let mesh of meshes) {
+            console.log(mesh);
+            if (mesh.object) {
+                this.scene.add(mesh.object);
+            } else if (mesh.attachScene) {
+                mesh.attachScene(this.scene);
+            } else if (mesh.objects) {
+                for (let obj of mesh.objects) {
+                    this.scene.add(obj);
+                }
+            }
+        }
     }
-  }
 
 }
