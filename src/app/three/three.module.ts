@@ -8,7 +8,7 @@ import { SceneDirective } from './scene.directive';
 import { PerspectiveCameraComponent } from './cameras/perspective-camera.component';
 import { PointLightComponent } from './lights/point-light.component';
 
-import { FlyControlsDirective } from './controls/fly.directive';
+import { TrackballControlsDirective } from './controls/trackball.directive';
 import { FakeStarsDirective } from './objects/fakestars.directive';
 
 import { CircleComponent } from './objects/circle.component';
@@ -28,7 +28,7 @@ import { SkyboxComponent } from './objects/skybox.component';
         SphereComponent,
         TextureComponent,
         SkyboxComponent,
-        FlyControlsDirective,
+        TrackballControlsDirective,
         FakeStarsDirective
     ],
     providers: [

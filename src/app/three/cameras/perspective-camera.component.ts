@@ -1,8 +1,8 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, OnInit, OnChanges } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({ selector: 'three-perspective-camera' })
-export class PerspectiveCameraComponent {
+export class PerspectiveCameraComponent implements OnInit, OnChanges {
 
     @Input() height: number;
     @Input() width: number;
@@ -12,7 +12,6 @@ export class PerspectiveCameraComponent {
     near: number = 50;
     far: number = 1e7;
     camera: THREE.PerspectiveCamera;
-
 
     get aspect(): number {
         return this.width / this.height;
@@ -24,7 +23,6 @@ export class PerspectiveCameraComponent {
             this.aspect,
             this.near,
             this.far);
-
 
         /*this.camera.position.set(
           this.positions[0],

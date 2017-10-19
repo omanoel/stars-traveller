@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input, ContentChild, ViewChild, OnChanges, After
 import * as THREE from 'three';
 
 import { SceneDirective } from './scene.directive';
-import { FlyControlsDirective } from './controls/fly.directive';
+import { TrackballControlsDirective } from './controls/trackball.directive';
 
 @Directive({ selector: '[appThreeRenderer]' })
 export class RendererDirective implements OnChanges, AfterContentInit {
@@ -11,7 +11,7 @@ export class RendererDirective implements OnChanges, AfterContentInit {
     @Input() width: number;
 
     @ContentChild(SceneDirective) sceneDir: SceneDirective;
-    @ContentChild(FlyControlsDirective) flyDir: FlyControlsDirective;
+    @ContentChild(TrackballControlsDirective) trackballDir: TrackballControlsDirective;
 
     renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
         antialias: true
@@ -49,25 +49,22 @@ export class RendererDirective implements OnChanges, AfterContentInit {
         this.element.nativeElement.appendChild(this.renderer.domElement);
         this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
 
-        if (this.flyDir) {
-            this.flyDir.setupControls(this.camera, this.renderer);
-        }
-
+        this.trackballDir.setupControls(this.camera, this.renderer);
         this.initDist = this.camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
+        this.animate();
+    }
 
+    animate() {
+        if (this.trackballDir) {
+            this.trackballDir.updateControls();
+        }
+        this.referentielService.update(this.scene, this.camera);
         this.render();
+        requestAnimationFrame(() => this.animate());
     }
 
     render() {
-
-        if (this.flyDir) {
-            this.flyDir.updateControls(this.scene, this.camera, this.clock.getDelta());
-        }
-        this.referentielService.update(this.scene, this.camera);
-        //this.camera.lookAt(this.scene.position);
         this.renderer.render(this.scene, this.camera);
-
-        requestAnimationFrame(() => this.render());
     }
 
 }

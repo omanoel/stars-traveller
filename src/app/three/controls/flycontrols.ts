@@ -29,12 +29,14 @@ export class FlyControls {
     public init = (camera: PerspectiveCamera, domElement: HTMLElement) => {
         this.camera = camera;
         this.domElement = domElement;
+        // ???
         if (domElement) { this.domElement.setAttribute('tabindex', '- 1'); }
 
         this.domElement.addEventListener('contextmenu', this.contextmenu, false);
 
         this.domElement.addEventListener('mousemove', this.mousemove, false);
         this.domElement.addEventListener('mousedown', this.mousedown, false);
+        this.domElement.addEventListener('mousewheel', this.mousewheel, false);
         this.domElement.addEventListener('mouseup', this.mouseup, false);
 
         window.addEventListener('keydown', this.keydown, false);
@@ -113,17 +115,25 @@ export class FlyControls {
     }
 
     public mousemove = (event: MouseEvent) => {
-        if (!this.dragToLook || this.mouseStatus > 0) {
+        // container
+        const container = this.getContainerDimensions();
+        const halfWidth = container.size[0] / 2;
+        const halfHeight = container.size[1] / 2;
+        // distance de la souris au centre
+        const distance = this.getDistance(
+            event.pageX - container.offset[0] - halfWidth,
+            event.pageY - container.offset[1] - halfHeight);
 
-            const container = this.getContainerDimensions();
-            const halfWidth = container.size[0] / 2;
-            const halfHeight = container.size[1] / 2;
+        if ((!this.dragToLook || this.mouseStatus > 0) && ( distance > 50 ) ) {
 
             this.moveState.yawLeft = - ((event.pageX - container.offset[0]) - halfWidth) / halfWidth;
             this.moveState.pitchDown = ((event.pageY - container.offset[1]) - halfHeight) / halfHeight;
+            this.rollSpeed = distance / halfHeight / 5;
 
             this.updateRotationVector();
 
+        } else {
+            this.rollSpeed = 0;
         }
     }
 
@@ -141,6 +151,12 @@ export class FlyControls {
             this.updateMovementVector();
         }
         this.updateRotationVector();
+    }
+
+    public mousewheel = (event: MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('MouseWheel');
     }
 
     public update = (delta: number) => {
@@ -211,5 +227,9 @@ export class FlyControls {
         window.removeEventListener('keydown', this.keydown, false);
         window.removeEventListener('keyup', this.keyup, false);
     };
+
+    private getDistance(deltaX: number, deltaY: number): number {
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
 
 }

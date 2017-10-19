@@ -5,6 +5,7 @@ import { PerspectiveCameraComponent } from './cameras/perspective-camera.compone
 import { PointLightComponent } from './lights/point-light.component';
 
 import { ReferentielService } from '../services/referentiel.service';
+import { SphereComponent } from './objects/sphere.component';
 import { TextureComponent } from './objects/texture.component';
 import { FakeStarsDirective } from './objects/fakestars.directive';
 
@@ -15,6 +16,7 @@ export class SceneDirective implements AfterContentInit {
     @ContentChildren(PointLightComponent) lightComps: any;
 
     @ContentChildren(TextureComponent) textureComps: any;
+    @ContentChildren(SphereComponent) sphereComps: any;
     @ContentChildren(FakeStarsDirective) fakeStarsDir: any;
 
     scene: THREE.Scene = new THREE.Scene();
@@ -43,18 +45,18 @@ export class SceneDirective implements AfterContentInit {
         ];
 
         this.referentielService.initialize(this.camera);
-        for (let obj of this.referentielService.getObjects()) {
+        for (const obj of this.referentielService.getObjects()) {
             this.scene.add(obj);
         }
 
-        for (let mesh of meshes) {
+        for (const mesh of meshes) {
             console.log(mesh);
             if (mesh.object) {
                 this.scene.add(mesh.object);
             } else if (mesh.attachScene) {
                 mesh.attachScene(this.scene);
             } else if (mesh.objects) {
-                for (let obj of mesh.objects) {
+                for (const obj of mesh.objects) {
                     this.scene.add(obj);
                 }
             }
