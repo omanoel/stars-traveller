@@ -1,8 +1,8 @@
 import { Directive, ContentChild, ContentChildren, AfterContentInit } from '@angular/core';
 import * as THREE from 'three';
 
-import { PerspectiveCameraComponent } from './cameras/perspective-camera.component';
-import { PointLightComponent } from './lights/point-light.component';
+import { PerspectiveCameraDirective } from './cameras/perspective-camera.directive';
+import { PointLightDirective } from './lights/point-light.directive';
 
 import { ReferentielService } from '../services/referentiel.service';
 import { SphereComponent } from './objects/sphere.component';
@@ -12,8 +12,8 @@ import { FakeStarsDirective } from './objects/fakestars.directive';
 @Directive({ selector: '[appThreeScene]' })
 export class SceneDirective implements AfterContentInit {
 
-    @ContentChild(PerspectiveCameraComponent) cameraComp: any;
-    @ContentChildren(PointLightComponent) lightComps: any;
+    @ContentChild(PerspectiveCameraDirective) cameraDir: any;
+    @ContentChildren(PointLightDirective) lightDir: any;
 
     @ContentChildren(TextureComponent) textureComps: any;
     @ContentChildren(SphereComponent) sphereComps: any;
@@ -28,7 +28,7 @@ export class SceneDirective implements AfterContentInit {
         return this.referentielService.getObjects();
     }
     get camera() {
-        return this.cameraComp.camera;
+        return this.cameraDir.camera;
     }
 
     ngAfterContentInit() {
@@ -39,7 +39,7 @@ export class SceneDirective implements AfterContentInit {
         this.scene.add(this.camera);
 
         const meshes = [
-            ...this.lightComps.toArray(),
+            ...this.lightDir.toArray(),
             ...this.textureComps.toArray(),
             ...this.fakeStarsDir.toArray()
         ];

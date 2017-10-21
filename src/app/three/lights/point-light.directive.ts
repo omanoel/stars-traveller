@@ -1,10 +1,10 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, OnInit, OnChanges } from '@angular/core';
 import * as THREE from 'three';
 
-@Directive({ selector: 'three-point-light' })
-export class PointLightComponent {
+@Directive({ selector: '[appThreePointLight]' })
+export class PointLightDirective implements OnInit, OnChanges {
 
-    @Input() color: string = '#FFFF00';
+    @Input() color = '#FFFF00';
     @Input() position: number[] = [0, 250, 0];
 
     object: THREE.PointLight;
@@ -24,7 +24,8 @@ export class PointLightComponent {
         this.object.position.set(
             position[0],
             position[1],
-            position[2]);
+            position[2]
+        );
     }
 
 }
