@@ -1,24 +1,17 @@
-import { Input, Component, HostListener, OnInit, OnChanges } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-three',
     templateUrl: './three.component.html'
 })
-export class ThreeComponent implements OnInit, OnChanges {
+export class ThreeComponent implements OnInit {
 
-    @Input() ngModel: any;
-
-    @Input() height: number;
-    @Input() width: number;
+    myStarOver: any;
+    height: number;
+    width: number;
 
     ngOnInit() {
         this.resetWidthHeight();
-    }
-
-    ngOnChanges(changes) {
-        if (changes.ngModel && changes.ngModel.currentValue) {
-            console.log('changes', changes);
-        }
     }
 
     @HostListener('window:resize')

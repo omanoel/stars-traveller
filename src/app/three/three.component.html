@@ -1,4 +1,6 @@
-<div appThreeRenderer [height]="height" [width]="width">
+<div appThreeRenderer [height]="height" [width]="width" [(starOver)]="myStarOver">
+
+    <app-tooltip [star]="myStarOver"></app-tooltip>
 
     <div appThreeTrackballControls></div>
 

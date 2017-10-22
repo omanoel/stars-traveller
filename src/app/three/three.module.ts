@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ThreeComponent } from './three.component';
 
 import { ReferentielService } from '../services/referentiel.service';
+import { RaycasterService } from '../services/raycaster.service';
+import { StarsService } from '../services/stars.service';
 
 import { RendererDirective } from './renderer.directive';
 import { SceneDirective } from './scene.directive';
@@ -11,6 +13,8 @@ import { TrackballControlsDirective } from './controls/trackball.directive';
 import { FakeStarsDirective } from './objects/fakestars.directive';
 import { PerspectiveCameraDirective } from './cameras/perspective-camera.directive';
 import { PointLightDirective } from './lights/point-light.directive';
+
+import { TooltipComponent } from './tooltip/tooltip.component';
 
 import { CircleComponent } from './objects/circle.component';
 import { SphereComponent } from './objects/sphere.component';
@@ -29,10 +33,13 @@ import { SkyboxComponent } from './objects/skybox.component';
         TextureComponent,
         SkyboxComponent,
         TrackballControlsDirective,
-        FakeStarsDirective
+        FakeStarsDirective,
+        TooltipComponent
     ],
     providers: [
-        ReferentielService
+        RaycasterService,
+        ReferentielService,
+        StarsService
     ],
     imports: [BrowserModule],
     exports: [ThreeComponent]
