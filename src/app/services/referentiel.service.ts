@@ -27,8 +27,6 @@ export class ReferentielService {
         this.objects = [];
         this._buildLinesXY(0xffffff);
         this._buildEllipsesOnXY(0xffffff);
-        this._buildEllipsesOnXZ(0xffff00);
-        this._buildEllipsesOnYZ(0x00ffff);
     }
 
     update(scene: THREE.Scene, camera: THREE.PerspectiveCamera) {
@@ -59,34 +57,19 @@ export class ReferentielService {
     _buildLinesXY(color) {
         const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.1 });
 
+        for (let i = 0; i < 12; i++) {
+            this._buildLine(material, 15 * i * Math.PI / 180);
+        }
+    }
+
+    _buildLine(material, angle) {
         const geometryX = new THREE.Geometry();
         geometryX.vertices.push(
-            new THREE.Vector3( -this.distReference, 0, 0 ),
-            new THREE.Vector3( this.distReference, 0, 0 )
+            new THREE.Vector3( -this.distReference * Math.cos(angle), -this.distReference * Math.sin(angle), 0 ),
+            new THREE.Vector3( this.distReference * Math.cos(angle), this.distReference * Math.sin(angle), 0 )
         );
         const lineX = new THREE.Line( geometryX, material );
         this.objects.push(lineX);
-        const geometryY = new THREE.Geometry();
-        geometryY.vertices.push(
-            new THREE.Vector3( 0, -this.distReference, 0 ),
-            new THREE.Vector3( 0, this.distReference,  0 )
-        );
-        const lineY = new THREE.Line( geometryY, material );
-        this.objects.push(lineY);
-        const geometryA = new THREE.Geometry();
-        geometryA.vertices.push(
-            new THREE.Vector3( -this.distReference, -this.distReference, 0 ),
-            new THREE.Vector3( this.distReference, this.distReference,  0 )
-        );
-        const lineA = new THREE.Line( geometryA, material );
-        this.objects.push(lineA);
-        const geometryB = new THREE.Geometry();
-        geometryB.vertices.push(
-            new THREE.Vector3( -this.distReference, this.distReference, 0 ),
-            new THREE.Vector3( this.distReference, -this.distReference,  0 )
-        );
-        const lineB = new THREE.Line( geometryB, material );
-        this.objects.push(lineB);
     }
     /**
      *
@@ -110,57 +93,6 @@ export class ReferentielService {
             // Create the final object to add to the scene
             const ellipse = new THREE.Line(geometry, material);
 
-            this.objects.push(ellipse);
-        }
-    }
-    /**
-     *
-     * @param color
-     */
-    _buildEllipsesOnXZ(color) {
-        for (let i = 1; i < this.count; i++) {
-            const radius = this.distReference * i * this.factor / this.count;
-            const curve = new THREE.EllipseCurve(
-                0, 0,            // ax, aY
-                radius, radius,  // xRadius, yRadius
-                0, 2 * Math.PI,  // aStartAngle, aEndAngle
-                false,            // aClockwise
-                0                 // aRotation
-            );
-
-            const path = new THREE.Path(curve.getPoints(50));
-            const geometry = path.createPointsGeometry(50);
-            const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.3 / i });
-
-            // Create the final object to add to the scene
-            const ellipse = new THREE.Line(geometry, material);
-            ellipse.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-            this.objects.push(ellipse);
-        }
-    }
-
-    /**
-     *
-     * @param color
-     */
-    _buildEllipsesOnYZ(color) {
-        for (let i = 1; i < this.count; i++) {
-            const radius = this.distReference * i * this.factor / this.count;
-            const curve = new THREE.EllipseCurve(
-                0, 0,            // ax, aY
-                radius, radius,  // xRadius, yRadius
-                0, 2 * Math.PI,  // aStartAngle, aEndAngle
-                false,            // aClockwise
-                0                 // aRotation
-            );
-
-            const path = new THREE.Path(curve.getPoints(50));
-            const geometry = path.createPointsGeometry(50);
-            const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.3 / i });
-
-            // Create the final object to add to the scene
-            const ellipse = new THREE.Line(geometry, material);
-            ellipse.setRotationFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI / 2);
             this.objects.push(ellipse);
         }
     }
