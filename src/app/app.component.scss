@@ -6,10 +6,20 @@ body {
     font-size: 0.7em;
     overflow: hidden;
     font-family: 'Open Sans';
+
+    app-root {
+        position: relative;
+        display: block;
+        width: 95%;
+        height: 95%;
+
+        app-tooltip {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            background-color: rgab(255, 255, 255, 0.3);
+        }
+    }
+
 }
 
-app-root {
-    display: block;
-    width: 95%;
-    height: 95%;
-}
