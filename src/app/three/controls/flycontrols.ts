@@ -23,40 +23,42 @@ export class FlyControls {
         yawLeft: 0, yawRight: 0,
         rollLeft: 0, rollRight: 0
     };
-    public moveVector = new Vector3( 0, 0, 0 );
-    public rotationVector = new Vector3( 0, 0, 0 );
+    public moveVector = new Vector3(0, 0, 0);
+    public rotationVector = new Vector3(0, 0, 0);
 
     public init = (camera: PerspectiveCamera, domElement: HTMLElement) => {
         this.camera = camera;
         this.domElement = domElement;
-        if ( domElement ) {this.domElement.setAttribute( 'tabindex', '- 1' );}
+        // ???
+        if (domElement) { this.domElement.setAttribute('tabindex', '- 1'); }
 
-        this.domElement.addEventListener( 'contextmenu', this.contextmenu, false );
+        this.domElement.addEventListener('contextmenu', this.contextmenu, false);
 
-        this.domElement.addEventListener( 'mousemove', this.mousemove, false );
-        this.domElement.addEventListener( 'mousedown', this.mousedown, false );
-        this.domElement.addEventListener( 'mouseup',   this.mouseup, false );
+        this.domElement.addEventListener('mousemove', this.mousemove, false);
+        this.domElement.addEventListener('mousedown', this.mousedown, false);
+        this.domElement.addEventListener('mousewheel', this.mousewheel, false);
+        this.domElement.addEventListener('mouseup', this.mouseup, false);
 
-        window.addEventListener( 'keydown', this.keydown, false );
-        window.addEventListener( 'keyup',   this.keyup, false );
+        window.addEventListener('keydown', this.keydown, false);
+        window.addEventListener('keyup', this.keyup, false);
 
         this.updateMovementVector();
         this.updateRotationVector();
 
-   }
+    }
 
-    public handleEvent = function ( event ) {
-        if ( typeof this[ event.type ] === 'function' ) {
-            this[ event.type ]( event );
+    public handleEvent = function (event) {
+        if (typeof this[event.type] === 'function') {
+            this[event.type](event);
         }
     };
 
-    public keydown = ( event: KeyboardEvent ) => {
-        if ( event.altKey ) {
+    public keydown = (event: KeyboardEvent) => {
+        if (event.altKey) {
             return;
         }
-		//event.preventDefault();
-        switch ( event.keyCode ) {
+        // event.preventDefault();
+        switch (event.keyCode) {
             case 16: /* shift */ this.movementSpeedMultiplier = .1; break;
             case 87: /*W*/ this.moveState.forward = 1; break;
             case 83: /*S*/ this.moveState.back = 1; break;
@@ -75,8 +77,8 @@ export class FlyControls {
         this.updateRotationVector();
     }
 
-    public keyup = ( event: KeyboardEvent ) => {
-        switch ( event.keyCode ) {
+    public keyup = (event: KeyboardEvent) => {
+        switch (event.keyCode) {
             case 16: /* shift */ this.movementSpeedMultiplier = 1; break;
             case 87: /*W*/ this.moveState.forward = 0; break;
             case 83: /*S*/ this.moveState.back = 0; break;
@@ -96,15 +98,15 @@ export class FlyControls {
     }
 
     public mousedown = (event: MouseEvent) => {
-        if ( this.domElement !== document.documentElement ) {
+        if (this.domElement !== document.documentElement) {
             this.domElement.focus();
         }
         event.preventDefault();
         event.stopPropagation();
-        if ( this.dragToLook ) {
-            this.mouseStatus ++;
+        if (this.dragToLook) {
+            this.mouseStatus++;
         } else {
-            switch ( event.button ) {
+            switch (event.button) {
                 case 0: this.moveState.forward = 1; break;
                 case 2: this.moveState.back = 1; break;
             }
@@ -113,28 +115,36 @@ export class FlyControls {
     }
 
     public mousemove = (event: MouseEvent) => {
-        if ( ! this.dragToLook || this.mouseStatus > 0 ) {
+        // container
+        const container = this.getContainerDimensions();
+        const halfWidth = container.size[0] / 2;
+        const halfHeight = container.size[1] / 2;
+        // distance de la souris au centre
+        const distance = this.getDistance(
+            event.pageX - container.offset[0] - halfWidth,
+            event.pageY - container.offset[1] - halfHeight);
 
-            var container = this.getContainerDimensions();
-            var halfWidth  = container.size[ 0 ] / 2;
-            var halfHeight = container.size[ 1 ] / 2;
+        if ((!this.dragToLook || this.mouseStatus > 0) && ( distance > 50 ) ) {
 
-            this.moveState.yawLeft   = - ( ( event.pageX - container.offset[ 0 ] ) - halfWidth  ) / halfWidth;
-            this.moveState.pitchDown =   ( ( event.pageY - container.offset[ 1 ] ) - halfHeight ) / halfHeight;
+            this.moveState.yawLeft = - ((event.pageX - container.offset[0]) - halfWidth) / halfWidth;
+            this.moveState.pitchDown = ((event.pageY - container.offset[1]) - halfHeight) / halfHeight;
+            this.rollSpeed = distance / halfHeight / 5;
 
             this.updateRotationVector();
 
+        } else {
+            this.rollSpeed = 0;
         }
     }
 
     public mouseup = (event: MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
-        if ( this.dragToLook ) {
-            this.mouseStatus --;
+        if (this.dragToLook) {
+            this.mouseStatus--;
             this.moveState.yawLeft = this.moveState.pitchDown = 0;
         } else {
-            switch ( event.button ) {
+            switch (event.button) {
                 case 0: this.moveState.forward = 0; break;
                 case 2: this.moveState.back = 0; break;
             }
@@ -143,7 +153,13 @@ export class FlyControls {
         this.updateRotationVector();
     }
 
-    public update = ( delta: number ) => {
+    public mousewheel = (event: MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('MouseWheel');
+    }
+
+    public update = (delta: number) => {
         if (this.moveState.forward > 0 || this.moveState.back > 0) {
             if (this.movementSpeedMultiplier === 0) {
                 this.movementSpeedMultiplier = 1.0001;
@@ -154,58 +170,66 @@ export class FlyControls {
         } else {
             this.movementSpeedMultiplier = 0;
         }
-        var moveMult = delta * (this.movementSpeed * this.movementSpeedMultiplier );
-        var rotMult = delta * this.rollSpeed;
+        const moveMult = delta * (this.movementSpeed * this.movementSpeedMultiplier);
+        const rotMult = delta * this.rollSpeed;
 
-        this.camera.translateX( this.moveVector.x * moveMult );
-        this.camera.translateY( this.moveVector.y * moveMult );
-        this.camera.translateZ( this.moveVector.z * moveMult );
+        this.camera.translateX(this.moveVector.x * moveMult);
+        this.camera.translateY(this.moveVector.y * moveMult);
+        this.camera.translateZ(this.moveVector.z * moveMult);
 
-        this.tmpQuaternion.set( this.rotationVector.x * rotMult, this.rotationVector.y * rotMult, this.rotationVector.z * rotMult, 1 ).normalize();
-        this.camera.quaternion.multiply( this.tmpQuaternion );
+        this.tmpQuaternion.set(
+            this.rotationVector.x * rotMult,
+            this.rotationVector.y * rotMult,
+            this.rotationVector.z * rotMult,
+            1).normalize();
+        this.camera.quaternion.multiply(this.tmpQuaternion);
 
         // expose the rotation vector for convenience
-        this.camera.rotation.setFromQuaternion( this.camera.quaternion, this.camera.rotation.order );
+        this.camera.rotation.setFromQuaternion(this.camera.quaternion, this.camera.rotation.order);
     }
 
     public updateMovementVector = () => {
-        var forward = ( this.moveState.forward || ( this.autoForward && ! this.moveState.back ) ) ? 1 : 0;
-        this.moveVector.x = ( - this.moveState.left    + this.moveState.right );
-        this.moveVector.y = ( - this.moveState.down    + this.moveState.up );
-        this.moveVector.z = ( - forward + this.moveState.back );
+        const forward = (this.moveState.forward || (this.autoForward && !this.moveState.back)) ? 1 : 0;
+        this.moveVector.x = (- this.moveState.left + this.moveState.right);
+        this.moveVector.y = (- this.moveState.down + this.moveState.up);
+        this.moveVector.z = (- forward + this.moveState.back);
     }
 
     public updateRotationVector = () => {
-        this.rotationVector.x = ( - this.moveState.pitchDown + this.moveState.pitchUp );
-        this.rotationVector.y = ( - this.moveState.yawRight  + this.moveState.yawLeft );
-        this.rotationVector.z = ( - this.moveState.rollRight + this.moveState.rollLeft );
-     }
+        this.rotationVector.x = (- this.moveState.pitchDown + this.moveState.pitchUp);
+        this.rotationVector.y = (- this.moveState.yawRight + this.moveState.yawLeft);
+        this.rotationVector.z = (- this.moveState.rollRight + this.moveState.rollLeft);
+    }
 
     public getContainerDimensions = () => {
-        if ( this.domElement !== document.documentElement ) {
+        if (this.domElement !== document.documentElement) {
             return {
-                size	: [ this.domElement.offsetWidth, this.domElement.offsetHeight ],
-                offset	: [ this.domElement.offsetLeft,  this.domElement.offsetTop ]
+                size: [this.domElement.offsetWidth, this.domElement.offsetHeight],
+                offset: [this.domElement.offsetLeft, this.domElement.offsetTop]
             };
         } else {
             return {
-                size	: [ window.innerWidth, window.innerHeight ],
-                offset	: [ 0, 0 ]
+                size: [window.innerWidth, window.innerHeight],
+                offset: [0, 0]
             };
         }
     }
 
-    public contextmenu = ( event ) => {
+    public contextmenu = (event) => {
         event.preventDefault();
     }
 
     private dispose() {
-        this.domElement.removeEventListener( 'contextmenu', this.contextmenu, false );
-        this.domElement.removeEventListener( 'mousedown', this.mousedown, false );
-        this.domElement.removeEventListener( 'mousemove', this.mousemove, false );
-        this.domElement.removeEventListener( 'mouseup', this.mouseup, false );
-        window.removeEventListener( 'keydown', this.keydown, false );
-        window.removeEventListener( 'keyup', this.keyup, false );
+        this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+        this.domElement.removeEventListener('mousedown', this.mousedown, false);
+        this.domElement.removeEventListener('mousemove', this.mousemove, false);
+        this.domElement.removeEventListener('mouseup', this.mouseup, false);
+        window.removeEventListener('keydown', this.keydown, false);
+        window.removeEventListener('keyup', this.keyup, false);
     };
+
+    private getDistance(deltaX: number, deltaY: number): number {
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
 
 }

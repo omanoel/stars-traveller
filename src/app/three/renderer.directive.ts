@@ -1,73 +1,137 @@
-import { Directive, ElementRef, Input, ContentChild, ViewChild, OnChanges, AfterContentInit } from '@angular/core';
+import {
+    Directive, ElementRef, EventEmitter, HostListener,
+    Input, Output,
+    ContentChild, ViewChild,
+    OnChanges, AfterContentInit
+} from '@angular/core';
 import * as THREE from 'three';
 
 import { SceneDirective } from './scene.directive';
-import { FlyControlsDirective } from './controls/fly.directive';
+import { TrackballControlsDirective } from './controls/trackball.directive';
+import { RaycasterService } from '../services/raycaster.service';
 
 @Directive({ selector: '[appThreeRenderer]' })
 export class RendererDirective implements OnChanges, AfterContentInit {
 
-  @Input() height: number;
-  @Input() width: number;
+    @Input() height: number;
+    @Input() width: number;
+    @Input() starOver: any;
+    @Output() starOverChange = new EventEmitter<any>();
 
-  @ContentChild(SceneDirective) sceneDir: SceneDirective;
-  @ContentChild(FlyControlsDirective) flyDir: FlyControlsDirective;
+    @ContentChild(SceneDirective) sceneDir: SceneDirective;
+    @ContentChild(TrackballControlsDirective) trackballDir: TrackballControlsDirective;
 
-  renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-    antialias: true
-  });
+    renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
 
-  clock: THREE.Clock = new THREE.Clock();
+    mouse = new THREE.Vector2();
+    mouseDown = false;
 
-  initDist: number;
+    raycasterService: RaycasterService = new RaycasterService();
 
-  get scene() {
-    return this.sceneDir.scene;
-  }
+    clock: THREE.Clock = new THREE.Clock();
 
-  get camera(): THREE.PerspectiveCamera {
-    return this.sceneDir.camera;
-  }
-  get referentielService() {
-    return this.sceneDir.referentielService;
-  }
+    currentIntersected: any;
 
-  constructor(private element: ElementRef) {
-  }
+    initDist: number;
 
-  ngOnChanges(changes) {
-
-    const widthChng = changes.width && changes.width.currentValue;
-    const heightChng = changes.height && changes.height.currentValue;
-    if (widthChng || heightChng) {
-      this.renderer.setSize(this.width, this.height);
-    }
-  }
-
-  ngAfterContentInit() {
-    this.renderer.setSize(this.width, this.height);
-    this.element.nativeElement.appendChild(this.renderer.domElement);
-    this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
-
-    if (this.flyDir) {
-      this.flyDir.setupControls(this.camera, this.renderer);
+    get scene() {
+        return this.sceneDir.scene;
     }
 
-    this.initDist = this.camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
-
-    this.render();
-  }
-
-  render() {
-
-    if (this.flyDir) {
-      this.flyDir.updateControls(this.scene, this.camera, this.clock.getDelta());
+    get camera(): THREE.PerspectiveCamera {
+        return this.sceneDir.camera;
     }
-    this.referentielService.update(this.scene, this.camera);
-    //this.camera.lookAt(this.scene.position);
-    this.renderer.render(this.scene, this.camera);
+    get referentielService() {
+        return this.sceneDir.referentielService;
+    }
 
-    requestAnimationFrame(() => this.render());
-  }
+    @HostListener('mousemove', ['$event'])
+    onMousemove(event: MouseEvent) {
+        event.preventDefault();
+        if (!this.mouseDown) {
+            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        }
+    }
+
+    @HostListener('mousedown', ['$event'])
+    onMousedown(event: MouseEvent) {
+        event.preventDefault();
+        this.mouseDown = true;
+    }
+
+    @HostListener('mouseup', ['$event'])
+    onMouseup(event: MouseEvent) {
+        event.preventDefault();
+        this.mouseDown = false;
+    }
+
+    constructor(private element: ElementRef) {
+
+    }
+
+    ngOnChanges(changes) {
+
+        const widthChng = changes.width && changes.width.currentValue;
+        const heightChng = changes.height && changes.height.currentValue;
+        if (widthChng || heightChng) {
+            this.renderer.setSize(this.width, this.height);
+        }
+    }
+
+    ngAfterContentInit() {
+        this.renderer.setSize(this.width, this.height);
+        this.element.nativeElement.appendChild(this.renderer.domElement);
+        this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
+
+        this.trackballDir.setupControls(this.camera, this.renderer);
+        this.initDist = this.camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
+        this.animate();
+    }
+
+    animate() {
+        requestAnimationFrame(() => this.animate());
+        this.render();
+    }
+
+    render() {
+        if (this.trackballDir) {
+            this.trackballDir.updateControls();
+        }
+        this.referentielService.update(this.scene, this.camera);
+        this.findIntersection();
+        this.renderer.render(this.scene, this.camera);
+    }
+
+    findIntersection() {
+
+        this.raycasterService.raycaster.setFromCamera(this.mouse, this.camera);
+        const intersects = this.raycasterService.raycaster.intersectObjects(this.sceneDir.parentTransform.children, true);
+        if (intersects.length > 0) {
+            if (this.currentIntersected !== undefined) {
+                this.currentIntersected.material.linewidth = 1;
+                return;
+            }
+            this.currentIntersected = intersects[0].object;
+            this.starOver = this.currentIntersected;
+            this.starOverChange.emit(this.starOver);
+            this.currentIntersected.material.color.b = 1;
+            this.sceneDir.addPosition(this.currentIntersected.position);
+            // sphereInter.visible = true;
+            // sphereInter.position.copy( intersects[ 0 ].point );
+        } else {
+            if (this.currentIntersected !== undefined) {
+                this.currentIntersected.material.color.b = 0;
+                this.sceneDir.delPosition();
+                this.starOver = null;
+                this.starOverChange.emit(this.starOver);
+            }
+
+            this.currentIntersected = undefined;
+            // sphereInter.visible = false;
+        }
+    }
 
 }
