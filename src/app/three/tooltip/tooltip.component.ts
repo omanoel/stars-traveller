@@ -9,6 +9,8 @@ export class TooltipComponent implements OnInit {
 
     @Input() starOver: StarOver;
 
+    objectKeys = Object.keys;
+
     ngOnInit() {
     }
 
