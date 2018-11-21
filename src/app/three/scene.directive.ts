@@ -11,7 +11,7 @@ import { SphereComponent } from './objects/sphere.component';
 import { TextureComponent } from './objects/texture.component';
 import { FakeStarsDirective } from './objects/fakestars.directive';
 
-@Directive({ selector: '[appThreeScene]' })
+@Directive({ selector: '[appScene]' })
 export class SceneDirective implements AfterContentInit {
 
     @ContentChild(PerspectiveCameraDirective) cameraDir: any;

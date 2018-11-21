@@ -1,7 +1,7 @@
 import {
-    Directive, ElementRef, EventEmitter, HostListener,
-    Input, Output,
-    ContentChild, ViewChild,
+    Directive, ElementRef, HostListener,
+    Input,
+    ContentChild,
     OnChanges, AfterContentInit
 } from '@angular/core';
 import * as THREE from 'three';
@@ -9,14 +9,14 @@ import * as THREE from 'three';
 import { SceneDirective } from './scene.directive';
 import { TrackballControlsDirective } from './controls/trackball.directive';
 import { RaycasterService } from '../services/raycaster.service';
+import { StarOver } from 'app/utils/interfaces';
 
-@Directive({ selector: '[appThreeRenderer]' })
+@Directive({ selector: '[appRenderer]' })
 export class RendererDirective implements OnChanges, AfterContentInit {
 
     @Input() height: number;
     @Input() width: number;
-    @Input() starOver: any;
-    @Output() starOverChange = new EventEmitter<any>();
+    @Input() starOver: StarOver;
 
     @ContentChild(SceneDirective) sceneDir: SceneDirective;
     @ContentChild(TrackballControlsDirective) trackballDir: TrackballControlsDirective;
@@ -74,9 +74,9 @@ export class RendererDirective implements OnChanges, AfterContentInit {
 
     ngOnChanges(changes) {
 
-        const widthChng = changes.width && changes.width.currentValue;
-        const heightChng = changes.height && changes.height.currentValue;
-        if (widthChng || heightChng) {
+        const widthChange = changes.width && changes.width.currentValue;
+        const heightChange = changes.height && changes.height.currentValue;
+        if (widthChange || heightChange) {
             this.renderer.setSize(this.width, this.height);
         }
     }
@@ -115,8 +115,7 @@ export class RendererDirective implements OnChanges, AfterContentInit {
                 return;
             }
             this.currentIntersected = intersects[0].object;
-            this.starOver = this.currentIntersected;
-            this.starOverChange.emit(this.starOver);
+            this.starOver.star = this.currentIntersected;
             this.currentIntersected.material.color.b = 1;
             this.sceneDir.addPosition(this.currentIntersected.position);
             // sphereInter.visible = true;
@@ -125,8 +124,7 @@ export class RendererDirective implements OnChanges, AfterContentInit {
             if (this.currentIntersected !== undefined) {
                 this.currentIntersected.material.color.b = 0;
                 this.sceneDir.delPosition();
-                this.starOver = null;
-                this.starOverChange.emit(this.starOver);
+                this.starOver.star = null;
             }
 
             this.currentIntersected = undefined;

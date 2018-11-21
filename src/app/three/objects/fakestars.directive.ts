@@ -1,16 +1,17 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
 import * as THREE from 'three';
 
-@Directive({ selector: '[appThreeFakeStars]' })
-export class FakeStarsDirective {
+@Directive({ selector: '[appFakeStars]' })
+export class FakeStarsDirective implements OnInit {
 
     objects: Array<THREE.Points> = [];
 
     ngOnInit() {
 
-        var i, r = 6371, starsGeometry = [new THREE.Geometry(), new THREE.Geometry()];
+        let i;
+        const r = 6371, starsGeometry = [new THREE.Geometry(), new THREE.Geometry()];
         for (i = 0; i < 250; i++) {
-            var vertex = new THREE.Vector3();
+            const vertex = new THREE.Vector3();
             vertex.x = Math.random() * 2 - 1;
             vertex.y = Math.random() * 2 - 1;
             vertex.z = Math.random() * 2 - 1;
@@ -18,15 +19,15 @@ export class FakeStarsDirective {
             starsGeometry[0].vertices.push(vertex);
         }
         for (i = 0; i < 1500; i++) {
-            var vertex = new THREE.Vector3();
+            const vertex = new THREE.Vector3();
             vertex.x = Math.random() * 2 - 1;
             vertex.y = Math.random() * 2 - 1;
             vertex.z = Math.random() * 2 - 1;
             vertex.multiplyScalar(r);
             starsGeometry[1].vertices.push(vertex);
         }
-        var stars;
-        var starsMaterials = [
+        let stars;
+        const starsMaterials = [
             new THREE.PointsMaterial({ color: 0x555555, size: 2, sizeAttenuation: false }),
             new THREE.PointsMaterial({ color: 0x555555, size: 1, sizeAttenuation: false }),
             new THREE.PointsMaterial({ color: 0x333333, size: 2, sizeAttenuation: false }),
@@ -39,7 +40,7 @@ export class FakeStarsDirective {
             stars.rotation.x = Math.random() * 6;
             stars.rotation.y = Math.random() * 6;
             stars.rotation.z = Math.random() * 6;
-            var s = i * 10;
+            const s = i * 10;
             stars.scale.set(s, s, s);
             stars.matrixAutoUpdate = false;
             stars.updateMatrix();

@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit, OnChanges } from '@angular/core';
 import * as THREE from 'three';
 
-@Directive({ selector: '[appThreePointLight]' })
+@Directive({ selector: '[appPointLight]' })
 export class PointLightDirective implements OnInit, OnChanges {
 
     @Input() color = '#FFFF00';

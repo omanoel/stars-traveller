@@ -1,4 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
+import { StarOver } from 'app/utils/interfaces';
 
 @Component({
     selector: 'app-tooltip',
@@ -6,10 +7,9 @@ import { Input, Component, OnInit } from '@angular/core';
 })
 export class TooltipComponent implements OnInit {
 
-    @Input() star: any;
+    @Input() starOver: StarOver;
 
     ngOnInit() {
-        this.star = null;
     }
 
 }

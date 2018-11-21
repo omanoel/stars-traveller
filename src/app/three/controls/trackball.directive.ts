@@ -1,9 +1,8 @@
 import { Directive, Input } from '@angular/core';
 
-import * as THREE from 'three';
 import { TrackballControls } from './trackballcontrols';
 
-@Directive({ selector: '[appThreeTrackballControls]' })
+@Directive({ selector: '[appTrackballControls]' })
 export class TrackballControlsDirective {
 
     @Input() enabled = true;

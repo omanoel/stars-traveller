@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { StarOver } from 'app/utils/interfaces';
 
 @Component({
     selector: 'app-three',
@@ -6,11 +7,12 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class ThreeComponent implements OnInit {
 
-    myStarOver: any;
+    myStarOver: StarOver;
     height: number;
     width: number;
 
     ngOnInit() {
+        this.myStarOver = {star: null};
         this.resetWidthHeight();
     }
 
@@ -18,7 +20,6 @@ export class ThreeComponent implements OnInit {
     resetWidthHeight() {
         this.height = window.innerHeight - 20;
         this.width = window.innerWidth - 20;
-        console.log('window resize', this.height, this.width);
     }
 
 }

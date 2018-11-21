@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit, OnChanges } from '@angular/core';
 import * as THREE from 'three';
 
-@Directive({ selector: '[appThreePerspectiveCamera]' })
+@Directive({ selector: '[appPerspectiveCamera]' })
 export class PerspectiveCameraDirective implements OnInit, OnChanges {
 
     @Input() height: number;
