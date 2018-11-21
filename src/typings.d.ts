@@ -1,3 +1,5 @@
+import { LineSegments } from "three/three-core";
+
 /* SystemJS module definition */
 declare var module: NodeModule;
 interface NodeModule {
