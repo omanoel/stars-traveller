@@ -1,10 +1,5 @@
 import {
-    Component,
-    trigger,
-    transition,
-    animate,
-    style,
-    state
+    Component
 } from '@angular/core';
 
 @Component({
