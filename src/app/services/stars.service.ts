@@ -10,11 +10,10 @@ export class StarsService {
 
     initialize() {
 
-        const material = new THREE.MeshNormalMaterial();
         const r = 6371;
 
+        const wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: false, transparent: false } );
         for (let i = 1; i < 15; i++) {
-            const wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } );
             const geometry = new THREE.SphereGeometry(50, 32, 16);
             const star = new THREE.Mesh(geometry, wireframeMaterial);
             star.translateX(100 * i * Math.random() * 10 * Math.cos(i * Math.PI / 15));
