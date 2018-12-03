@@ -78,7 +78,7 @@ export class SceneDirective implements AfterContentInit {
 
         this.positionIntersected = new THREE.Object3D();
 
-        const material = new THREE.LineBasicMaterial({ color: 0xfffff, transparent: true, opacity: 0.5 });
+        const material = new THREE.LineBasicMaterial({ color: 0xfffff, transparent: true, opacity: 1 });
 
         // Z axis
         const geometryZ = new THREE.Geometry();
@@ -101,15 +101,13 @@ export class SceneDirective implements AfterContentInit {
         const geometryXY = pathXY.createPointsGeometry(50);
         const ellipseXY = new THREE.Line(geometryXY, material);
         this.positionIntersected.add(ellipseXY);
-        // XZ ellipsis
-        const radiusXZ = Math.sqrt(myPosition.x * myPosition.x + myPosition.z * myPosition.z);
-        const curveXZ = new THREE.EllipseCurve(
-            0, 0,            // ax, aY
-            radiusXZ, radiusXZ,  // xRadius, yRadius
-            0, 2 * Math.PI,  // aStartAngle, aEndAngle
-            false,            // aClockwise
-            0                 // aRotation
-        );
+
+        const sphereGeometry = new THREE.SphereGeometry(51, 32, 16);
+        const star = new THREE.Mesh(sphereGeometry, material);
+        star.translateX(myPosition.x);
+        star.translateY(myPosition.y);
+        star.translateZ(myPosition.z);
+        this.positionIntersected.add(star);
         this.scene.add(this.positionIntersected);
     }
     delPosition() {
