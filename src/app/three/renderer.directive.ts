@@ -116,13 +116,13 @@ export class RendererDirective implements OnChanges, AfterContentInit {
             }
             this.currentIntersected = intersects[0].object;
             this.starOver.star = this.currentIntersected;
-            this.currentIntersected.material.color.b = 1;
+            // this.currentIntersected.material.color.b = 1;
             this.sceneDir.addPosition(this.currentIntersected.position);
             // sphereInter.visible = true;
             // sphereInter.position.copy( intersects[ 0 ].point );
         } else {
             if (this.currentIntersected !== undefined) {
-                this.currentIntersected.material.color.b = 0;
+                // this.currentIntersected.material.color.b = 0;
                 this.sceneDir.delPosition();
                 this.starOver.star = null;
             }
