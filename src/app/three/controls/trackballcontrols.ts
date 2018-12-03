@@ -8,7 +8,7 @@ export class TrackballControls {
     public object: PerspectiveCamera;
     public enabled = true;
 
-    public STATE: any = { NONE: -1, ROTATE: 2, ZOOM: 1, PAN: 0, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
+    public STATE: any = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
     public screen: any = { left: 0, top: 0, width: 0, height: 0 };
 
     public rotateSpeed = 1.0;
