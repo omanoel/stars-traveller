@@ -8,8 +8,5 @@ import {
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-    constructor() {
-
-    }
+    title = 'stars-traveller';
 }
