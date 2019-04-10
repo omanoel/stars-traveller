@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { StarOver } from 'app/utils/interfaces';
+import { StarOver } from '@app/utils/interfaces';
 
 @Component({
     selector: 'app-tooltip',
