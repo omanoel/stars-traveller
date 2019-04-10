@@ -53,8 +53,8 @@ export class SkyboxComponent {
     attachScene(scene) {
         this.manager.onLoad = () => {
             let box = new THREE.BoxGeometry(300, 300, 300, 7, 7, 7);
-            let material = new THREE.MeshFaceMaterial(this.objects);
-            let mesh = new THREE.Mesh(box, material);
+            // let material = new THREE.MeshFaceMaterial(this.objects);
+            let mesh = new THREE.Mesh(box, this.objects);
             mesh.scale.x = - 1;
             scene.add(mesh);
         };

@@ -15,9 +15,13 @@ export class CircleComponent {
         let wireframe = new THREE.WireframeGeometry(geometry);
 
         let circle = new THREE.LineSegments(wireframe);
-        circle.material.depthTest = false;
-        circle.material.opacity = 0.25;
-        circle.material.transparent = true;
+        if (Array.isArray(circle.material)) {
+
+        } else {
+            circle.material.depthTest = false;
+            circle.material.opacity = 0.25;
+            circle.material.transparent = true;
+        }
 
         this.object = circle;
     }

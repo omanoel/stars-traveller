@@ -9,7 +9,7 @@ import * as THREE from 'three';
 import { SceneDirective } from './scene.directive';
 import { TrackballControlsDirective } from './controls/trackball.directive';
 import { RaycasterService } from '../services/raycaster.service';
-import { StarOver } from 'app/utils/interfaces';
+import { StarOver } from '@app/utils/interfaces';
 
 @Directive({ selector: '[appRenderer]' })
 export class RendererDirective implements OnChanges, AfterContentInit {

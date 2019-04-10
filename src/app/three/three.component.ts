@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { StarOver } from 'app/utils/interfaces';
+import { StarOver } from '@app/utils/interfaces';
 
 @Component({
     selector: 'app-three',

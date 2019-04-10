@@ -1,4 +1,4 @@
-import { LineSegments } from "three/three-core";
+import { LineSegments } from "three";
 
 /* SystemJS module definition */
 declare var module: NodeModule;
