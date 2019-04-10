@@ -1,6 +1,11 @@
 {
   "name": "stars-traveller",
   "version": "0.2.0",
+  "description": "A simple stars traveller",
+  "license": "MIT",
+  "contributors": [
+    "Man_ol <manoloexpo2@yahoo.fr>"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -19,7 +24,6 @@
     "@angular/forms": "~7.2.0",
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
-    "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "three": "^0.103.0",
