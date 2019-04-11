@@ -27,7 +27,7 @@
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "three": "^0.103.0",
-    "three-orbitcontrols-ts": "^0.1.2",
+    "three-trackballcontrols-ts": "^0.1.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

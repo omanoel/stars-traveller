@@ -108,7 +108,7 @@ export class RendererDirective implements OnChanges, AfterContentInit {
     findIntersection() {
 
         this.raycasterService.raycaster.setFromCamera(this.mouse, this.camera);
-        const intersects = this.raycasterService.raycaster.intersectObjects(this.sceneDir.parentTransform.children, true);
+        const intersects = this.raycasterService.raycaster.intersectObjects(this.sceneDir.parentTransform.children, false);
         if (intersects.length > 0) {
             if (this.currentIntersected !== undefined) {
                 this.currentIntersected.material.linewidth = 1;

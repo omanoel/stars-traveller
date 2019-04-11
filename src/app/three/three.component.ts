@@ -18,8 +18,8 @@ export class ThreeComponent implements OnInit {
 
     @HostListener('window:resize')
     resetWidthHeight() {
-        this.height = window.innerHeight - 20;
-        this.width = window.innerWidth - 20;
+        this.height = window.innerHeight;
+        this.width = window.innerWidth;
     }
 
 }
