@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 
-import { TrackballControls } from './trackballcontrols';
+import { TrackballControls } from 'three-trackballcontrols-ts';
 
 @Directive({ selector: '[appTrackballControls]' })
 export class TrackballControlsDirective {
@@ -10,8 +10,7 @@ export class TrackballControlsDirective {
     controls: TrackballControls;
 
     setupControls(camera, renderer) {
-        this.controls = new TrackballControls();
-        this.controls.init(camera, renderer.domElement);
+        this.controls = new TrackballControls(camera, renderer.domElement);
         this.controls.enabled = this.enabled;
     }
 

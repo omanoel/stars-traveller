@@ -48,7 +48,7 @@ export class SceneDirective implements AfterContentInit {
         const meshes = [
             ...this.lightDir.toArray(),
             ...this.textureComps.toArray(),
-            ...this.fakeStarsDir.toArray()
+            /*...this.fakeStarsDir.toArray()*/
         ];
 
         this.referentielService.initialize(this.camera);
@@ -68,9 +68,10 @@ export class SceneDirective implements AfterContentInit {
             }
         }
 
-        for (const star of this.starsService.stars) {
+        /*for (const star of this.starsService.stars) {
             this.parentTransform.add(star);
-        }
+        }*/
+        this.parentTransform.add(this.starsService.starsPoints);
         this.scene.add(this.parentTransform);
     }
 
@@ -97,12 +98,12 @@ export class SceneDirective implements AfterContentInit {
             false,            // aClockwise
             0                 // aRotation
         );
-        const pathXY = new THREE.Path(curveXY.getPoints(50));
-        const geometryXY = pathXY.createPointsGeometry(50);
+        // const pathXY = new THREE.Path(curveXY.getPoints(50));
+        const geometryXY = new THREE.Geometry().setFromPoints(curveXY.getPoints(50));
         const ellipseXY = new THREE.Line(geometryXY, material);
         this.positionIntersected.add(ellipseXY);
 
-        const sphereGeometry = new THREE.SphereGeometry(51, 32, 16);
+        const sphereGeometry = new THREE.SphereGeometry(1, 32, 16);
         const star = new THREE.Mesh(sphereGeometry, material);
         star.translateX(myPosition.x);
         star.translateY(myPosition.y);

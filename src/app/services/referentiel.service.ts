@@ -86,8 +86,8 @@ export class ReferentielService {
                 0                 // aRotation
             );
 
-            const path = new THREE.Path(curve.getPoints(50));
-            const geometry = path.createPointsGeometry(50);
+            // const path = new THREE.Path(curve.getPoints(50));
+            const geometry = new THREE.Geometry().setFromPoints(curve.getPoints(50));
             const material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.3 / i });
 
             // Create the final object to add to the scene
