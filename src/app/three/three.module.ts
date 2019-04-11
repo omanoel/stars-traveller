@@ -1,47 +1,36 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+
+import { ThreeComponentService } from './three.component.service';
+import { PerspectiveCameraService } from '@app/services/three/camera/perspective-camera.service';
+import { TrackballControlsService } from '@app/services/three/controls/trackball-controls.service';
+import { ReferentielService } from '../services/objects/referentiel/referentiel.service';
+import { RaycasterService } from '../services/three/raycaster/raycaster.service';
+import { StarsService } from '../services/objects/stars/stars.service';
 
 import { ThreeComponent } from './three.component';
-
-import { ReferentielService } from '../services/referentiel.service';
-import { RaycasterService } from '../services/raycaster.service';
-import { StarsService } from '../services/stars.service';
-
-import { RendererDirective } from './renderer.directive';
-import { SceneDirective } from './scene.directive';
-import { TrackballControlsDirective } from './controls/trackball.directive';
-import { FakeStarsDirective } from './objects/fakestars.directive';
-import { PerspectiveCameraDirective } from './cameras/perspective-camera.directive';
-import { PointLightDirective } from './lights/point-light.directive';
-
 import { TooltipComponent } from './tooltip/tooltip.component';
-
-import { CircleComponent } from './objects/circle.component';
-import { SphereComponent } from './objects/sphere.component';
-import { TextureComponent } from './objects/texture.component';
-import { SkyboxComponent } from './objects/skybox.component';
+import { SceneService } from '@app/services/three/scene/scene.service';
 
 @NgModule({
     declarations: [
         ThreeComponent,
-        RendererDirective,
-        SceneDirective,
-        PerspectiveCameraDirective,
-        PointLightDirective,
-        CircleComponent,
-        SphereComponent,
-        TextureComponent,
-        SkyboxComponent,
-        TrackballControlsDirective,
-        FakeStarsDirective,
         TooltipComponent
     ],
     providers: [
+        ThreeComponentService,
+        PerspectiveCameraService,
+        TrackballControlsService,
         RaycasterService,
+        SceneService,
         ReferentielService,
         StarsService
     ],
-    imports: [BrowserModule],
-    exports: [ThreeComponent]
+    imports: [
+        CommonModule
+    ],
+    exports: [
+        ThreeComponent
+    ]
 })
 export class ThreeModule { }

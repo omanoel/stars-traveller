@@ -4,12 +4,12 @@ import * as THREE from 'three';
 @Injectable()
 export class CatalogService {
 
-    loader = new THREE.FileLoader();
+    loader: THREE.FileLoader;
 
     stars: any;
 
     constructor() {
-
+        this.loader = new THREE.FileLoader();
     }
 
     initialize(): Promise<any> {

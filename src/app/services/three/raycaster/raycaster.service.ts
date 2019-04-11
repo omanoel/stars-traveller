@@ -4,12 +4,11 @@ import * as THREE from 'three';
 @Injectable()
 export class RaycasterService {
 
-    raycaster = new THREE.Raycaster();
+    raycaster: THREE.Raycaster;
 
-    constructor() { }
-
-    initialize() {
-
+    constructor() {
+        this.raycaster = new THREE.Raycaster();
         this.raycaster.linePrecision = 3;
     }
+
 }

@@ -18,6 +18,8 @@ import { ThreeModule } from './three/three.module';
         ThreeModule,
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [
+        AppComponent
+    ]
 })
 export class AppModule { }

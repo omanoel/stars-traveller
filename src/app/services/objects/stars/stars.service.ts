@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import * as jsonCatalog from '../../assets/catalog/hyg-stellar-database.json';
 
 @Injectable()
 export class StarsService {
 
-    catalog = jsonCatalog.default;
+    catalog = [];
 
     stars: Array<THREE.Mesh> = [];
     starsPoints: THREE.Points;
