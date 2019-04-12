@@ -10,4 +10,8 @@ export class SceneService {
     constructor() {
         this.scene = new THREE.Scene();
     }
+
+    getGroupOfStars(): THREE.Object3D {
+        return this.scene.children.find((obj) => obj.name === 'GroupOfStars');
+    }
 }

@@ -11,6 +11,8 @@ import { ReferentielService } from '@app/services/objects/referentiel/referentie
 
 import { StarOver } from '@app/utils/interfaces';
 import { ThreeComponentModel } from './three.component.model';
+import { StarsService } from '@app/services/objects/stars/stars.service';
+import { TargetService } from '@app/services/objects/target/target.service';
 
 @Component({
     selector: 'app-three',
@@ -19,9 +21,8 @@ import { ThreeComponentModel } from './three.component.model';
 export class ThreeComponent implements OnInit {
 
     threeComponentModel: ThreeComponentModel;
-    myStarOver: StarOver;
+
     initDist: number;
-    mouse = new THREE.Vector2();
     mouseDown = false;
 
     clock: THREE.Clock = new THREE.Clock();
@@ -45,8 +46,8 @@ export class ThreeComponent implements OnInit {
     onMousemove(event: MouseEvent) {
         event.preventDefault();
         if (!this.mouseDown) {
-            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+            this.threeComponentModel.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.threeComponentModel.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
         }
     }
 
@@ -69,7 +70,9 @@ export class ThreeComponent implements OnInit {
         private perspectiveCameraService: PerspectiveCameraService,
         private raycasterService: RaycasterService,
         private sceneService: SceneService,
-        private referentielService: ReferentielService) {
+        private referentielService: ReferentielService,
+        private targetService: TargetService,
+        private starsService: StarsService) {
         //
         this.threeComponentModel = {
             perspectiveCameraService: this.perspectiveCameraService,
@@ -78,7 +81,11 @@ export class ThreeComponent implements OnInit {
             raycasterService: this.raycasterService,
             sceneService: this.sceneService,
             referentielService: this.referentielService,
-            element: this.element
+            targetService: this.targetService,
+            starsService: this.starsService,
+            element: this.element,
+            mouse: new THREE.Vector2(),
+            myStarOver: {star: null}
         };
         this.resetWidthHeight();
         
@@ -86,7 +93,6 @@ export class ThreeComponent implements OnInit {
 
     ngOnInit() {
         this.threeComponentService.initialize( this.threeComponentModel );
-        this.myStarOver = {star: null};
     }
 
     ngOnChanges(changes: any) {

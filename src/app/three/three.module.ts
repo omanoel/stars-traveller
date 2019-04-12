@@ -4,13 +4,15 @@ import { CommonModule } from '@angular/common';
 import { ThreeComponentService } from './three.component.service';
 import { PerspectiveCameraService } from '@app/services/three/camera/perspective-camera.service';
 import { TrackballControlsService } from '@app/services/three/controls/trackball-controls.service';
-import { ReferentielService } from '../services/objects/referentiel/referentiel.service';
 import { RaycasterService } from '../services/three/raycaster/raycaster.service';
+import { SceneService } from '@app/services/three/scene/scene.service';
+import { TargetService } from '@app/services/objects/target/target.service';
 import { StarsService } from '../services/objects/stars/stars.service';
+import { ReferentielService } from '../services/objects/referentiel/referentiel.service';
 
 import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
-import { SceneService } from '@app/services/three/scene/scene.service';
+import { CatalogService } from '@app/services/objects/stars/catalog.service';
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import { SceneService } from '@app/services/three/scene/scene.service';
         RaycasterService,
         SceneService,
         ReferentielService,
-        StarsService
+        TargetService,
+        StarsService,
+        CatalogService
     ],
     imports: [
         CommonModule

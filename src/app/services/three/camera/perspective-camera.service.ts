@@ -5,7 +5,7 @@ import * as THREE from 'three';
 export class PerspectiveCameraService {
     
     viewAngle = 25;
-    near = 50;
+    near = 1;
     far = 1e7;
     camera: THREE.PerspectiveCamera;
     

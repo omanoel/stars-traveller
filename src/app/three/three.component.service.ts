@@ -6,15 +6,15 @@ import * as THREE from 'three';
 @Injectable()
 export class ThreeComponentService {
 
+    currentIntersected: any;
+
     initialize(threeComponentModel: ThreeComponentModel): void {
         //
         threeComponentModel.perspectiveCameraService.initialize(threeComponentModel.width, threeComponentModel.height);
         //
-        threeComponentModel.trackballControlsService.setupControls(
-            threeComponentModel.perspectiveCameraService.camera,
-            threeComponentModel.renderer);
-        //
         threeComponentModel.referentielService.initialize(threeComponentModel.perspectiveCameraService.camera);
+        //
+        threeComponentModel.starsService.initialize();
     }
 
     resetWidthHeight(threeComponentModel: ThreeComponentModel, width: number, height: number): void {
@@ -50,7 +50,7 @@ export class ThreeComponentService {
         threeComponentModel.perspectiveCameraService.camera.position.z = 1;
         //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
         threeComponentModel.sceneService.scene.add(threeComponentModel.perspectiveCameraService.camera);
-
+        threeComponentModel.targetService.create(threeComponentModel.sceneService.scene, threeComponentModel.trackballControlsService.controls.target);
         // this.starsService.initialize();
         this.animate(threeComponentModel);
 
@@ -62,41 +62,59 @@ export class ThreeComponentService {
     }
 
     render(threeComponentModel: ThreeComponentModel): void {
+        //
+        threeComponentModel.starsService.addInScene(threeComponentModel.sceneService.scene);
+        //
         threeComponentModel.trackballControlsService.updateControls();
-        
+        //
         threeComponentModel.referentielService.update(
             threeComponentModel.sceneService.scene, threeComponentModel.perspectiveCameraService.camera);
-        // this.findIntersection();
+        //
+        threeComponentModel.targetService.update(threeComponentModel.trackballControlsService.controls.target);
+        //
+        threeComponentModel.starsService.updateSpheresInScene(
+            threeComponentModel.perspectiveCameraService.camera,
+            threeComponentModel.trackballControlsService.controls.target);
+        //
+        this.findIntersection(threeComponentModel);
+        //
         threeComponentModel.renderer.render(
             threeComponentModel.sceneService.scene, threeComponentModel.perspectiveCameraService.camera);
     }
 
-    // findIntersection() {
+    findIntersection(threeComponentModel: ThreeComponentModel): void {
 
-    //     this.raycasterService.raycaster.setFromCamera(this.mouse, this.camera);
-    //     const intersects = this.raycasterService.raycaster.intersectObjects(this.sceneDir.parentTransform.children, false);
-    //     if (intersects.length > 0) {
-    //         if (this.currentIntersected !== undefined) {
-    //             this.currentIntersected.material.linewidth = 1;
-    //             return;
-    //         }
-    //         this.currentIntersected = intersects[0].object;
-    //         this.starOver.star = this.currentIntersected;
-    //         // this.currentIntersected.material.color.b = 1;
-    //         this.sceneDir.addPosition(this.currentIntersected.position);
-    //         // sphereInter.visible = true;
-    //         // sphereInter.position.copy( intersects[ 0 ].point );
-    //     } else {
-    //         if (this.currentIntersected !== undefined) {
-    //             // this.currentIntersected.material.color.b = 0;
-    //             this.sceneDir.delPosition();
-    //             this.starOver.star = null;
-    //         }
+        threeComponentModel.raycasterService.raycaster.setFromCamera(
+            threeComponentModel.mouse,
+            threeComponentModel.perspectiveCameraService.camera);
+        //
+        if (!threeComponentModel.sceneService.getGroupOfStars()) {
+            return;
+        }
+        const intersects = threeComponentModel.raycasterService.raycaster.intersectObjects(
+            threeComponentModel.sceneService.getGroupOfStars().children, false);
+        if (intersects.length > 0) {
+            if (this.currentIntersected !== undefined) {
+                this.currentIntersected.material.linewidth = 1;
+                return;
+            }
+            this.currentIntersected = intersects[0].object;
+            threeComponentModel.myStarOver.star = this.currentIntersected;
+            // this.currentIntersected.material.color.b = 1;
+            // this.sceneDir.addPosition(this.currentIntersected.position);
+            // sphereInter.visible = true;
+            // sphereInter.position.copy( intersects[ 0 ].point );
+        } else {
+            if (this.currentIntersected !== undefined) {
+                // this.currentIntersected.material.color.b = 0;
+                // this.sceneDir.delPosition();
+                threeComponentModel.myStarOver.star = null;
+            }
 
-    //         this.currentIntersected = undefined;
-    //         // sphereInter.visible = false;
-    //     }
-    // }
+            this.currentIntersected = undefined;
+            // sphereInter.visible = false;
+        }
+    }
     // ngAfterContentInit() {
     //     //this.camera.lookAt(this.scene.position);
     //     this.camera.position.y = 1;
