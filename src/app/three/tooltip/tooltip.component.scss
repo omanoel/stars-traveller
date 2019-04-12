@@ -1,0 +1,19 @@
+.tooltip {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    ul {
+        list-style-type:none;
+        padding: 0px;
+
+        li {
+            span {
+                &.key {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
