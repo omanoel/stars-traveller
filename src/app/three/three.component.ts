@@ -63,6 +63,11 @@ export class ThreeComponent implements OnInit {
         this.mouseDown = false;
     }
 
+    @HostListener('dblclick', ['$event'])
+    onDoubleClick(event: MouseEvent) {
+        event.preventDefault();
+        this.threeComponentService.gotoTarget(this.threeComponentModel);
+    }
     constructor(
         private element: ElementRef,
         private threeComponentService: ThreeComponentService,
