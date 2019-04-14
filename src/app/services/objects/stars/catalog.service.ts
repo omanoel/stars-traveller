@@ -5,7 +5,7 @@ import * as THREE from 'three';
 export class CatalogService {
 
     loader: THREE.FileLoader;
-
+    average: number = 0;
     stars: any;
 
     constructor() {
@@ -28,7 +28,7 @@ export class CatalogService {
 
                 // Function called when download progresses
                 function (xhr) {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    _that.average = Math.round(xhr.loaded / xhr.total * 10000) / 100;
                 },
 
                 // Function called when download errors

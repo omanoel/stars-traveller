@@ -21,10 +21,7 @@ export class StarsService {
     initialize() {
         this.groupOfStars = new THREE.Object3D();
         this.groupOfStars.name = 'GroupOfStars';
-        this.catalogService.initialize().then(
-            () => this.createPoints()
-        );
-
+        this.createPoints();
     }
 
     addInScene(scene: THREE.Scene): void {
@@ -36,11 +33,9 @@ export class StarsService {
     }
 
     updateSpheresInScene(camera: THREE.Camera, target: THREE.Vector3): void {
-        const now = new Date();
-        if (now.getTime() - this.lastUpdate.getTime() < 5000) {
+        if (!this.groupOfStars) {
             return;
         }
-        this.lastUpdate = new Date();
         const nearest = this.getNearest(camera, target);
         this.createSpheres(nearest);
     }

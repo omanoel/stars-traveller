@@ -13,8 +13,6 @@ export class ThreeComponentService {
         threeComponentModel.perspectiveCameraService.initialize(threeComponentModel.width, threeComponentModel.height);
         //
         threeComponentModel.referentielService.initialize(threeComponentModel.perspectiveCameraService.camera);
-        //
-        threeComponentModel.starsService.initialize();
     }
 
     resetWidthHeight(threeComponentModel: ThreeComponentModel, width: number, height: number): void {
@@ -49,7 +47,8 @@ export class ThreeComponentService {
 
         threeComponentModel.trackballControlsService.setupControls(
             threeComponentModel.perspectiveCameraService.camera,
-            threeComponentModel.renderer);
+            threeComponentModel.renderer,
+            threeComponentModel.starsService);
         
         const initDist = threeComponentModel.perspectiveCameraService.camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
         threeComponentModel.perspectiveCameraService.camera.position.y = 1;
@@ -76,11 +75,13 @@ export class ThreeComponentService {
         threeComponentModel.referentielService.update(
             threeComponentModel.sceneService.scene, threeComponentModel.perspectiveCameraService.camera);
         //
-        threeComponentModel.targetService.update(threeComponentModel.trackballControlsService.controls.target);
+        threeComponentModel.targetService.update(
+            threeComponentModel.trackballControlsService.controls.target,
+            threeComponentModel.perspectiveCameraService.camera);
         //
-        threeComponentModel.starsService.updateSpheresInScene(
-            threeComponentModel.perspectiveCameraService.camera,
-            threeComponentModel.trackballControlsService.controls.target);
+        //threeComponentModel.starsService.updateSpheresInScene(
+        //    threeComponentModel.perspectiveCameraService.camera,
+        //    threeComponentModel.trackballControlsService.controls.target);
         //
         this.findIntersection(threeComponentModel);
         //
