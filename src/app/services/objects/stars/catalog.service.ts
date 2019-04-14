@@ -17,7 +17,7 @@ export class CatalogService {
         return new Promise((resolve, reject) => {
             this.loader.load(
                 // resource URL
-                '/assets/hygxyz.csv',
+                '/assets/catalog/hygxyz.csv',
 
                 // Function when resource is loaded
                 function (data) {

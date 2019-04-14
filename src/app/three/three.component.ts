@@ -14,6 +14,7 @@ import { ThreeComponentModel } from './three.component.model';
 import { StarsService } from '@app/services/objects/stars/stars.service';
 import { TargetService } from '@app/services/objects/target/target.service';
 import { CatalogService } from '@app/services/objects/stars/catalog.service';
+import { OnStarOverService } from '@app/services/objects/stars/on-star-over.service';
 
 @Component({
     selector: 'app-three',
@@ -80,7 +81,8 @@ export class ThreeComponent implements OnInit {
         private sceneService: SceneService,
         private referentielService: ReferentielService,
         private targetService: TargetService,
-        private starsService: StarsService) {
+        private starsService: StarsService,
+        private onStarOverService: OnStarOverService) {
         //
         this.threeComponentModel = {
             perspectiveCameraService: this.perspectiveCameraService,
@@ -91,6 +93,7 @@ export class ThreeComponent implements OnInit {
             referentielService: this.referentielService,
             targetService: this.targetService,
             starsService: this.starsService,
+            onStarOverService: this.onStarOverService,
             element: this.element,
             mouse: new THREE.Vector2(),
             myStarOver: {star: null}

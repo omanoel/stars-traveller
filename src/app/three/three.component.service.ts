@@ -55,7 +55,10 @@ export class ThreeComponentService {
         threeComponentModel.perspectiveCameraService.camera.position.z = 1;
         //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
         threeComponentModel.sceneService.scene.add(threeComponentModel.perspectiveCameraService.camera);
+        //
         threeComponentModel.targetService.create(threeComponentModel.sceneService.scene, threeComponentModel.trackballControlsService.controls.target);
+        //
+        threeComponentModel.onStarOverService.initialize(threeComponentModel.sceneService.scene);
         // this.starsService.initialize();
         this.animate(threeComponentModel);
 
@@ -81,6 +84,8 @@ export class ThreeComponentService {
         //
         this.findIntersection(threeComponentModel);
         //
+        threeComponentModel.onStarOverService.update();
+        //
         threeComponentModel.renderer.render(
             threeComponentModel.sceneService.scene, threeComponentModel.perspectiveCameraService.camera);
     }
@@ -102,7 +107,7 @@ export class ThreeComponentService {
                 return;
             }
             this.currentIntersected = intersects[0].object;
-            threeComponentModel.myStarOver.star = this.currentIntersected;
+            threeComponentModel.onStarOverService.star = this.currentIntersected;
             // this.currentIntersected.material.color.b = 1;
             // this.sceneDir.addPosition(this.currentIntersected.position);
             // sphereInter.visible = true;
@@ -111,51 +116,13 @@ export class ThreeComponentService {
             if (this.currentIntersected !== undefined) {
                 // this.currentIntersected.material.color.b = 0;
                 // this.sceneDir.delPosition();
-                threeComponentModel.myStarOver.star = null;
+                threeComponentModel.onStarOverService.star = null;
             }
 
             this.currentIntersected = undefined;
             // sphereInter.visible = false;
         }
     }
-    // ngAfterContentInit() {
-    //     //this.camera.lookAt(this.scene.position);
-    //     this.camera.position.y = 1;
-    //     this.camera.position.z = 1;
-    //     //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
-    //     this.scene.add(this.camera);
-
-    //     this.starsService.initialize();
-
-    //     const meshes = [
-    //         ...this.lightDir.toArray(),
-    //         ...this.textureComps.toArray(),
-    //         /*...this.fakeStarsDir.toArray()*/
-    //     ];
-
-    //     this.referentielService.initialize(this.camera);
-    //     for (const obj of this.referentielService.getObjects()) {
-    //         this.scene.add(obj);
-    //     }
-
-    //     for (const mesh of meshes) {
-    //         if (mesh.object) {
-    //             this.scene.add(mesh.object);
-    //         } else if (mesh.attachScene) {
-    //             mesh.attachScene(this.scene);
-    //         } else if (mesh.objects) {
-    //             for (const obj of mesh.objects) {
-    //                 this.scene.add(obj);
-    //             }
-    //         }
-    //     }
-
-    //     /*for (const star of this.starsService.stars) {
-    //         this.parentTransform.add(star);
-    //     }*/
-    //     this.parentTransform.add(this.starsService.starsPoints);
-    //     this.scene.add(this.parentTransform);
-    // }
 
     // addPosition(myPosition) {
 
