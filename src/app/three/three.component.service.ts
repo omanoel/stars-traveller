@@ -26,6 +26,12 @@ export class ThreeComponentService {
             threeComponentModel.height);
     }
 
+    gotoTarget(threeComponentModel: ThreeComponentModel): void {
+        if (this.currentIntersected !== undefined) {
+            threeComponentModel.trackballControlsService.controls.target = this.currentIntersected.position;
+        }
+    }
+
     onChanges(threeComponentModel: ThreeComponentModel, changes: any): void {
         //
         const widthChange = changes.width && changes.width.currentValue;
