@@ -6,7 +6,7 @@ export class PerspectiveCameraService {
     
     viewAngle = 25;
     near = 1;
-    far = 1e7;
+    far = 1e12;
     camera: THREE.PerspectiveCamera;
     
     width: number;
@@ -16,7 +16,7 @@ export class PerspectiveCameraService {
     constructor() {       
     }
 
-    initialize(width: number, height: number, positions: number[] = [-50, 0, 0]): void {
+    initialize(width: number, height: number, positions: number[] = [10, 10, 10]): void {
         this.height = height;
         this.width = width;
         this.positions = positions;
