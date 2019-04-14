@@ -79,10 +79,6 @@ export class ThreeComponentService {
             threeComponentModel.trackballControlsService.controls.target,
             threeComponentModel.perspectiveCameraService.camera);
         //
-        //threeComponentModel.starsService.updateSpheresInScene(
-        //    threeComponentModel.perspectiveCameraService.camera,
-        //    threeComponentModel.trackballControlsService.controls.target);
-        //
         this.findIntersection(threeComponentModel);
         //
         threeComponentModel.renderer.render(
