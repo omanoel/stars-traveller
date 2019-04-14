@@ -1,2 +1,2 @@
 <app-tooltip [starOver]="threeComponentModel.myStarOver"></app-tooltip>
-
+<div class="loader" *ngIf="catalogService.average < 100">{{catalogService.average}} % loading</div>

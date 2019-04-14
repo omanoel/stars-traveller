@@ -4,51 +4,31 @@ import * as THREE from 'three';
 @Injectable()
 export class TargetService {
 
-    objects: Array<THREE.Line> = [];
-    color = 0xff0000;
-
-    create(myScene: THREE.Scene, myPoint: THREE.Vector3) {
-        for (const obj of this.objects) {
-            myScene.remove(obj);
-        }
-        this.objects = [];
-        const gap = 100;
-        const material = new THREE.LineBasicMaterial({ color: this.color, transparent: true, opacity: 1 });
-        // X axis
-        const geometryX = new THREE.Geometry();
-        geometryX.vertices.push(
-            new THREE.Vector3( myPoint.x + gap, myPoint.y, myPoint.z ),
-            new THREE.Vector3( myPoint.x - gap, myPoint.y, myPoint.z )
-        );
-        const lineX = new THREE.Line( geometryX, material );
-        myScene.add(lineX);
-        // Y axis
-        const geometryY = new THREE.Geometry();
-        geometryY.vertices.push(
-            new THREE.Vector3( myPoint.x, myPoint.y + gap, myPoint.z ),
-            new THREE.Vector3( myPoint.x, myPoint.y - gap, myPoint.z )
-        );
-        const lineY = new THREE.Line( geometryY, material );
-        myScene.add(lineY);
-        // Z axis
-        const geometryZ = new THREE.Geometry();
-        geometryZ.vertices.push(
-            new THREE.Vector3( myPoint.x, myPoint.y, myPoint.z + gap ),
-            new THREE.Vector3( myPoint.x, myPoint.y, myPoint.z - gap )
-        );
-        const lineZ = new THREE.Line( geometryZ, material );
-        myScene.add(lineZ);
-        this.objects.push(lineX);
-        this.objects.push(lineY);
-        this.objects.push(lineZ);
+    SCALE = 0.2;
+    axesHelper: THREE.AxesHelper;
+    ratio: number;
+    
+    constructor() {
+        this.axesHelper = new THREE.AxesHelper( this.SCALE );
     }
 
-    update(myNewPoint: THREE.Vector3): void {
-        for (const line of this.objects) {
-            const _oldPosition = Object.assign({}, line.position);
-            line.translateX(myNewPoint.x - _oldPosition.x);
-            line.translateY(myNewPoint.y - _oldPosition.y);
-            line.translateZ(myNewPoint.z - _oldPosition.z);
+    create(myScene: THREE.Scene, myPoint: THREE.Vector3) {
+        this.axesHelper.translateX(myPoint.x);
+        this.axesHelper.translateY(myPoint.y);
+        this.axesHelper.translateZ(myPoint.z);
+        myScene.add( this.axesHelper );
+    }
+
+    update(myNewPoint: THREE.Vector3, camera: THREE.Camera): void {
+        if (!this.ratio) {
+            this.ratio = camera.position.distanceTo(myNewPoint);
         }
+        const oldPosition = new THREE.Vector3().copy(this.axesHelper.position);
+        this.axesHelper.translateX(myNewPoint.x - oldPosition.x);
+        this.axesHelper.translateY(myNewPoint.y - oldPosition.y);
+        this.axesHelper.translateZ(myNewPoint.z - oldPosition.z);
+        const dist = camera.position.distanceTo(myNewPoint);
+        const newScale = this.SCALE * dist / this.ratio;
+        this.axesHelper.scale.set(newScale, newScale, newScale);
     }
 }

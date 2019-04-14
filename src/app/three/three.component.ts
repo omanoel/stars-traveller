@@ -13,10 +13,12 @@ import { StarOver } from '@app/utils/interfaces';
 import { ThreeComponentModel } from './three.component.model';
 import { StarsService } from '@app/services/objects/stars/stars.service';
 import { TargetService } from '@app/services/objects/target/target.service';
+import { CatalogService } from '@app/services/objects/stars/catalog.service';
 
 @Component({
     selector: 'app-three',
-    templateUrl: './three.component.html'
+    templateUrl: './three.component.html',
+    styleUrls: ['./three.component.scss']
 })
 export class ThreeComponent implements OnInit {
 
@@ -69,6 +71,7 @@ export class ThreeComponent implements OnInit {
         this.threeComponentService.gotoTarget(this.threeComponentModel);
     }
     constructor(
+        private catalogService: CatalogService,
         private element: ElementRef,
         private threeComponentService: ThreeComponentService,
         private trackballControlsService: TrackballControlsService,
@@ -98,6 +101,10 @@ export class ThreeComponent implements OnInit {
 
     ngOnInit() {
         this.threeComponentService.initialize( this.threeComponentModel );
+        this.catalogService.initialize().then(
+            () => this.threeComponentModel.starsService.initialize()
+
+        );
     }
 
     ngOnChanges(changes: any) {
