@@ -13,6 +13,7 @@ import { ReferentielService } from '../services/objects/referentiel/referentiel.
 import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { CatalogService } from '@app/services/objects/stars/catalog.service';
+import { OnStarOverService } from '@app/services/objects/stars/on-star-over.service';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { CatalogService } from '@app/services/objects/stars/catalog.service';
         ReferentielService,
         TargetService,
         StarsService,
-        CatalogService
+        CatalogService,
+        OnStarOverService
     ],
     imports: [
         CommonModule

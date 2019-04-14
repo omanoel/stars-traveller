@@ -9,6 +9,7 @@ import { SceneService } from '@app/services/three/scene/scene.service';
 import { StarsService } from '@app/services/objects/stars/stars.service';
 import { TargetService } from '@app/services/objects/target/target.service';
 import { StarOver } from '@app/utils/interfaces';
+import { OnStarOverService } from '@app/services/objects/stars/on-star-over.service';
 
 export interface ThreeComponentModel {
     perspectiveCameraService: PerspectiveCameraService;
@@ -19,6 +20,7 @@ export interface ThreeComponentModel {
     referentielService: ReferentielService;
     targetService: TargetService;
     starsService: StarsService;
+    onStarOverService: OnStarOverService;
     element: ElementRef;
     mouse: THREE.Vector2;
     myStarOver: StarOver;
