@@ -7,7 +7,7 @@ import * as THREE from 'three';
 export class ThreeComponentService {
 
     currentIntersected: any;
-
+    
     initialize(threeComponentModel: ThreeComponentModel): void {
         //
         threeComponentModel.perspectiveCameraService.initialize(threeComponentModel.width, threeComponentModel.height);
@@ -81,6 +81,12 @@ export class ThreeComponentService {
         threeComponentModel.targetService.update(
             threeComponentModel.trackballControlsService.controls.target,
             threeComponentModel.perspectiveCameraService.camera);
+        //
+        if (!threeComponentModel.perspectiveCameraService.isMoving()) {
+            threeComponentModel.starsService.updateSpheresInScene(
+                threeComponentModel.perspectiveCameraService.camera,
+                threeComponentModel.trackballControlsService.controls.target);
+        }
         //
         this.findIntersection(threeComponentModel);
         //

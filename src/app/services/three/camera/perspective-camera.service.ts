@@ -4,6 +4,7 @@ import * as THREE from 'three';
 @Injectable()
 export class PerspectiveCameraService {
     
+    EPSILON = 1e-2;
     viewAngle = 25;
     near = 1;
     far = 1e12;
@@ -12,8 +13,11 @@ export class PerspectiveCameraService {
     width: number;
     height: number;
     positions: number[];
+    previousPositionOfCamera: THREE.Vector3;
+    alreadyChecked: boolean;
 
-    constructor() {       
+    constructor() {
+        this.previousPositionOfCamera = new THREE.Vector3(0,0,0);   
     }
 
     initialize(width: number, height: number, positions: number[] = [10, 10, 10]): void {
@@ -52,6 +56,26 @@ export class PerspectiveCameraService {
         if (this.camera) {
             this.camera.aspect = ratio;
             this.camera.updateProjectionMatrix();
+        }
+    }
+
+    isMoving(): boolean {
+        if (this.camera) {
+            if (this.previousPositionOfCamera.distanceTo(this.camera.position) < this.EPSILON) {
+                if (!this.alreadyChecked) {
+                    this.alreadyChecked = true;
+                    return false;    
+                } else {
+                    return true;
+                }
+            } else {
+                this.alreadyChecked = false;
+            }
+            this.previousPositionOfCamera.copy(this.camera.position);
+            return true;
+        } else {
+            this.alreadyChecked = false;
+            return false;
         }
     }
 

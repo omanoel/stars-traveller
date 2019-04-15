@@ -10,6 +10,7 @@ export class StarsService {
     nbStars: number;
     stars: Array<THREE.Mesh> = [];
     groupOfStars: THREE.Object3D;
+    groupOfStarsHelpers: THREE.Object3D;
     starsPoints: THREE.Points;
     loaded = false;
     basicMaterials: any;
@@ -21,6 +22,7 @@ export class StarsService {
     initialize() {
         this.groupOfStars = new THREE.Object3D();
         this.groupOfStars.name = 'GroupOfStars';
+        this.groupOfStarsHelpers = new THREE.Object3D();
         this.createPoints();
     }
 
@@ -28,6 +30,7 @@ export class StarsService {
         if (this.starsPoints && !this.loaded) {
             scene.add(this.starsPoints);
             scene.add(this.groupOfStars);
+            scene.add(this.groupOfStarsHelpers);
             this.loaded = true;
         }
     }
@@ -68,7 +71,7 @@ export class StarsService {
             const target2 = new THREE.Vector3(target.x, target.y, target.z)
             const pos2 = new THREE.Vector3(record.X, record.Y, record.Z);
             const angle = target2.sub(camera.position).angleTo(pos2.sub(camera.position));
-            if (pos.distanceTo(camera.position) < 20 && angle < Math.PI / 4) {
+            if (pos.distanceTo(camera.position) < 20 && angle < Math.PI / 8) {
                 nears.push(record);
             }
         }
@@ -78,8 +81,10 @@ export class StarsService {
     private createSpheres(nearest: any[]): void {
         this.stars = [];
         this.groupOfStars.children = [];
+        this.groupOfStarsHelpers.children = [];
         const geometrySphere = new THREE.SphereBufferGeometry( 0.05, 32, 16 );
-        
+        const materialHelper = new THREE.LineBasicMaterial({ color: 0xfffff, transparent: true, opacity: 0.2 });
+
         nearest.forEach((near) => {
             const materialSphere = this.getMaterialFromSpectrum(near);
             const star = new THREE.Mesh(geometrySphere, materialSphere);
@@ -89,7 +94,17 @@ export class StarsService {
             star.userData.hyg = near;
             this.stars.push(star);
             this.groupOfStars.add(star);
+            this.createStarHelper(new THREE.Vector3(near.X, near.Y, near.Z), materialHelper);
         });
+    }
+
+    private createStarHelper(myPosition: THREE.Vector3, material: THREE.Material) {
+        const geometryZ = new THREE.Geometry();
+        geometryZ.vertices.push(
+            new THREE.Vector3( myPosition.x, myPosition.y, myPosition.z ),
+            new THREE.Vector3( myPosition.x, myPosition.y, 0 )
+        );
+        this.groupOfStarsHelpers.add(new THREE.Line( geometryZ, material ));
     }
 
     private getMaterialFromSpectrum(near: any): THREE.MeshBasicMaterial {
