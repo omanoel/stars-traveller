@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ThreeComponentService } from './three.component.service';
 import { PerspectiveCameraService } from '@app/services/three/camera/perspective-camera.service';
@@ -9,16 +10,18 @@ import { SceneService } from '@app/services/three/scene/scene.service';
 import { TargetService } from '@app/services/objects/target/target.service';
 import { StarsService } from '../services/objects/stars/stars.service';
 import { ReferentielService } from '../services/objects/referentiel/referentiel.service';
+import { CatalogService } from '@app/services/objects/stars/catalog.service';
+import { OnStarOverService } from '@app/services/objects/stars/on-star-over.service';
 
 import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
-import { CatalogService } from '@app/services/objects/stars/catalog.service';
-import { OnStarOverService } from '@app/services/objects/stars/on-star-over.service';
+import { FormPositionComponent } from './form-position/form-position.component';
 
 @NgModule({
     declarations: [
         ThreeComponent,
-        TooltipComponent
+        TooltipComponent,
+        FormPositionComponent
     ],
     providers: [
         ThreeComponentService,
@@ -33,7 +36,8 @@ import { OnStarOverService } from '@app/services/objects/stars/on-star-over.serv
         OnStarOverService
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule
     ],
     exports: [
         ThreeComponent

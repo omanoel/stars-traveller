@@ -35,7 +35,7 @@ export class StarsService {
         }
     }
 
-    updateSpheresInScene(camera: THREE.Camera, target: THREE.Vector3): void {
+    updateSpheresInScene(camera: THREE.PerspectiveCamera, target: THREE.Vector3): void {
         if (!this.groupOfStars) {
             return;
         }
@@ -63,7 +63,7 @@ export class StarsService {
         this.starsPoints = new THREE.Points( geometry, material );
     }
 
-    private getNearest(camera: THREE.Camera, target: THREE.Vector3): any[] {
+    private getNearest(camera: THREE.PerspectiveCamera, target: THREE.Vector3): any[] {
         let nears = [];
         for (let i = 0; i < this.nbStars; i++) {
             const record = this.catalogService.stars[i];
@@ -71,7 +71,7 @@ export class StarsService {
             const target2 = new THREE.Vector3(target.x, target.y, target.z)
             const pos2 = new THREE.Vector3(record.X, record.Y, record.Z);
             const angle = target2.sub(camera.position).angleTo(pos2.sub(camera.position));
-            if (pos.distanceTo(camera.position) < 20 && angle < Math.PI / 8) {
+            if (pos.distanceTo(camera.position) < 20 && angle <= camera.fov * Math.PI / 180) {
                 nears.push(record);
             }
         }

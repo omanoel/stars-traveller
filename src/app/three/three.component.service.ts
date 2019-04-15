@@ -27,6 +27,7 @@ export class ThreeComponentService {
     gotoTarget(threeComponentModel: ThreeComponentModel): void {
         if (this.currentIntersected !== undefined) {
             threeComponentModel.trackballControlsService.controls.target = this.currentIntersected.position;
+            threeComponentModel.trackballControlsService.target$.next(threeComponentModel.trackballControlsService.controls.target);
         }
     }
 
@@ -42,7 +43,7 @@ export class ThreeComponentService {
 
     afterContentInit(threeComponentModel: ThreeComponentModel): void {
         threeComponentModel.renderer.setSize(threeComponentModel.width, threeComponentModel.height);
-        threeComponentModel.element.nativeElement.appendChild(threeComponentModel.renderer.domElement);
+        threeComponentModel.element.nativeElement.querySelector('div.map').appendChild(threeComponentModel.renderer.domElement);
         threeComponentModel.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
 
         threeComponentModel.trackballControlsService.setupControls(
