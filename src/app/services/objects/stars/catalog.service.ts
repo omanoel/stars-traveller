@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class CatalogService {
@@ -17,7 +18,7 @@ export class CatalogService {
         return new Promise((resolve, reject) => {
             this.loader.load(
                 // resource URL
-                '/assets/catalog/hygxyz.csv',
+                environment.catalogUrl,
 
                 // Function when resource is loaded
                 function (data) {

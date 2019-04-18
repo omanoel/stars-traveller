@@ -13,6 +13,7 @@ export class FormPositionComponent implements OnInit {
     @Input() threeComponentModel: ThreeComponentModel;
     
     positionForm: FormGroup;
+    helpVisible = false;
     
     ngOnInit() {
         this.positionForm = new FormGroup({
@@ -56,6 +57,10 @@ export class FormPositionComponent implements OnInit {
         this.threeComponentModel.starsService.updateSpheresInScene(
             this.threeComponentModel.perspectiveCameraService.camera,
             this.threeComponentModel.trackballControlsService.controls.target);
+    }
+
+    seeHelp(): void {
+        this.helpVisible = !this.helpVisible;
     }
 
 }

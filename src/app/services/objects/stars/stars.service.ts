@@ -52,10 +52,10 @@ export class StarsService {
         let maxZ = 0;
         for (let i = 0; i < this.nbStars; i++) {
             const record = this.catalogService.stars[i];
-            vertices.push( record.X, record.Y, record.Z );
-            if (maxX < record.X) { maxX = record.X; }
-            if (maxY < record.Y) { maxY = record.Y; }
-            if (maxZ < record.Z) { maxZ = record.Z; }
+            vertices.push( record.x, record.y, record.z );
+            if (maxX < record.x) { maxX = record.x; }
+            if (maxY < record.y) { maxY = record.y; }
+            if (maxZ < record.z) { maxZ = record.z; }
         }
         geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
         const material = new THREE.PointsMaterial( { size: 1, color: 0xFFECDF, sizeAttenuation: false, alphaTest: 1, transparent: false } );
@@ -67,9 +67,9 @@ export class StarsService {
         let nears = [];
         for (let i = 0; i < this.nbStars; i++) {
             const record = this.catalogService.stars[i];
-            const pos = new THREE.Vector3(record.X, record.Y, record.Z);
+            const pos = new THREE.Vector3(record.x, record.y, record.z);
             const target2 = new THREE.Vector3(target.x, target.y, target.z)
-            const pos2 = new THREE.Vector3(record.X, record.Y, record.Z);
+            const pos2 = new THREE.Vector3(record.x, record.y, record.z);
             const angle = target2.sub(camera.position).angleTo(pos2.sub(camera.position));
             if (pos.distanceTo(camera.position) < 20 && angle <= camera.fov * Math.PI / 180) {
                 nears.push(record);
@@ -88,13 +88,13 @@ export class StarsService {
         nearest.forEach((near) => {
             const materialSphere = this.getMaterialFromSpectrum(near);
             const star = new THREE.Mesh(geometrySphere, materialSphere);
-            star.translateX(near.X);
-            star.translateY(near.Y);
-            star.translateZ(near.Z);
+            star.translateX(near.x);
+            star.translateY(near.y);
+            star.translateZ(near.z);
             star.userData.hyg = near;
             this.stars.push(star);
             this.groupOfStars.add(star);
-            this.createStarHelper(new THREE.Vector3(near.X, near.Y, near.Z), materialHelper);
+            this.createStarHelper(new THREE.Vector3(near.x, near.y, near.z), materialHelper);
         });
     }
 
@@ -109,8 +109,8 @@ export class StarsService {
 
     private getMaterialFromSpectrum(near: any): THREE.MeshBasicMaterial {
         let spectrum = 'Z';
-        if (near.Spectrum && near.Spectrum.length > 0) {
-            const idx0 = near.Spectrum.charAt(0);
+        if (near.spect && near.spect.length > 0) {
+            const idx0 = near.spect.charAt(0);
             if (this.basicMaterials[idx0]) {
                 spectrum = idx0;
             }

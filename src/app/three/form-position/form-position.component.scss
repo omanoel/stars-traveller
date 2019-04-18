@@ -1,13 +1,9 @@
 .position {
-    position: fixed;
+    position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    height: 0;
-    z-index: 0;
-    form {
-        float: right;
-        padding: 5px;
-        overflow-x: hidden;
-    }
+    padding: 5px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 3px;
+    
 }
