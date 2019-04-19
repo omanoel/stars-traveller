@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class CatalogService {
 
     loader: THREE.FileLoader;
-    average: number = 0;
+    average: String = '';
     stars: any;
 
     constructor() {
@@ -17,23 +18,23 @@ export class CatalogService {
         return new Promise((resolve, reject) => {
             this.loader.load(
                 // resource URL
-                '/assets/catalog/hygxyz.csv',
+                environment.catalogUrl,
 
                 // Function when resource is loaded
-                function (data) {
-
+                (data: string) => {
+                    _that.average = '';
                     _that.stars = _that.csvJSON(data);
                     resolve();
                 },
 
                 // Function called when download progresses
-                function (xhr) {
-                    _that.average = Math.round(xhr.loaded / xhr.total * 10000) / 100;
+                (progress: ProgressEvent) => {
+                    _that.average = this.displaySize(progress.loaded);
                 },
 
                 // Function called when download errors
-                function (xhr) {
-                    console.error('An error happened');
+                (error: ErrorEvent) => {
+                    console.error('An error happened' + error.message);
                     reject();
                 }
             );
@@ -63,6 +64,10 @@ export class CatalogService {
             }
         }
         return result;
+    }
+
+    displaySize(size: number): String {
+        return size + '...';
     }
 
 }

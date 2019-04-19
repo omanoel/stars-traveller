@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  catalogUrl: 'https://raw.githubusercontent.com/astronexus/HYG-Database/master/hygdata_v3.csv' //'/assets/catalog/hygxyz.csv'
 };
 
 /*
