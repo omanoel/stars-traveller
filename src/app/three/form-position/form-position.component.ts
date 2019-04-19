@@ -13,9 +13,11 @@ export class FormPositionComponent implements OnInit {
     @Input() threeComponentModel: ThreeComponentModel;
     
     positionForm: FormGroup;
+    distanceToTarget: number;
     helpVisible = false;
     
     ngOnInit() {
+        this.updateDistanceFromCameraToTarget(this.threeComponentModel.trackballControlsService.controls.target);
         this.positionForm = new FormGroup({
             x: new FormControl(this.threeComponentModel.trackballControlsService.controls.target.x, {
                 updateOn: 'blur'
@@ -51,6 +53,7 @@ export class FormPositionComponent implements OnInit {
             this.positionForm.get('y').setValue(newTarget.y, {emitEvent: false});
             this.positionForm.get('z').setValue(newTarget.z, {emitEvent: false});
         }
+        this.updateDistanceFromCameraToTarget(newTarget);
     }
 
     updateSpheres(): void {
@@ -61,6 +64,17 @@ export class FormPositionComponent implements OnInit {
 
     seeHelp(): void {
         this.helpVisible = !this.helpVisible;
+    }
+
+    updateDistanceFromCameraToTarget(target: THREE.Vector3): void {
+        const dist = this.threeComponentModel.perspectiveCameraService.camera.position.distanceTo(
+            target
+        );
+        if (dist < 100) {
+            this.distanceToTarget = Math.round(dist * 100) / 100;
+        } else {
+            this.distanceToTarget = Math.round(dist);
+        }
     }
 
 }

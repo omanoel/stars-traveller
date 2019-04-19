@@ -1,9 +1,33 @@
 .position {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 5px;
+    right: 5px;
     padding: 5px;
     border: 1px solid rgba(255,255,255,0.3);
     border-radius: 3px;
-    
+    background-color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+
+    input {
+        margin-left: 5px;
+        width: 100px;
+    }
+
+    .see-help {
+        cursor: pointer;
+    }
+}
+
+.help {
+    position: absolute;
+    top: 50px;
+    left: 200px;
+    bottom: 50px;
+    right: 200px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 3px;
+    overflow-y: auto;
+    font-size: 14px;
 }

@@ -1,6 +1,7 @@
 
 <div class="position">
-    <h1>Position cible</h1>
+    <p>Target distance : {{distanceToTarget}} parsecs</p>
+    <p>Target coordinates</p>
     <form [formGroup]="positionForm">
         <label>x:</label>
         <input type="text" formControlName="x"><br>
@@ -9,8 +10,10 @@
         <label>z:</label>
         <input type="text" formControlName="z"><br>
     </form>
-    <h1 (click)="seeHelp()">Some help ?</h1>
-    <ul *ngIf="helpVisible">
+    <p class="see-help" (click)="seeHelp()">Some help ?</p>
+</div>
+<div class="help" *ngIf="helpVisible">
+    <ul>
         <li>id: The database primary key.</li>
         <li>hip: The star's ID in the Hipparcos catalog, if known.</li>
         <li>hd: The star's ID in the Henry Draper catalog, if known.</li>
@@ -36,5 +39,5 @@
         <li>lum: Star's luminosity as a multiple of Solar luminosity.</li>
         <li>var: Star's standard variable star designation, when known.</li>
         <li>var_min, var_max: Star's approximate magnitude range, for variables. This value is based on the Hp magnitudes for the range in the original Hipparcos catalog, adjusted to the V magnitude scale to match the "mag" field."</li>
-    </ul>
+    </ul>   
 </div>
