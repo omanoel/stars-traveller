@@ -6,7 +6,7 @@ export class PerspectiveCameraService {
     
     EPSILON = 1e-2;
     viewAngle = 25;
-    near = 1;
+    near = 0.01;
     far = 1e12;
     camera: THREE.PerspectiveCamera;
     

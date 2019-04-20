@@ -11,9 +11,12 @@ export class StarsService {
     stars: Array<THREE.Mesh> = [];
     groupOfStars: THREE.Object3D;
     groupOfStarsHelpers: THREE.Object3D;
+    groupOfStarsGlow: THREE.Object3D;
     starsPoints: THREE.Points;
     loaded = false;
-    basicMaterials: any;
+    colors: any = {};
+    basicMaterials: any = {};
+    shaderMaterials: any = {};
 
     constructor(private catalogService: CatalogService) {
         this.initMaterials();
@@ -21,16 +24,19 @@ export class StarsService {
 
     initialize() {
         this.groupOfStars = new THREE.Object3D();
-        this.groupOfStars.name = 'GroupOfStars';
+        this.groupOfStars = new THREE.Object3D();
         this.groupOfStarsHelpers = new THREE.Object3D();
+        this.groupOfStarsGlow = new THREE.Object3D();
+        this.groupOfStarsGlow.name = 'GroupOfStars';
         this.createPoints();
     }
 
     addInScene(scene: THREE.Scene): void {
         if (this.starsPoints && !this.loaded) {
             scene.add(this.starsPoints);
-            scene.add(this.groupOfStars);
+            scene.add(this.groupOfStarsGlow);
             scene.add(this.groupOfStarsHelpers);
+            scene.add(this.groupOfStars);
             this.loaded = true;
         }
     }
@@ -39,6 +45,7 @@ export class StarsService {
         if (!this.groupOfStars) {
             return;
         }
+        this.updateShaderMaterials(camera, target);
         const nearest = this.getNearest(camera, target);
         this.createSpheres(nearest);
     }
@@ -82,9 +89,11 @@ export class StarsService {
         this.stars = [];
         this.groupOfStars.children = [];
         this.groupOfStarsHelpers.children = [];
-        const geometrySphere = new THREE.SphereBufferGeometry( 0.05, 32, 16 );
+        this.groupOfStarsGlow.children = [];
+        const geometrySphere = new THREE.SphereBufferGeometry( 0.01, 32, 16 );
         const materialHelper = new THREE.LineBasicMaterial({ color: 0xfffff, transparent: true, opacity: 0.2 });
-
+        const geometrySphereGlow = new THREE.SphereGeometry( 0.02, 32, 16 );
+        
         nearest.forEach((near) => {
             const materialSphere = this.getMaterialFromSpectrum(near);
             const star = new THREE.Mesh(geometrySphere, materialSphere);
@@ -93,8 +102,16 @@ export class StarsService {
             star.translateZ(near.z);
             star.userData.hyg = near;
             this.stars.push(star);
-            this.groupOfStars.add(star);
+            // this.groupOfStars.add(star);
             this.createStarHelper(new THREE.Vector3(near.x, near.y, near.z), materialHelper);
+            
+            const materialSphereGlow = this.getShaderMaterialFromSpectrum(near);
+            const starGlow = new THREE.Mesh( geometrySphereGlow, materialSphereGlow );        
+            starGlow.translateX(near.x);
+            starGlow.translateY(near.y);
+            starGlow.translateZ(near.z);
+            starGlow.userData.hyg = near;
+            this.groupOfStarsGlow.add(starGlow);
         });
     }
 
@@ -118,19 +135,58 @@ export class StarsService {
         return this.basicMaterials[spectrum];
     }
 
-    private initMaterials(): void {
-        this.basicMaterials = {
-            Z: new THREE.MeshBasicMaterial( {color: 0xFFFFFF} ),
-            O: new THREE.MeshBasicMaterial( {color: 0x93B6FF} ),
-            B: new THREE.MeshBasicMaterial( {color: 0xA7C3FF} ),
-            A: new THREE.MeshBasicMaterial( {color: 0xD5E0FF} ),
-            F: new THREE.MeshBasicMaterial( {color: 0xF9F5FF} ),
-            G: new THREE.MeshBasicMaterial( {color: 0xFFECDF} ),
-            K: new THREE.MeshBasicMaterial( {color: 0xFFD6AC} ),
-            M: new THREE.MeshBasicMaterial( {color: 0xFFAA58} ),
-            L: new THREE.MeshBasicMaterial( {color: 0xFF7300} ),
-            T: new THREE.MeshBasicMaterial( {color: 0xFF3500} ),
-            Y: new THREE.MeshBasicMaterial( {color: 0x999999} )
-        };
+    private getShaderMaterialFromSpectrum(near: any): THREE.ShaderMaterial {
+        let spectrum = 'Z';
+        if (near.spect && near.spect.length > 0) {
+            const idx0 = near.spect.charAt(0);
+            if (this.shaderMaterials[idx0]) {
+                spectrum = idx0;
+            }
+        }
+        return this.shaderMaterials[spectrum];
     }
+
+    private initMaterials(): void {
+        this.colors = {
+            Z: 0xFFFFFF,
+            O: 0x93B6FF,
+            B: 0xA7C3FF,
+            A: 0xD5E0FF,
+            F: 0xF9F5FF,
+            G: 0xFFECDF,
+            K: 0xFFD6AC,
+            M: 0xFFAA58,
+            L: 0xFF7300,
+            T: 0xFF3500,
+            Y: 0x999999
+        };
+        Object.keys(this.colors).forEach((key: string) => {
+            this.basicMaterials[key] = new THREE.MeshBasicMaterial( {color: this.colors[key]} );
+        });
+    }
+
+    updateShaderMaterials(camera: THREE.PerspectiveCamera, target: THREE.Vector3): void {
+        Object.keys(this.colors).forEach((key: string) => {
+            this.shaderMaterials[key] = this.createShaderMaterialWithColor(this.colors[key], camera, target);
+        }); 
+    }
+
+    createShaderMaterialWithColor(color: any, camera: THREE.PerspectiveCamera, target: THREE.Vector3): THREE.ShaderMaterial {
+        return new THREE.ShaderMaterial( 
+            {
+                uniforms: { 
+                    "c":   { type: "f", value: 0.1 },
+                    "p":   { type: "f", value: 3.0 },
+                    glowColor: { type: "c", value: new THREE.Color(color) },
+                    viewVector: { type: "v3", value: target.clone().sub(camera.position) }
+                },
+                vertexShader:   document.getElementById('vertexShader').textContent,
+                fragmentShader: document.getElementById('fragmentShader').textContent,
+                side: THREE.DoubleSide,
+                blending: THREE.NoBlending,
+                transparent: true
+            }  
+        );
+    }
+    
 }
