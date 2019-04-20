@@ -26,8 +26,7 @@ export class ThreeComponentService {
 
     gotoTarget(threeComponentModel: ThreeComponentModel): void {
         if (this.currentIntersected !== undefined) {
-            threeComponentModel.trackballControlsService.controls.target = this.currentIntersected.position;
-            threeComponentModel.trackballControlsService.target$.next(threeComponentModel.trackballControlsService.controls.target);
+            threeComponentModel.targetService.updateOnClick(this.currentIntersected.position, threeComponentModel);
         }
     }
 
@@ -71,6 +70,8 @@ export class ThreeComponentService {
     }
 
     render(threeComponentModel: ThreeComponentModel): void {
+        // 
+        threeComponentModel.targetService.refresh(threeComponentModel);
         //
         threeComponentModel.starsService.addInScene(threeComponentModel.sceneService.scene);
         //
@@ -115,76 +116,13 @@ export class ThreeComponentService {
             }
             this.currentIntersected = intersects[0].object;
             threeComponentModel.onStarOverService.star = this.currentIntersected;
-            // this.currentIntersected.material.color.b = 1;
-            // this.sceneDir.addPosition(this.currentIntersected.position);
-            // sphereInter.visible = true;
-            // sphereInter.position.copy( intersects[ 0 ].point );
         } else {
             if (this.currentIntersected !== undefined) {
-                // this.currentIntersected.material.color.b = 0;
-                // this.sceneDir.delPosition();
                 threeComponentModel.onStarOverService.star = null;
             }
 
             this.currentIntersected = undefined;
-            // sphereInter.visible = false;
         }
     }
 
-    // addPosition(myPosition) {
-
-    //     this.positionIntersected = new THREE.Object3D();
-
-    //     const material = new THREE.LineBasicMaterial({ color: 0xfffff, transparent: true, opacity: 1 });
-
-    //     // Z axis
-    //     const geometryZ = new THREE.Geometry();
-    //     geometryZ.vertices.push(
-    //         new THREE.Vector3( myPosition.x, myPosition.y, myPosition.z ),
-    //         new THREE.Vector3( myPosition.x, myPosition.y, 0 )
-    //     );
-    //     const lineZ = new THREE.Line( geometryZ, material );
-    //     this.positionIntersected.add(lineZ);
-    //     //  ellipsis
-    //     const radiusXY = Math.sqrt(myPosition.x * myPosition.x + myPosition.y * myPosition.y);
-    //     const curveXY = new THREE.EllipseCurve(
-    //         0, 0,            // ax, aY
-    //         radiusXY, radiusXY,  // xRadius, yRadius
-    //         0, 2 * Math.PI,  // aStartAngle, aEndAngle
-    //         false,            // aClockwise
-    //         0                 // aRotation
-    //     );
-    //     // const pathXY = new THREE.Path(curveXY.getPoints(50));
-    //     const geometryXY = new THREE.Geometry().setFromPoints(curveXY.getPoints(50));
-    //     const ellipseXY = new THREE.Line(geometryXY, material);
-    //     this.positionIntersected.add(ellipseXY);
-
-    //     const sphereGeometry = new THREE.SphereGeometry(1, 32, 16);
-    //     const star = new THREE.Mesh(sphereGeometry, material);
-    //     star.translateX(myPosition.x);
-    //     star.translateY(myPosition.y);
-    //     star.translateZ(myPosition.z);
-    //     this.positionIntersected.add(star);
-    //     this.scene.add(this.positionIntersected);
-    // }
-    
-    // delPosition() {
-    //     if (this.positionIntersected.children.length > 0) {
-    //         for (const child of this.positionIntersected.children) {
-    //             this.positionIntersected.remove(child);
-    //             this.scene.remove(child);
-    //         }
-    //         this.scene.remove(this.positionIntersected);
-    //     }
-
-    // }
-
-    // addXAxis(myPosition, material): THREE.Line {
-    //     const geometryX = new THREE.Geometry();
-    //     geometryX.vertices.push(
-    //         new THREE.Vector3( myPosition.x, myPosition.y, myPosition.z ),
-    //         new THREE.Vector3( 0, myPosition.y, myPosition.z )
-    //     );
-    //     return new THREE.Line( geometryX, material );
-    // }
 }
