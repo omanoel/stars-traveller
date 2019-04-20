@@ -10,9 +10,15 @@
         <label>z:</label>
         <input type="text" formControlName="z"><br>
     </form>
+    <form [formGroup]="starForm">
+        <legend>Set the id of the star you want to see</legend>
+        <label>Id:</label>
+        <input type="text" formControlName="id"><br>
+    </form>
     <p class="see-help" (click)="seeHelp()">Some help ?</p>
 </div>
 <div class="help" *ngIf="helpVisible">
+    <p>From <a href="https://github.com/astronexus/HYG-Database">https://github.com/astronexus/HYG-Database</a></p>
     <ul>
         <li>id: The database primary key.</li>
         <li>hip: The star's ID in the Hipparcos catalog, if known.</li>

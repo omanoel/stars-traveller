@@ -13,6 +13,7 @@ export class FormPositionComponent implements OnInit {
     @Input() threeComponentModel: ThreeComponentModel;
     
     positionForm: FormGroup;
+    starForm: FormGroup;
     distanceToTarget: number;
     helpVisible = false;
     
@@ -29,6 +30,11 @@ export class FormPositionComponent implements OnInit {
                 updateOn: 'blur'
              })
         });
+        this.starForm = new FormGroup({
+            id: new FormControl('', {
+                updateOn: 'blur'
+            }),
+        });
         this.threeComponentModel.trackballControlsService.target$.subscribe((newValue: THREE.Vector3) => {
             this.updateForm(newValue);
         });
@@ -44,7 +50,10 @@ export class FormPositionComponent implements OnInit {
             this.threeComponentModel.trackballControlsService.controls.target.setZ(+newVal);
             this.updateSpheres();
         });
-
+        this.starForm.get('id').valueChanges.subscribe((newVal) => {
+            const newPos = this.threeComponentModel.starsService.getPositionFromId(newVal);
+            this.threeComponentModel.targetService.updateOnClick(newPos, this.threeComponentModel);
+        });
     }
 
     updateForm(newTarget: THREE.Vector3) {

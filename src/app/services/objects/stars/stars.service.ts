@@ -50,6 +50,15 @@ export class StarsService {
         this.createSpheres(nearest);
     }
 
+    getPositionFromId(id: number): THREE.Vector3 {
+        let goodRecord =  this.catalogService.stars.find((record) => record.id === +id);
+        if (goodRecord) {
+            return new THREE.Vector3(goodRecord.x, goodRecord.y, goodRecord.z);
+        } else {
+            return null;
+        }
+    }
+
     private createPoints(): void {
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
