@@ -105,7 +105,13 @@ export class ThreeComponent implements OnInit {
     ngOnInit() {
         this.threeComponentService.initialize( this.threeComponentModel );
         this.catalogService.initialize().then(
-            () => this.threeComponentModel.starsService.initialize()
+            () => {
+                this.threeComponentModel.starsService.initialize();
+                this.threeComponentModel.starsService.updateSpheresInScene(
+                    this.threeComponentModel.perspectiveCameraService.camera,
+                    this.threeComponentModel.trackballControlsService.controls.target
+                );
+            }
 
         );
     }

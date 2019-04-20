@@ -45,9 +45,9 @@ export class StarsService {
         if (!this.groupOfStars) {
             return;
         }
-        this.updateShaderMaterials(camera);
+        this.updateShaderMaterials(camera, target);
         const nearest = this.getNearest(camera, target);
-        this.createSpheres(nearest, camera);
+        this.createSpheres(nearest);
     }
 
     private createPoints(): void {
@@ -85,14 +85,14 @@ export class StarsService {
         return nears;
     }
 
-    private createSpheres(nearest: any[], camera:THREE.PerspectiveCamera): void {
+    private createSpheres(nearest: any[]): void {
         this.stars = [];
         this.groupOfStars.children = [];
         this.groupOfStarsHelpers.children = [];
         this.groupOfStarsGlow.children = [];
-        const geometrySphere = new THREE.SphereBufferGeometry( 0.05, 32, 16 );
+        const geometrySphere = new THREE.SphereBufferGeometry( 0.01, 32, 16 );
         const materialHelper = new THREE.LineBasicMaterial({ color: 0xfffff, transparent: true, opacity: 0.2 });
-        const geometrySphereGlow = new THREE.SphereGeometry( 0.07, 32, 16 );
+        const geometrySphereGlow = new THREE.SphereGeometry( 0.02, 32, 16 );
         
         nearest.forEach((near) => {
             const materialSphere = this.getMaterialFromSpectrum(near);
@@ -165,20 +165,20 @@ export class StarsService {
         });
     }
 
-    updateShaderMaterials(camera: THREE.PerspectiveCamera): void {
+    updateShaderMaterials(camera: THREE.PerspectiveCamera, target: THREE.Vector3): void {
         Object.keys(this.colors).forEach((key: string) => {
-            this.shaderMaterials[key] = this.createShaderMaterialWithColor(this.colors[key], camera);
+            this.shaderMaterials[key] = this.createShaderMaterialWithColor(this.colors[key], camera, target);
         }); 
     }
 
-    createShaderMaterialWithColor(color: any, camera: THREE.PerspectiveCamera): THREE.ShaderMaterial {
+    createShaderMaterialWithColor(color: any, camera: THREE.PerspectiveCamera, target: THREE.Vector3): THREE.ShaderMaterial {
         return new THREE.ShaderMaterial( 
             {
                 uniforms: { 
                     "c":   { type: "f", value: 0.1 },
                     "p":   { type: "f", value: 3.0 },
                     glowColor: { type: "c", value: new THREE.Color(color) },
-                    viewVector: { type: "v3", value: camera.position }
+                    viewVector: { type: "v3", value: target.clone().sub(camera.position) }
                 },
                 vertexShader:   document.getElementById('vertexShader').textContent,
                 fragmentShader: document.getElementById('fragmentShader').textContent,
