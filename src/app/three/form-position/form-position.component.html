@@ -1,6 +1,7 @@
 
 <div class="position">
     <p>Target distance : {{distanceToTarget}} parsecs</p>
+    <hr>
     <p>Target coordinates</p>
     <form [formGroup]="positionForm">
         <label>x:</label>
@@ -10,11 +11,13 @@
         <label>z:</label>
         <input type="text" formControlName="z"><br>
     </form>
+    <hr>
     <form [formGroup]="starForm">
         <legend>Set the id of the star you want to see</legend>
         <label>Id:</label>
         <input type="text" formControlName="id"><br>
     </form>
+    <hr>
     <p class="see-help" (click)="seeHelp()">Some help ?</p>
 </div>
 <div class="help" *ngIf="helpVisible">

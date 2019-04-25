@@ -133,7 +133,7 @@ export class StarsService {
         this.groupOfStarsHelpers.add(new THREE.Line( geometryZ, material ));
     }
 
-    private getMaterialFromSpectrum(near: any): THREE.MeshBasicMaterial {
+    private getSpectrum(near: any): string {
         let spectrum = 'Z';
         if (near.spect && near.spect.length > 0) {
             const idx0 = near.spect.charAt(0);
@@ -141,18 +141,15 @@ export class StarsService {
                 spectrum = idx0;
             }
         }
-        return this.basicMaterials[spectrum];
+        return spectrum;
+    }
+
+    private getMaterialFromSpectrum(near: any): THREE.MeshBasicMaterial {
+        return this.basicMaterials[this.getSpectrum(near)];
     }
 
     private getShaderMaterialFromSpectrum(near: any): THREE.ShaderMaterial {
-        let spectrum = 'Z';
-        if (near.spect && near.spect.length > 0) {
-            const idx0 = near.spect.charAt(0);
-            if (this.shaderMaterials[idx0]) {
-                spectrum = idx0;
-            }
-        }
-        return this.shaderMaterials[spectrum];
+        return this.shaderMaterials[this.getSpectrum(near)];
     }
 
     private initMaterials(): void {
@@ -174,13 +171,13 @@ export class StarsService {
         });
     }
 
-    updateShaderMaterials(camera: THREE.PerspectiveCamera, target: THREE.Vector3): void {
+    private updateShaderMaterials(camera: THREE.PerspectiveCamera, target: THREE.Vector3): void {
         Object.keys(this.colors).forEach((key: string) => {
             this.shaderMaterials[key] = this.createShaderMaterialWithColor(this.colors[key], camera, target);
         }); 
     }
 
-    createShaderMaterialWithColor(color: any, camera: THREE.PerspectiveCamera, target: THREE.Vector3): THREE.ShaderMaterial {
+    private createShaderMaterialWithColor(color: any, camera: THREE.PerspectiveCamera, target: THREE.Vector3): THREE.ShaderMaterial {
         return new THREE.ShaderMaterial( 
             {
                 uniforms: { 
