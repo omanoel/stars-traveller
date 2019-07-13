@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  catalogUrl: 'https://raw.githubusercontent.com/astronexus/HYG-Database/master/hygdata_v3.csv' //'/assets/catalog/hygxyz.csv'
+  catalogLocalPath: '/assets/catalogs/hygdata_v3.csv',
+  catalogUrl: 'https://raw.githubusercontent.com/astronexus/HYG-Database/master/hygdata_v3.csv'
 };
 
 /*

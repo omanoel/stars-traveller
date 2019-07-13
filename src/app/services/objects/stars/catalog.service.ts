@@ -13,12 +13,12 @@ export class CatalogService {
         this.loader = new THREE.FileLoader();
     }
 
-    initialize(): Promise<any> {
+    initialize(localPath: boolean): Promise<any> {
         const _that = this;
         return new Promise((resolve, reject) => {
             this.loader.load(
                 // resource URL
-                environment.catalogUrl,
+                localPath ? environment.catalogLocalPath : environment.catalogUrl,
 
                 // Function when resource is loaded
                 (data: string) => {
