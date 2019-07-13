@@ -10,7 +10,7 @@ export class TargetService {
     ratio: number;
     targetOnClick: THREE.Vector3;
     cameraOnClick: THREE.Vector3;
-    EPSILON = 0.05;
+    EPSILON = 1e-3;
     STEP = 10;
     
     constructor() {

@@ -9,7 +9,6 @@ import { SceneService } from '@app/services/three/scene/scene.service';
 import { ThreeComponentService } from './three.component.service';
 import { ReferentielService } from '@app/services/objects/referentiel/referentiel.service';
 
-import { StarOver } from '@app/utils/interfaces';
 import { ThreeComponentModel } from './three.component.model';
 import { StarsService } from '@app/services/objects/stars/stars.service';
 import { TargetService } from '@app/services/objects/target/target.service';
@@ -66,8 +65,8 @@ export class ThreeComponent implements OnInit {
         this.mouseDown = false;
     }
 
-    @HostListener('dblclick', ['$event'])
-    onDoubleClick(event: MouseEvent) {
+    @HostListener('click', ['$event'])
+    onClick(event: MouseEvent) {
         event.preventDefault();
         this.threeComponentService.gotoTarget(this.threeComponentModel);
     }
@@ -104,13 +103,17 @@ export class ThreeComponent implements OnInit {
 
     ngOnInit() {
         this.threeComponentService.initialize( this.threeComponentModel );
-        this.catalogService.initialize().then(
+        // local loading
+        this.catalogService.initialize(true).then(
             () => {
-                this.threeComponentModel.starsService.initialize();
-                this.threeComponentModel.starsService.updateSpheresInScene(
-                    this.threeComponentModel.perspectiveCameraService.camera,
-                    this.threeComponentModel.trackballControlsService.controls.target
-                );
+                this.afterInitCatalog();
+            },
+            () => {
+                this.catalogService.initialize(false).then(
+                    () => {
+                        this.afterInitCatalog();
+                    }
+                )
             }
 
         );
@@ -122,6 +125,14 @@ export class ThreeComponent implements OnInit {
 
     ngAfterContentInit() {
         this.threeComponentService.afterContentInit( this.threeComponentModel );
+    }
+
+    afterInitCatalog(): void {
+        this.threeComponentModel.starsService.initialize();
+        this.threeComponentModel.starsService.updateSpheresInScene(
+            this.threeComponentModel.perspectiveCameraService.camera,
+            this.threeComponentModel.trackballControlsService.controls.target
+        );
     }
 
 }

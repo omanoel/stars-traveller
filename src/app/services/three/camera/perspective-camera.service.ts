@@ -12,7 +12,6 @@ export class PerspectiveCameraService {
     
     width: number;
     height: number;
-    positions: number[];
     previousPositionOfCamera: THREE.Vector3;
     alreadyChecked: boolean;
 
@@ -20,16 +19,18 @@ export class PerspectiveCameraService {
         this.previousPositionOfCamera = new THREE.Vector3(0,0,0);   
     }
 
-    initialize(width: number, height: number, positions: number[] = [10, 10, 10]): void {
+    initialize(width: number, height: number, positions: number[] = [1, 1, 1]): void {
         this.height = height;
         this.width = width;
-        this.positions = positions;
         this.camera = new THREE.PerspectiveCamera(
             this.viewAngle,
             this.aspect,
             this.near,
             this.far
         );
+        this.camera.translateX(positions[0]);
+        this.camera.translateY(positions[1]);
+        this.camera.translateZ(positions[2]);
         this.updateAspect(this.aspect);
     }
 
