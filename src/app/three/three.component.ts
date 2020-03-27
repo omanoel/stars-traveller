@@ -18,7 +18,8 @@ import { OnStarOverService } from '@app/services/objects/stars/on-star-over.serv
 @Component({
     selector: 'app-three',
     templateUrl: './three.component.html',
-    styleUrls: ['./three.component.scss']
+    styleUrls: ['./three.component.scss'],
+    providers: [ThreeComponentService]
 })
 export class ThreeComponent implements OnInit {
 
@@ -70,6 +71,16 @@ export class ThreeComponent implements OnInit {
         event.preventDefault();
         this.threeComponentService.gotoTarget(this.threeComponentModel);
     }
+
+    @HostListener('document:keydown', ['$event'])
+    onKeydownHandler(event: KeyboardEvent) {
+        if (event.keyCode === 37) {
+            this.threeComponentService.rotateCamera(this.threeComponentModel, false);
+        }
+        if (event.keyCode === 39) {
+            this.threeComponentService.rotateCamera(this.threeComponentModel, true);
+        }
+    }
     constructor(
         private catalogService: CatalogService,
         private element: ElementRef,
@@ -94,6 +105,7 @@ export class ThreeComponent implements OnInit {
             starsService: this.starsService,
             onStarOverService: this.onStarOverService,
             element: this.element,
+            frameId: null,
             mouse: new THREE.Vector2(),
             myStarOver: {star: null}
         };
@@ -126,6 +138,12 @@ export class ThreeComponent implements OnInit {
     ngAfterContentInit() {
         this.threeComponentService.afterContentInit( this.threeComponentModel );
     }
+
+    public ngOnDestroy(): void {
+        if (this.threeComponentModel.frameId != null) {
+            cancelAnimationFrame(this.threeComponentModel.frameId);
+        }
+      }
 
     afterInitCatalog(): void {
         this.threeComponentModel.starsService.initialize();

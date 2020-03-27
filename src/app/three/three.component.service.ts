@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { ThreeComponentModel } from './three.component.model';
 import * as THREE from 'three';
@@ -7,7 +7,9 @@ import * as THREE from 'three';
 export class ThreeComponentService {
 
     currentIntersected: any;
-    
+ 
+    constructor(private _ngZone: NgZone) {}
+
     initialize(threeComponentModel: ThreeComponentModel): void {
         //
         threeComponentModel.perspectiveCameraService.initialize(threeComponentModel.width, threeComponentModel.height);
@@ -28,6 +30,17 @@ export class ThreeComponentService {
         if (this.currentIntersected !== undefined) {
             threeComponentModel.targetService.updateOnClick(this.currentIntersected.position, threeComponentModel);
         }
+    }
+
+    rotateCamera(threeComponentModel: ThreeComponentModel, isClockRotation: boolean): void {
+        let factor = 1;
+        if (isClockRotation) {
+            factor = -1;
+        }
+        threeComponentModel.perspectiveCameraService.rotationAngle += factor * Math.PI / 16;
+        threeComponentModel.perspectiveCameraService.camera.up.x = Math.cos(threeComponentModel.perspectiveCameraService.rotationAngle);
+        threeComponentModel.perspectiveCameraService.camera.up.z = Math.sin(threeComponentModel.perspectiveCameraService.rotationAngle);
+        threeComponentModel.perspectiveCameraService.camera.updateProjectionMatrix();
     }
 
     onChanges(threeComponentModel: ThreeComponentModel, changes: any): void {
@@ -65,11 +78,21 @@ export class ThreeComponentService {
     }
 
     animate(threeComponentModel: ThreeComponentModel): void {
-        requestAnimationFrame(() => this.animate(threeComponentModel));
-        this.render(threeComponentModel);
+        this._ngZone.runOutsideAngular(() => {
+            if (document.readyState !== 'loading') {
+                this.render(threeComponentModel);
+            } else {
+                window.addEventListener('DOMContentLoaded', () => {
+                this.render(threeComponentModel);
+                });
+            }
+        });
     }
 
     render(threeComponentModel: ThreeComponentModel): void {
+        threeComponentModel.frameId = requestAnimationFrame(() => {
+            this.render(threeComponentModel);
+        });
         // 
         threeComponentModel.targetService.refresh(threeComponentModel);
         //
@@ -95,7 +118,9 @@ export class ThreeComponentService {
         threeComponentModel.onStarOverService.update();
         //
         threeComponentModel.renderer.render(
-            threeComponentModel.sceneService.scene, threeComponentModel.perspectiveCameraService.camera);
+            threeComponentModel.sceneService.scene,
+            threeComponentModel.perspectiveCameraService.camera
+        );
     }
 
     findIntersection(threeComponentModel: ThreeComponentModel): void {

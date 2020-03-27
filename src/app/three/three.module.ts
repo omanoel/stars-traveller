@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ThreeComponentService } from './three.component.service';
 import { PerspectiveCameraService } from '@app/services/three/camera/perspective-camera.service';
 import { TrackballControlsService } from '@app/services/three/controls/trackball-controls.service';
 import { RaycasterService } from '../services/three/raycaster/raycaster.service';
@@ -24,7 +23,6 @@ import { FormPositionComponent } from './form-position/form-position.component';
         FormPositionComponent
     ],
     providers: [
-        ThreeComponentService,
         PerspectiveCameraService,
         TrackballControlsService,
         RaycasterService,

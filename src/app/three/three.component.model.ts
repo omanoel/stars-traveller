@@ -22,6 +22,7 @@ export interface ThreeComponentModel {
     starsService: StarsService;
     onStarOverService: OnStarOverService;
     element: ElementRef;
+    frameId: number;
     mouse: THREE.Vector2;
     myStarOver: StarOver;
     currentIntersected?: any;

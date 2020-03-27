@@ -14,6 +14,7 @@ export class PerspectiveCameraService {
     height: number;
     previousPositionOfCamera: THREE.Vector3;
     alreadyChecked: boolean;
+    rotationAngle: number = 0;
 
     constructor() {
         this.previousPositionOfCamera = new THREE.Vector3(0,0,0);   
