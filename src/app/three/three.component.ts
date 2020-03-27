@@ -71,7 +71,7 @@ export class ThreeComponent implements OnInit {
         this.threeComponentService.gotoTarget(this.threeComponentModel);
     }
     constructor(
-        private catalogService: CatalogService,
+        public catalogService: CatalogService,
         private element: ElementRef,
         private threeComponentService: ThreeComponentService,
         private trackballControlsService: TrackballControlsService,
@@ -95,7 +95,7 @@ export class ThreeComponent implements OnInit {
             onStarOverService: this.onStarOverService,
             element: this.element,
             mouse: new THREE.Vector2(),
-            myStarOver: {star: null}
+            myStarOver: {star: null, userData: null}
         };
         this.resetWidthHeight();
         
