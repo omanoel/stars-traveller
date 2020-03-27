@@ -8,7 +8,8 @@ export class RaycasterService {
 
     constructor() {
         this.raycaster = new THREE.Raycaster();
-        this.raycaster.linePrecision = 3;
+        // TODO: find how to update this parameter
+        // this.raycaster.linePrecision = 3;
     }
 
 }

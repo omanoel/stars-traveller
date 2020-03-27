@@ -34,7 +34,7 @@ export class CatalogService {
 
                 // Function called when download errors
                 (error: ErrorEvent) => {
-                    console.error('An error happened' + error.message);
+                    console.error('An error happened: ' + error);
                     reject();
                 }
             );
