@@ -1,6 +1,6 @@
 {
   "name": "stars-traveller",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A simple stars traveller",
   "license": "MIT",
   "contributors": [
@@ -26,7 +26,7 @@
     "core-js": "^3.0.0",
     "rxjs": "^6.5.4",
     "three": "^0.115.0",
-    "three-trackballcontrols-ts": "^0.2.0",
+    "three-trackballcontrols-ts": "^0.2.1",
     "tslib": "^1.11.1",
     "zone.js": "~0.10.2"
   },
