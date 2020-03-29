@@ -93,7 +93,7 @@ export class StarsService {
         starsModel.colors[this._getSpectrum(starsModel, record)]
       );
       colors.push(color.r, color.g, color.b);
-      sizes.push(0.5);
+      sizes.push(1);
     }
     geometryLight.setAttribute(
       'position',
