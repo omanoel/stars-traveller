@@ -1,7 +1,6 @@
 import { Injectable, ElementRef, NgZone } from '@angular/core';
 
 import * as THREE from 'three';
-import { cloneDeep } from 'lodash';
 
 import { ThreeComponentModel } from './three.component.model';
 import { CatalogService } from './stars/catalog.service';
