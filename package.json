@@ -1,6 +1,6 @@
 {
   "name": "stars-traveller",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A simple stars traveller",
   "license": "MIT",
   "contributors": [
@@ -24,6 +24,7 @@
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "core-js": "^3.0.0",
+    "lodash": "^4.17.15",
     "rxjs": "^6.5.4",
     "three": "^0.115.0",
     "three-trackballcontrols-ts": "^0.2.1",
@@ -38,6 +39,7 @@
     "@angular/language-service": "^9.1.0",
     "@types/jasmine": "^3.0.0",
     "@types/jasminewd2": "^2.0.8",
+    "@types/lodash": "^4.14.149",
     "@types/node": "^13.0.0",
     "codelyzer": "^5.2.2",
     "jasmine-core": "^3.0.0",
@@ -47,7 +49,6 @@
     "karma-coverage-istanbul-reporter": "^2.1.1",
     "karma-jasmine": "^3.0.0",
     "karma-jasmine-html-reporter": "^1.0.0",
-    "lodash": "^4.17.15",
     "protractor": "^5.4.3",
     "ts-node": "^8.0.0",
     "tslint": "^6.0.0",

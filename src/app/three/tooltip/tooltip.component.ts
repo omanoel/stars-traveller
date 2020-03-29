@@ -1,18 +1,15 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { StarOver } from '@app/utils/interfaces';
+import { StarOver } from '../three.component.model';
 
 @Component({
-    selector: 'app-tooltip',
-    templateUrl: './tooltip.component.html',
-    styleUrls: ['./tooltip.component.scss']
+  selector: 'app-tooltip',
+  templateUrl: './tooltip.component.html',
+  styleUrls: ['./tooltip.component.scss']
 })
 export class TooltipComponent implements OnInit {
+  @Input() starOver: StarOver;
 
-    @Input() starOver: StarOver;
+  objectKeys = Object.keys;
 
-    objectKeys = Object.keys;
-
-    ngOnInit() {
-    }
-
+  ngOnInit() {}
 }

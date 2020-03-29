@@ -1,4 +1,4 @@
 <div class="map"></div>
-<app-tooltip [starOver]="threeComponentModel.onStarOverService.star"></app-tooltip>
-<div class="loader" *ngIf="catalogService.average != ''">{{catalogService.average}} loaded</div>
+<app-tooltip [starOver]="threeComponentModel.myStarOver"></app-tooltip>
+<div class="loader" *ngIf="threeComponentModel.average != ''">{{threeComponentModel.average}} loaded</div>
 <app-form-position class="app-form-position" [threeComponentModel]="threeComponentModel"></app-form-position>

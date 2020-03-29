@@ -1,7 +1,7 @@
-<div class="tooltip" *ngIf="starOver && starOver.userData.hyg">
-    <ul>
-        <li *ngFor="let key of objectKeys(starOver.userData.hyg)">
-            <strong>{{key}}</strong>:&nbsp;{{starOver.userData.hyg[key]}}
-        </li>
-    </ul>
+<div class="tooltip" *ngIf="starOver && starOver.starIntersected && starOver.starIntersected.userData.hyg">
+  <ul>
+    <li *ngFor="let key of objectKeys(starOver.starIntersected.userData.hyg)">
+      <strong>{{key}}</strong>:&nbsp;{{starOver.starIntersected.userData.hyg[key]}}
+    </li>
+  </ul>
 </div>
