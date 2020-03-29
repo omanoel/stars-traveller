@@ -158,7 +158,7 @@ export class StarsService {
       transparent: true,
       opacity: 0.2
     });
-    const geometrySphere = new THREE.SphereBufferGeometry(0.01, 32, 16);
+    const geometrySphere = new THREE.SphereBufferGeometry(0.02, 32, 16);
     // const geometrySphereGlow = new THREE.SphereGeometry(0.02, 32, 16);
 
     nearest.forEach(near => {
