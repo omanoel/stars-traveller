@@ -21,7 +21,7 @@ export interface ThreeComponentModel {
   mouse: THREE.Vector2;
   myStarOver: StarOver;
   currentIntersected: any;
-  starIntersected: THREE.Object3D;
+  lastStarIntersected: THREE.Object3D;
   average: string;
   height: number;
   width: number;

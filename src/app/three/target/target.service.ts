@@ -20,7 +20,8 @@ export class TargetService {
       axesHelper: new THREE.AxesHelper(TargetService.SCALE),
       ratio: 1,
       targetOnClick: null,
-      cameraOnClick: null
+      cameraOnClick: null,
+      stepper: TargetService.STEP
     };
   }
 
@@ -56,6 +57,7 @@ export class TargetService {
     threeComponentModel: ThreeComponentModel,
     myClickPoint: THREE.Vector3
   ): void {
+    this._setStepper(threeComponentModel, myClickPoint);
     threeComponentModel.target.targetOnClick = myClickPoint;
     const dist = myClickPoint.distanceTo(new THREE.Vector3(0, 0, 0));
     if (dist < 1) {
@@ -92,6 +94,16 @@ export class TargetService {
     }
   }
 
+  private _setStepper(
+    threeComponentModel: ThreeComponentModel,
+    myClickPoint: THREE.Vector3
+  ): void {
+    const step = threeComponentModel.trackballControls.controls.target
+      .clone()
+      .distanceTo(myClickPoint);
+    threeComponentModel.target.stepper = 5 + Math.floor(step);
+  }
+
   private _getNewPosition(threeComponentModel: ThreeComponentModel): void {
     // displacement for target
     const displacementForTarget = new THREE.Vector3().subVectors(
@@ -100,7 +112,9 @@ export class TargetService {
     );
     const newPositionForTarget = threeComponentModel.trackballControls.controls.target
       .clone()
-      .add(displacementForTarget.divideScalar(TargetService.STEP));
+      .add(
+        displacementForTarget.divideScalar(threeComponentModel.target.stepper)
+      );
     threeComponentModel.trackballControls.controls.target.copy(
       newPositionForTarget
     );
@@ -114,7 +128,9 @@ export class TargetService {
     );
     const newPositionForCamera = threeComponentModel.camera.position
       .clone()
-      .add(displacementForCamera.divideScalar(TargetService.STEP));
+      .add(
+        displacementForCamera.divideScalar(threeComponentModel.target.stepper)
+      );
     threeComponentModel.camera.position.copy(newPositionForCamera);
     // rotation for camera
     const upForCamera = new THREE.Vector3().subVectors(
@@ -123,7 +139,7 @@ export class TargetService {
     );
     const newUpForCamera = threeComponentModel.camera.up
       .clone()
-      .add(upForCamera.divideScalar(TargetService.STEP));
+      .add(upForCamera.divideScalar(threeComponentModel.target.stepper));
     threeComponentModel.camera.up.copy(newUpForCamera);
   }
 }

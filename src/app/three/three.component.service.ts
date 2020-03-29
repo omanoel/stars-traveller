@@ -49,7 +49,7 @@ export class ThreeComponentService {
       mouse: new THREE.Vector2(),
       myStarOver: null,
       currentIntersected: null,
-      starIntersected: null,
+      lastStarIntersected: null,
       height: null,
       width: null,
       average: ''
@@ -248,6 +248,7 @@ export class ThreeComponentService {
       threeComponentModel.currentIntersected = intersects[0].object;
       threeComponentModel.myStarOver.starIntersected =
         threeComponentModel.currentIntersected;
+      threeComponentModel.lastStarIntersected = intersects[0].object;
     } else {
       if (threeComponentModel.currentIntersected) {
         threeComponentModel.myStarOver.starIntersected = null;
