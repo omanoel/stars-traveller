@@ -60,6 +60,7 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   @HostListener('mouseup', ['$event'])
   onMouseup(event: MouseEvent) {
     event.preventDefault();
+    this.threeComponentModel.target.targetOnClick = null;
     this.mouseDown = false;
   }
 
