@@ -8,7 +8,7 @@ import { TargetModel } from './target.model';
 })
 export class TargetService {
   private static readonly SCALE = 0.2;
-  private static readonly EPSILON = 1e-3;
+  private static readonly EPSILON = 0.01;
   private static readonly STEP = 10;
 
   constructor() {
