@@ -35,7 +35,7 @@ export class TargetService {
     myScene.add(target.axesHelper);
   }
 
-  update(
+  public updateAxesHelper(
     target: TargetModel,
     myNewPoint: THREE.Vector3,
     camera: THREE.Camera
@@ -52,7 +52,7 @@ export class TargetService {
     target.axesHelper.scale.set(newScale, newScale, newScale);
   }
 
-  public updateOnClick(
+  public setObjectsOnClick(
     threeComponentModel: ThreeComponentModel,
     myClickPoint: THREE.Vector3
   ): void {
@@ -68,14 +68,14 @@ export class TargetService {
     }
   }
 
-  public refresh(threeComponentModel: ThreeComponentModel): void {
+  public refreshObjectsOnClick(threeComponentModel: ThreeComponentModel): void {
     if (threeComponentModel.target.targetOnClick) {
       if (
         threeComponentModel.target.targetOnClick.distanceTo(
           threeComponentModel.trackballControls.controls.target
         ) > TargetService.EPSILON
       ) {
-        this.getNewPosition(threeComponentModel);
+        this._getNewPosition(threeComponentModel);
       } else {
         threeComponentModel.trackballControls.controls.target.copy(
           threeComponentModel.target.targetOnClick
@@ -92,7 +92,7 @@ export class TargetService {
     }
   }
 
-  getNewPosition(threeComponentModel: ThreeComponentModel): void {
+  private _getNewPosition(threeComponentModel: ThreeComponentModel): void {
     // displacement for target
     const displacementForTarget = new THREE.Vector3().subVectors(
       threeComponentModel.target.targetOnClick,

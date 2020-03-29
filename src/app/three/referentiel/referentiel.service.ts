@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { ReferentielModel } from './referentiel.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ReferentielService {
   private static readonly COUNT = 20;
   private static readonly FACTOR = 4;

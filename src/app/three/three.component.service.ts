@@ -12,6 +12,7 @@ import { ReferentielService } from './referentiel/referentiel.service';
 import { TargetService } from './target/target.service';
 import { StarsService } from './stars/stars.service';
 import { OnStarOverService } from './stars/on-star-over.service';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -104,16 +105,20 @@ export class ThreeComponentService {
     threeComponentModel.myStarOver = this._onStarOverService.initialize(
       threeComponentModel.scene
     );
-    this._catalogService.initialize(threeComponentModel, true).then(
-      () => {
-        this._afterInitCatalog(threeComponentModel);
-      },
-      () => {
-        this._catalogService.initialize(threeComponentModel, false).then(() => {
+    this._catalogService
+      .initialize(threeComponentModel, !environment.production)
+      .then(
+        () => {
           this._afterInitCatalog(threeComponentModel);
-        });
-      }
-    );
+        },
+        () => {
+          this._catalogService
+            .initialize(threeComponentModel, false)
+            .then(() => {
+              this._afterInitCatalog(threeComponentModel);
+            });
+        }
+      );
   }
 
   public resetWidthHeight(
@@ -136,7 +141,7 @@ export class ThreeComponentService {
 
   public gotoTarget(threeComponentModel: ThreeComponentModel): void {
     if (threeComponentModel.currentIntersected !== null) {
-      this._targetService.updateOnClick(
+      this._targetService.setObjectsOnClick(
         threeComponentModel,
         threeComponentModel.currentIntersected.position
       );
@@ -189,7 +194,7 @@ export class ThreeComponentService {
       this.render(threeComponentModel);
     });
     //
-    this._targetService.refresh(threeComponentModel);
+    this._targetService.refreshObjectsOnClick(threeComponentModel);
     //
     //
     this._trackballControlsService.updateControls(
@@ -202,7 +207,7 @@ export class ThreeComponentService {
       threeComponentModel.camera
     );
     //
-    this._targetService.update(
+    this._targetService.updateAxesHelper(
       threeComponentModel.target,
       threeComponentModel.trackballControls.controls.target,
       threeComponentModel.camera

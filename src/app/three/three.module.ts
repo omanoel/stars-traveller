@@ -17,6 +17,7 @@ import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { FormPositionComponent } from './form-position/form-position.component';
 import { MapComponent } from './map/map.component';
+import { ShadersConstant } from './stars/shaders.constant';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
@@ -25,18 +26,6 @@ import { MapComponent } from './map/map.component';
     MapComponent,
     TooltipComponent,
     FormPositionComponent
-  ],
-  providers: [
-    ThreeComponentService,
-    PerspectiveCameraService,
-    TrackballControlsService,
-    RaycasterService,
-    SceneService,
-    ReferentielService,
-    TargetService,
-    StarsService,
-    CatalogService,
-    OnStarOverService
   ],
   exports: [ThreeComponent]
 })

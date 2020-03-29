@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import * as THREE from 'three';
 import { TargetService } from '../target/target.service';
 import { StarsService } from '../stars/stars.service';
+import { isNil } from 'lodash';
 
 @Component({
   selector: 'app-form-position',
@@ -74,7 +75,11 @@ export class FormPositionComponent implements OnInit {
         newVal,
         this.threeComponentModel.starsImported
       );
-      this._targetService.updateOnClick(this.threeComponentModel, newPos);
+      if (!isNil(newPos)) {
+        this._targetService.setObjectsOnClick(this.threeComponentModel, newPos);
+      } else {
+        alert('id not found !');
+      }
     });
   }
 

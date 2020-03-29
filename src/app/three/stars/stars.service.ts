@@ -292,8 +292,8 @@ export class StarsService {
         glowColor: { type: 'c', value: new THREE.Color(color) },
         viewVector: { type: 'v3', value: target.clone().sub(camera.position) }
       },
-      vertexShader: this._shadersConstant.shaderForPoints().vertex,
-      fragmentShader: this._shadersConstant.shaderForPoints().fragment,
+      vertexShader: this._shadersConstant.shaderForSphereAka().vertex,
+      fragmentShader: this._shadersConstant.shaderForSphereAka().fragment,
       side: THREE.FrontSide,
       blending: THREE.AdditiveBlending,
       transparent: true
