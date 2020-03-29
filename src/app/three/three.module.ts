@@ -16,10 +16,16 @@ import { OnStarOverService } from '@app/three/stars/on-star-over.service';
 import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { FormPositionComponent } from './form-position/form-position.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
-  declarations: [ThreeComponent, TooltipComponent, FormPositionComponent],
+  declarations: [
+    ThreeComponent,
+    MapComponent,
+    TooltipComponent,
+    FormPositionComponent
+  ],
   providers: [
     ThreeComponentService,
     PerspectiveCameraService,

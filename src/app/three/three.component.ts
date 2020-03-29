@@ -31,45 +31,6 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
     antialias: true
   });
 
-  @HostListener('window:resize')
-  resetWidthHeight() {
-    this._threeComponentService.resetWidthHeight(
-      this.threeComponentModel,
-      window.innerWidth,
-      window.innerHeight
-    );
-  }
-
-  @HostListener('mousemove', ['$event'])
-  onMousemove(event: MouseEvent) {
-    event.preventDefault();
-    if (!this.mouseDown) {
-      this.threeComponentModel.mouse.x =
-        (event.clientX / window.innerWidth) * 2 - 1;
-      this.threeComponentModel.mouse.y =
-        -(event.clientY / window.innerHeight) * 2 + 1;
-    }
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMousedown(event: MouseEvent) {
-    event.preventDefault();
-    this.mouseDown = true;
-  }
-
-  @HostListener('mouseup', ['$event'])
-  onMouseup(event: MouseEvent) {
-    event.preventDefault();
-    this.threeComponentModel.target.targetOnClick = null;
-    this.mouseDown = false;
-  }
-
-  @HostListener('click', ['$event'])
-  onClick(event: MouseEvent) {
-    event.preventDefault();
-    this._threeComponentService.gotoTarget(this.threeComponentModel);
-  }
-
   constructor(
     private _element: ElementRef,
     private _threeComponentService: ThreeComponentService
@@ -81,7 +42,11 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
     this._threeComponentModel = this._threeComponentService.initModel(
       this._element
     );
-    this.resetWidthHeight();
+    this._threeComponentService.resetWidthHeight(
+      this.threeComponentModel,
+      window.innerWidth,
+      window.innerHeight
+    );
     this._threeComponentService.initComponent(this.threeComponentModel);
   }
 
