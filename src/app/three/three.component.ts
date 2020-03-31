@@ -1,138 +1,69 @@
-import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
-
 import * as THREE from 'three';
 
-import { PerspectiveCameraService } from '@app/services/three/camera/perspective-camera.service';
-import { TrackballControlsService } from '@app/services/three/controls/trackball-controls.service';
-import { RaycasterService } from '@app/services/three/raycaster/raycaster.service';
-import { SceneService } from '@app/services/three/scene/scene.service';
-import { ThreeComponentService } from './three.component.service';
-import { ReferentielService } from '@app/services/objects/referentiel/referentiel.service';
+import {
+  Component,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 
 import { ThreeComponentModel } from './three.component.model';
-import { StarsService } from '@app/services/objects/stars/stars.service';
-import { TargetService } from '@app/services/objects/target/target.service';
-import { CatalogService } from '@app/services/objects/stars/catalog.service';
-import { OnStarOverService } from '@app/services/objects/stars/on-star-over.service';
+import { ThreeComponentService } from './three.component.service';
 
 @Component({
-    selector: 'app-three',
-    templateUrl: './three.component.html',
-    styleUrls: ['./three.component.scss']
+  selector: 'app-three',
+  templateUrl: './three.component.html',
+  styleUrls: ['./three.component.scss']
 })
-export class ThreeComponent implements OnInit {
+export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
+  private _threeComponentModel: ThreeComponentModel;
 
-    threeComponentModel: ThreeComponentModel;
+  initDist: number;
+  mouseDown = false;
 
-    initDist: number;
-    mouseDown = false;
+  clock: THREE.Clock = new THREE.Clock();
 
-    clock: THREE.Clock = new THREE.Clock();
+  currentIntersected: any;
 
-    currentIntersected: any;
+  renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
+    antialias: true
+  });
 
-    renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-        antialias: true
-    });
+  constructor(
+    private _element: ElementRef,
+    private _threeComponentService: ThreeComponentService
+  ) {
+    // Empty
+  }
 
-    @HostListener('window:resize')
-    resetWidthHeight() {
-        this.threeComponentService.resetWidthHeight(
-            this.threeComponentModel,
-            window.innerWidth,
-            window.innerHeight
-        );
+  public ngOnInit(): void {
+    this._threeComponentModel = this._threeComponentService.initModel(
+      this._element
+    );
+    this._threeComponentService.resetWidthHeight(
+      this.threeComponentModel,
+      window.innerWidth,
+      window.innerHeight
+    );
+    this._threeComponentService.initComponent(this.threeComponentModel);
+  }
+
+  public ngOnChanges(changes: any): void {
+    this._threeComponentService.onChanges(this.threeComponentModel, changes);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.threeComponentModel.frameId != null) {
+      cancelAnimationFrame(this.threeComponentModel.frameId);
     }
+  }
 
-    @HostListener('mousemove', ['$event'])
-    onMousemove(event: MouseEvent) {
-        event.preventDefault();
-        if (!this.mouseDown) {
-            this.threeComponentModel.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            this.threeComponentModel.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-        }
-    }
+  public get threeComponentModel(): ThreeComponentModel {
+    return this._threeComponentModel;
+  }
 
-    @HostListener('mousedown', ['$event'])
-    onMousedown(event: MouseEvent) {
-        event.preventDefault();
-        this.mouseDown = true;
-    }
-
-    @HostListener('mouseup', ['$event'])
-    onMouseup(event: MouseEvent) {
-        event.preventDefault();
-        this.mouseDown = false;
-    }
-
-    @HostListener('click', ['$event'])
-    onClick(event: MouseEvent) {
-        event.preventDefault();
-        this.threeComponentService.gotoTarget(this.threeComponentModel);
-    }
-    constructor(
-        public catalogService: CatalogService,
-        private element: ElementRef,
-        private threeComponentService: ThreeComponentService,
-        private trackballControlsService: TrackballControlsService,
-        private perspectiveCameraService: PerspectiveCameraService,
-        private raycasterService: RaycasterService,
-        private sceneService: SceneService,
-        private referentielService: ReferentielService,
-        private targetService: TargetService,
-        private starsService: StarsService,
-        private onStarOverService: OnStarOverService) {
-        //
-        this.threeComponentModel = {
-            perspectiveCameraService: this.perspectiveCameraService,
-            renderer: this.renderer,
-            trackballControlsService: this.trackballControlsService,
-            raycasterService: this.raycasterService,
-            sceneService: this.sceneService,
-            referentielService: this.referentielService,
-            targetService: this.targetService,
-            starsService: this.starsService,
-            onStarOverService: this.onStarOverService,
-            element: this.element,
-            mouse: new THREE.Vector2(),
-            myStarOver: {star: null, userData: null}
-        };
-        this.resetWidthHeight();
-        
-    }
-
-    ngOnInit() {
-        this.threeComponentService.initialize( this.threeComponentModel );
-        // local loading
-        this.catalogService.initialize(true).then(
-            () => {
-                this.afterInitCatalog();
-            },
-            () => {
-                this.catalogService.initialize(false).then(
-                    () => {
-                        this.afterInitCatalog();
-                    }
-                )
-            }
-
-        );
-    }
-
-    ngOnChanges(changes: any) {
-        this.threeComponentService.onChanges( this.threeComponentModel, changes );
-    }
-
-    ngAfterContentInit() {
-        this.threeComponentService.afterContentInit( this.threeComponentModel );
-    }
-
-    afterInitCatalog(): void {
-        this.threeComponentModel.starsService.initialize();
-        this.threeComponentModel.starsService.updateSpheresInScene(
-            this.threeComponentModel.perspectiveCameraService.camera,
-            this.threeComponentModel.trackballControlsService.controls.target
-        );
-    }
-
+  public set threeComponentModel(model: ThreeComponentModel) {
+    this._threeComponentModel = model;
+  }
 }
