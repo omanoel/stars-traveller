@@ -58,13 +58,19 @@ export class ReferentielService {
   }
 
   private _buildLinesXY(objects: THREE.Line[], color, distance: number): void {
-    const material = new THREE.LineBasicMaterial({
+    const materialMajor = new THREE.LineBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.2
+    });
+    const materialMinor = new THREE.LineBasicMaterial({
       color: color,
       transparent: true,
       opacity: 0.1
     });
 
     for (let i = 0; i < 12; i++) {
+      const material = i % 6 === 0 ? materialMajor : materialMinor;
       this._buildLine(objects, material, (15 * i * Math.PI) / 180, distance);
     }
   }

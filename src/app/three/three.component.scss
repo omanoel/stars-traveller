@@ -1,6 +1,24 @@
-
 .loader {
-    position: absolute;
-    left: 200px;
-    top: 50px;
+  position: absolute;
+  left: 200px;
+  top: 50px;
+}
+
+.github {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  a {
+    display: inline-block;
+    margin-right: 5px;
+    text-decoration: none;
+
+    img {
+      border: none;
+      width: 32px;
+      height: 32px;
+      outline-width: 0;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 <div class="tooltip" *ngIf="lastStarIntersected && lastStarIntersected.userData.hyg">
   <p *ngFor="let key of objectKeys(tooltip)">
     <strong
-      title="{{ getTooltipTitle(key) }}">{{key}}</strong>:&nbsp;{{ lastStarIntersected.userData.hyg[key] }}&nbsp;{{ getTooltipUnit(key) }}
+      title="{{ getTitle(key) }}">{{key}}</strong>:&nbsp;{{ getValue(lastStarIntersected.userData.hyg, key) }}&nbsp;{{ getUnit(key) }}
   </p>
 </div>

@@ -16,7 +16,7 @@ export class TooltipComponent implements OnInit {
     },
     ra: {
       title: "The star's right ascension, for epoch and equinox 2000.0",
-      unit: '°'
+      unit: ''
     },
     dec: {
       title: "The star's declination ascension, for epoch and equinox 2000.0",
@@ -27,23 +27,26 @@ export class TooltipComponent implements OnInit {
       unit: 'pc'
     },
     hip: {
-      title: '',
+      title: "The star's ID in the Hipparcos catalog, if known.",
       unit: ''
     },
     hd: {
-      title: '',
+      title: "The star's ID in the Henry Draper catalog, if known.",
       unit: ''
     },
     hr: {
-      title: '',
+      title:
+        "The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.",
       unit: ''
     },
     gl: {
-      title: '',
+      title:
+        "The star's ID in the third edition of the Gliese Catalog of Nearby Stars.",
       unit: ''
     },
     bf: {
-      title: '',
+      title:
+        'The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog.',
       unit: ''
     },
     proper: {
@@ -168,16 +171,56 @@ export class TooltipComponent implements OnInit {
 
   ngOnInit() {}
 
-  public getTooltipTitle(key: string): string {
+  public getTitle(key: string): string {
     if (this.tooltip[key] && this.tooltip[key].title) {
       return this.tooltip[key].title;
     }
     return key;
   }
-  public getTooltipUnit(key: string): string {
+  public getUnit(key: string): string {
     if (this.tooltip[key] && this.tooltip[key].unit) {
       return this.tooltip[key].unit;
     }
     return '';
+  }
+  public getValue(data: any, key: string): string {
+    if (key === 'ra') {
+      return this._computeRa(data[key]);
+    } else if (key === 'dec') {
+      return this._computeDec(data[key]);
+    }
+    return data[key];
+  }
+
+  private _computeRa(ra: string): string {
+    const raNumber = Number(ra);
+    const hours = Math.floor(raNumber);
+    const minutes = raNumber - hours;
+    const min = Math.floor(minutes * 60);
+    const secondes = (minutes - min / 60) * 60;
+    return (
+      hours +
+      'h ' +
+      min +
+      'm ' +
+      (Math.floor(secondes * 6000) / 100).toFixed(3) +
+      's'
+    );
+  }
+
+  private _computeDec(dec: string): string {
+    const raNumber = Number(dec);
+    const hours = Math.floor(raNumber);
+    const minutes = raNumber - hours;
+    const min = Math.floor(minutes * 60);
+    const secondes = (minutes - min / 60) * 60;
+    return (
+      hours +
+      '° ' +
+      min +
+      "' " +
+      (Math.floor(secondes * 6000) / 100).toFixed(3) +
+      '"'
+    );
   }
 }

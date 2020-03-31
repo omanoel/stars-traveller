@@ -1,4 +1,10 @@
 <app-map [threeComponentModel]="threeComponentModel"></app-map>
 <app-tooltip [lastStarIntersected]="threeComponentModel.lastStarIntersected"></app-tooltip>
-<div class="loader" *ngIf="threeComponentModel.average != ''">{{threeComponentModel.average}} loaded</div>
+<div class="loader" *ngIf="threeComponentModel.average != ''">
+  {{ threeComponentModel.average }} loaded
+</div>
 <app-form-position class="app-form-position" [threeComponentModel]="threeComponentModel"></app-form-position>
+<div class="github">
+  <a href="https://www.datastro.eu/"><img src="./assets/datastro.svg" /></a>
+  <a href="https://github.com/omanoel/stars-traveller"><img src="./assets/GitHub-Mark-Light-32px.png" /></a>
+</div>

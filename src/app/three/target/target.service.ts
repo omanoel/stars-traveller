@@ -9,7 +9,7 @@ import { TargetModel } from './target.model';
 export class TargetService {
   private static readonly SCALE = 0.2;
   private static readonly EPSILON = 0.01;
-  private static readonly STEP = 10;
+  private static readonly STEP = 20;
 
   constructor() {
     // Empty
@@ -98,9 +98,12 @@ export class TargetService {
     threeComponentModel: ThreeComponentModel,
     myClickPoint: THREE.Vector3
   ): void {
-    const step = threeComponentModel.trackballControls.controls.target
+    let step = threeComponentModel.trackballControls.controls.target
       .clone()
       .distanceTo(myClickPoint);
+    if (step > TargetService.STEP) {
+      step = TargetService.STEP;
+    }
     threeComponentModel.target.stepper = 5 + Math.floor(step);
   }
 
