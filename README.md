@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
-The goal of this web application is to simulate a traveller in a space ship, which wants to navigate between stars. It's in 3D view, and the stars are extracted for the HYG catalog (among 110 000 stars)
+The goal of this web application is to simulate a traveller in a space ship, which wants to navigate between stars. It's in 3D view, and the stars are extracted from the HYG catalog (among 110 000 stars)
 
 ## Development / Build
 
