@@ -10,3 +10,4 @@ Run `ng serve` or `npm run start` for a dev server. Navigate to `http://localhos
 
 Run `ng build` or `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+A demo is accessible at http://manoloexpo.free.fr/__experimentations/stars-traveller/index.html
