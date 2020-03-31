@@ -1,5 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
-import { StarOver, ThreeComponentModel } from '../three.component.model';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tooltip',

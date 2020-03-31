@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ThreeComponentModel } from '../three.component.model';
-import { FormControl, FormGroup } from '@angular/forms';
-import * as THREE from 'three';
-import { TargetService } from '../target/target.service';
-import { StarsService } from '../stars/stars.service';
 import { isNil } from 'lodash';
+import * as THREE from 'three';
+
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+
+import { StarsService } from '../stars/stars.service';
+import { TargetService } from '../target/target.service';
+import { ThreeComponentModel } from '../three.component.model';
 
 @Component({
   selector: 'app-form-position',

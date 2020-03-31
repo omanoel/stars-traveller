@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+
+import { Injectable } from '@angular/core';
+
 import { ThreeComponentModel } from '../three.component.model';
-import { StarsModel } from './stars.model';
 import { ShadersConstant } from './shaders.constant';
+import { StarsModel } from './stars.model';
 
 @Injectable({
   providedIn: 'root'

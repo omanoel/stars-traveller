@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { TrackballControls } from 'three-trackballcontrols-ts';
-import { StarsService } from '@app/three/stars/stars.service';
 import { Subject } from 'rxjs';
 import * as THREE from 'three';
-import { TrackballControlsModel } from './trackball-controls.model';
+import { TrackballControls } from 'three-trackballcontrols-ts';
+
+import { Injectable } from '@angular/core';
+import { StarsService } from '@app/three/stars/stars.service';
+
 import { ThreeComponentModel } from '../three.component.model';
+import { TrackballControlsModel } from './trackball-controls.model';
 
 @Injectable({ providedIn: 'root' })
 export class TrackballControlsService {

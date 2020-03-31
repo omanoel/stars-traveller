@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+
+import { Injectable } from '@angular/core';
 import { ThreeComponentModel } from '@app/three/three.component.model';
+
 import { TargetModel } from './target.model';
 
 @Injectable({

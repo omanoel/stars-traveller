@@ -1,9 +1,10 @@
-import { ElementRef } from '@angular/core';
 import * as THREE from 'three';
 
+import { ElementRef } from '@angular/core';
+
 import { ReferentielModel } from './referentiel/referentiel.model';
-import { TargetModel } from './target/target.model';
 import { StarsModel } from './stars/stars.model';
+import { TargetModel } from './target/target.model';
 import { TrackballControlsModel } from './trackball-controls/trackball-controls.model';
 
 export interface ThreeComponentModel {

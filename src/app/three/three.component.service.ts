@@ -1,18 +1,18 @@
-import { Injectable, ElementRef, NgZone } from '@angular/core';
-
 import * as THREE from 'three';
 
-import { ThreeComponentModel } from './three.component.model';
-import { CatalogService } from './stars/catalog.service';
-import { PerspectiveCameraService } from './perspective-camera/perspective-camera.service';
-import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
-import { RaycasterService } from './raycaster/raycaster.service';
-import { SceneService } from './scene/scene.service';
-import { ReferentielService } from './referentiel/referentiel.service';
-import { TargetService } from './target/target.service';
-import { StarsService } from './stars/stars.service';
-import { OnStarOverService } from './stars/on-star-over.service';
+import { ElementRef, Injectable, NgZone } from '@angular/core';
 import { environment } from '@env/environment';
+
+import { PerspectiveCameraService } from './perspective-camera/perspective-camera.service';
+import { RaycasterService } from './raycaster/raycaster.service';
+import { ReferentielService } from './referentiel/referentiel.service';
+import { SceneService } from './scene/scene.service';
+import { CatalogService } from './stars/catalog.service';
+import { OnStarOverService } from './stars/on-star-over.service';
+import { StarsService } from './stars/stars.service';
+import { TargetService } from './target/target.service';
+import { ThreeComponentModel } from './three.component.model';
+import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
 
 @Injectable({
   providedIn: 'root'

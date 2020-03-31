@@ -1,6 +1,7 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
-import { ThreeComponentService } from '../three.component.service';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
+
 import { ThreeComponentModel } from '../three.component.model';
+import { ThreeComponentService } from '../three.component.service';
 
 @Component({
   selector: 'app-map',

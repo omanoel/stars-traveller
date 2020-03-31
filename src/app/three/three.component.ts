@@ -1,16 +1,15 @@
-import {
-  Component,
-  HostListener,
-  OnInit,
-  ElementRef,
-  OnChanges,
-  OnDestroy
-} from '@angular/core';
-
 import * as THREE from 'three';
 
-import { ThreeComponentService } from './three.component.service';
+import {
+  Component,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+
 import { ThreeComponentModel } from './three.component.model';
+import { ThreeComponentService } from './three.component.service';
 
 @Component({
   selector: 'app-three',
