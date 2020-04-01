@@ -246,7 +246,9 @@ export class StarsService {
     };
     Object.keys(starsModel.colors).forEach((key: string) => {
       starsModel.basicMaterials[key] = new THREE.MeshBasicMaterial({
-        color: starsModel.colors[key]
+        color: starsModel.colors[key],
+        transparent: true,
+        opacity: 0.1
       });
     });
   }
@@ -269,7 +271,9 @@ export class StarsService {
     return new THREE.ShaderMaterial({
       uniforms: {
         pointTexture: {
-          value: new THREE.TextureLoader().load('assets/textures/spark1.png')
+          value: new THREE.TextureLoader().load(
+            'assets/textures/star_alpha.png'
+          )
         }
       },
       vertexShader: this._shadersConstant.shaderForPoints().vertex,

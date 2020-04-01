@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { InTheSkyService } from '../external/in-the-sky.service';
 
 @Component({
   selector: 'app-tooltip',
@@ -7,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TooltipComponent implements OnInit {
   @Input() lastStarIntersected: THREE.Object3D;
+
+  public isHelpVisible = false;
 
   public tooltip = {
     id: {
@@ -168,6 +171,8 @@ export class TooltipComponent implements OnInit {
 
   objectKeys = Object.keys;
 
+  constructor(private _inTheSkyService: InTheSkyService) {}
+  //
   ngOnInit() {}
 
   public getTitle(key: string): string {
@@ -176,12 +181,14 @@ export class TooltipComponent implements OnInit {
     }
     return key;
   }
+
   public getUnit(key: string): string {
     if (this.tooltip[key] && this.tooltip[key].unit) {
       return this.tooltip[key].unit;
     }
     return '';
   }
+
   public getValue(data: any, key: string): string {
     if (key === 'ra') {
       return this._computeRa(data[key]);
@@ -189,6 +196,20 @@ export class TooltipComponent implements OnInit {
       return this._computeDec(data[key]);
     }
     return data[key];
+  }
+
+  public getLink(data: any, key: string): string {
+    if (key === 'hip') {
+      const mapp = this._inTheSkyService.mapping.find(m => m.hip === data[key]);
+      if (mapp) {
+        return InTheSkyService.url + mapp.tyc;
+      }
+    }
+    return null;
+  }
+
+  public seeHelp(status: boolean): void {
+    this.isHelpVisible = status;
   }
 
   private _computeRa(ra: string): string {

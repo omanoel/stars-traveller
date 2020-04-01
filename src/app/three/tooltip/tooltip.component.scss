@@ -17,4 +17,39 @@
       display: inline-block;
     }
   }
+  .action {
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+
+    a {
+      cursor: pointer;
+    }
+  }
+}
+.tooltip-help {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background-color: black;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  left: 250px;
+  width: 500px;
+  height: 400px;
+  overflow-y: auto;
+  font-size: 12px;
+
+  a {
+    color: white;
+  }
+
+  .close-me {
+    text-align: center;
+    cursor: pointer;
+  }
+  li {
+    padding: 5px;
+  }
 }
