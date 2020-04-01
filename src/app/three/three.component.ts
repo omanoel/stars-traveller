@@ -21,6 +21,7 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
 
   initDist: number;
   mouseDown = false;
+  isHelpDisplayed = false;
 
   clock: THREE.Clock = new THREE.Clock();
 
@@ -57,6 +58,10 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.threeComponentModel.frameId != null) {
       cancelAnimationFrame(this.threeComponentModel.frameId);
     }
+  }
+
+  public displayHelp(status: boolean): void {
+    this.isHelpDisplayed = status;
   }
 
   public get threeComponentModel(): ThreeComponentModel {

@@ -24,7 +24,6 @@ export class FormPositionComponent implements OnInit {
   positionForm: FormGroup;
   starForm: FormGroup;
   distanceToTarget: number;
-  helpVisible = false;
 
   ngOnInit() {
     this._updateDistanceFromCameraToTarget(
@@ -83,10 +82,6 @@ export class FormPositionComponent implements OnInit {
         alert('id not found !');
       }
     });
-  }
-
-  seeHelp(): void {
-    this.helpVisible = !this.helpVisible;
   }
 
   private _updateForm(newTarget: THREE.Vector3) {
