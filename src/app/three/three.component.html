@@ -1,9 +1,9 @@
-<app-map [threeComponentModel]="threeComponentModel"></app-map>
-<app-tooltip [lastStarIntersected]="threeComponentModel.lastStarIntersected"></app-tooltip>
+<app-map [model]="threeComponentModel"></app-map>
+<app-search [model]="threeComponentModel"></app-search>
 <div class="loader" *ngIf="threeComponentModel.average != ''">
-  {{ threeComponentModel.average }} loaded
+  {{ threeComponentModel.average }} loaded<br>
+  <img src="./assets/textures/lensflare0.png">
 </div>
-<app-form-position class="app-form-position" [threeComponentModel]="threeComponentModel"></app-form-position>
 <div class="github">
   <a (click)="displayHelp(true)" title="How to navigate..."><img src="./assets/help.png" /></a>
   <a href="https://www.datastro.eu/" title="Visit this awesome website"><img src="./assets/datastro.svg" /></a>

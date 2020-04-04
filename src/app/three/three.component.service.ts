@@ -7,12 +7,13 @@ import { PerspectiveCameraService } from './perspective-camera/perspective-camer
 import { RaycasterService } from './raycaster/raycaster.service';
 import { ReferentielService } from './referentiel/referentiel.service';
 import { SceneService } from './scene/scene.service';
-import { CatalogService } from './stars/catalog.service';
+import { HygCatalogCsvService } from './catalog/hyg-catalog-csv.service';
 import { OnStarOverService } from './stars/on-star-over.service';
 import { StarsService } from './stars/stars.service';
 import { TargetService } from './target/target.service';
 import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
+import { CatalogService } from './catalog/catalog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class ThreeComponentService {
   constructor(
     private _ngZone: NgZone,
     private _catalogService: CatalogService,
+    private _hygCatalogCsvService: HygCatalogCsvService,
     private _perspectiveCameraService: PerspectiveCameraService,
     private _trackballControlsService: TrackballControlsService,
     private _raycasterService: RaycasterService,
@@ -52,11 +54,15 @@ export class ThreeComponentService {
       lastStarIntersected: null,
       height: null,
       width: null,
-      average: ''
+      average: '',
+      catalogs: [],
+      selectedCatalog: null
     };
   }
 
   public initComponent(threeComponentModel: ThreeComponentModel): void {
+    // get catalogs
+    threeComponentModel.catalogs = this._catalogService.list();
     //
     threeComponentModel.camera = this._perspectiveCameraService.initialize(
       threeComponentModel.width,
@@ -105,20 +111,14 @@ export class ThreeComponentService {
     threeComponentModel.myStarOver = this._onStarOverService.initialize(
       threeComponentModel.scene
     );
-    this._catalogService
-      .initialize(threeComponentModel, !environment.production)
-      .then(
-        () => {
-          this._afterInitCatalog(threeComponentModel);
-        },
-        () => {
-          this._catalogService
-            .initialize(threeComponentModel, false)
-            .then(() => {
-              this._afterInitCatalog(threeComponentModel);
-            });
-        }
-      );
+    //
+    if (environment.production) {
+      threeComponentModel.catalogs.shift();
+    }
+    threeComponentModel.selectedCatalog = threeComponentModel.catalogs[0];
+    this._hygCatalogCsvService.initialize(threeComponentModel).then(() => {
+      this._afterInitCatalog(threeComponentModel);
+    });
   }
 
   public resetWidthHeight(
@@ -248,6 +248,16 @@ export class ThreeComponentService {
       threeComponentModel.currentIntersected = intersects[0].object;
       threeComponentModel.myStarOver.starIntersected =
         threeComponentModel.currentIntersected;
+      this._catalogService
+        .getCatalogService(threeComponentModel.selectedCatalog)
+        .find(
+          threeComponentModel,
+          threeComponentModel.currentIntersected.userData.starProp['id']
+        )
+        .subscribe((starProp: any) => {
+          threeComponentModel.lastStarIntersected = intersects[0].object;
+          threeComponentModel.lastStarIntersected.userData.starProp = starProp;
+        });
       threeComponentModel.lastStarIntersected = intersects[0].object;
     } else {
       if (threeComponentModel.currentIntersected) {

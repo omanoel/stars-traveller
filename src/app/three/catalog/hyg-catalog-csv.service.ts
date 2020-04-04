@@ -1,27 +1,41 @@
+import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
 
+import { StarsService } from '../stars/stars.service';
 import { ThreeComponentModel } from '../three.component.model';
+import { ICatalogService } from './catalog.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CatalogService {
-  constructor() {
+export class HygCatalogCsvService implements ICatalogService {
+  constructor(private _starsService: StarsService) {
     // Empty
   }
 
-  public initialize(
+  // @override
+  public load(threeComponentModel: ThreeComponentModel): void {
+    this.initialize(threeComponentModel).then(() => {
+      this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+    });
+  }
+
+  // @override
+  public find(
     threeComponentModel: ThreeComponentModel,
-    localPath: boolean
-  ): Promise<any> {
+    id: string
+  ): Observable<any> {
+    return of(threeComponentModel.starsImported.find(s => s.id === id));
+  }
+
+  public initialize(threeComponentModel: ThreeComponentModel): Promise<any> {
     const _that = this;
     return new Promise((resolve, reject) => {
       new THREE.FileLoader().load(
         // resource URL
-        localPath ? environment.catalogLocalPath : environment.catalogUrl,
+        threeComponentModel.selectedCatalog.url,
 
         // Function when resource is loaded
         (data: string) => {

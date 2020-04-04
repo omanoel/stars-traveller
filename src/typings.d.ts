@@ -1,4 +1,4 @@
-import { LineSegments } from "three";
+import { LineSegments } from 'three';
 
 // Allow .json files imports
 declare module '*.json' {
@@ -14,6 +14,13 @@ interface NodeModule {
 
 declare namespace THREE {
   export class PolarGridHelper extends LineSegments {
-    constructor(radius?:number, radials?:number, circles?:number, divisions?:number, color1?:number, color2?:number);
+    constructor(
+      radius?: number,
+      radials?: number,
+      circles?: number,
+      divisions?: number,
+      color1?: number,
+      color2?: number
+    );
   }
 }

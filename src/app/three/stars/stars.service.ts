@@ -29,8 +29,19 @@ export class StarsService {
     };
     this._initMaterials(starsModel);
     starsModel.groupOfStars.name = 'GroupOfStars';
-    this._createPoints(starsImported, starsModel);
+    this.createPoints(starsImported, starsModel);
     return starsModel;
+  }
+
+  public refreshAfterLoadingCatalog(
+    threeComponentModel: ThreeComponentModel
+  ): void {
+    threeComponentModel.starsModel.starsPoints.children = [];
+    this.createPoints(
+      threeComponentModel.starsImported,
+      threeComponentModel.starsModel
+    );
+    this.updateProximityStars(threeComponentModel);
   }
 
   public addStarObjectsInScene(
@@ -68,7 +79,7 @@ export class StarsService {
     }
   }
 
-  private _createPoints(starsImported: any, starsModel: StarsModel): void {
+  public createPoints(starsImported: any, starsModel: StarsModel): void {
     const geometryLight = new THREE.BufferGeometry();
     const geometryGlow = new THREE.BufferGeometry();
     const vertices = [];
@@ -169,7 +180,7 @@ export class StarsService {
       star.translateX(near.x);
       star.translateY(near.y);
       star.translateZ(near.z);
-      star.userData.hyg = near;
+      star.userData.starProp = near;
       // starsModel.meshStars.push(star);
       starsModel.groupOfStars.add(star);
       this._createStarHelper(

@@ -6,6 +6,7 @@ import { ReferentielModel } from './referentiel/referentiel.model';
 import { StarsModel } from './stars/stars.model';
 import { TargetModel } from './target/target.model';
 import { TrackballControlsModel } from './trackball-controls/trackball-controls.model';
+import { Catalog } from './catalog/catalog.model';
 
 export interface ThreeComponentModel {
   element: ElementRef;
@@ -26,6 +27,8 @@ export interface ThreeComponentModel {
   average: string;
   height: number;
   width: number;
+  catalogs: Catalog[];
+  selectedCatalog: Catalog;
 }
 
 export interface StarOver {
