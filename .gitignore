@@ -48,6 +48,9 @@ Thumbs.db
 # Generated doc
 /documentation
 
-#catalogs
+# Catalogs
 /catalogs
 **/*.csv
+
+# Conf
+**/*conf.php
