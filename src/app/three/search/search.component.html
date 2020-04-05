@@ -1,15 +1,16 @@
-<div class="search">
+<div class="search" *ngIf="model.showSearch">
   <form [formGroup]="searchForm">
     <select formControlName="catalogFc">
       <option value="" disabled>Choose your catalog</option>
-      <option *ngFor="let _catalog of model.catalogs" [ngValue]="_catalog">{{ _catalog.name }}</option>
+      <option *ngFor="let _catalog of model.catalogs" [ngValue]="_catalog" [disabled]="isCatalogDisabled(_catalog)">
+        {{ _catalog.name }}</option>
     </select>
-    <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
+    <!--p class="property" *ngFor="let prop of model.selectedCatalog.properties">
       <span class="key" title="{{ prop.tooltip }}">{{ prop.key }}</span>:
       <span class="value"
         *ngIf="model.lastStarIntersected && model.lastStarIntersected.userData.starProp">{{ getValue(model.lastStarIntersected.userData.starProp, prop.key) }}&nbsp;{{ prop.unit }}</span>
       <span class="range"><input type="range" id="volume" name="volume" min="0" max="11"></span>
-    </p>
+    </p-->
   </form>
   <p class="action">[&nbsp;<a *ngIf="!isHelpVisible" (click)="seeHelp(true)">Show help for params</a><a
       *ngIf="isHelpVisible" (click)="seeHelp(false)">Hide help for params</a>&nbsp;]</p>

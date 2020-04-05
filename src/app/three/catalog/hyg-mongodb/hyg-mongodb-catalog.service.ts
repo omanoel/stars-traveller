@@ -2,25 +2,34 @@ import { Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as THREE from 'three';
 
-import { ThreeComponentModel } from '../three.component.model';
-import { map } from 'lodash';
-import { StarsService } from '../stars/stars.service';
-import { ICatalogService } from './catalog.model';
+import { StarsService } from '../../stars/stars.service';
+import { ThreeComponentModel } from '../../three.component.model';
+import { ICatalogService } from '../catalog.model';
+import { BaseCatalogService } from '../base-catalog.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class HygCatalogMongoService implements ICatalogService {
+export class HygMongodbCatalogService extends BaseCatalogService {
   //
-  constructor(private _http: HttpClient, private _starsService: StarsService) {
+  constructor(
+    protected _starsService: StarsService,
+    private _http: HttpClient
+  ) {
     // Empty
+    super(_starsService);
   }
 
   // @override
   public load(threeComponentModel: ThreeComponentModel): void {
-    this.getAll$(threeComponentModel.selectedCatalog.url).subscribe(resp => {
-      threeComponentModel.starsImported = resp;
+    this.initialize(threeComponentModel).then(() => {
+      // fill objects
+      threeComponentModel.starsImported.forEach((item) => {
+        item.plx = 1 / item.dist;
+      });
+      // refresh
       this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
     });
   }

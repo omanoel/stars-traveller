@@ -10,3 +10,15 @@ export interface StarsModel {
   basicMaterials: any;
   shaderMaterials: any;
 }
+
+export interface StarBase {
+  id: string;
+  ra: number;
+  dec: number;
+  plx: number;
+  dist: number;
+  spect: string;
+  x: number;
+  y: number;
+  z: number;
+}

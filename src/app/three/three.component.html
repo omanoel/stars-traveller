@@ -1,10 +1,13 @@
 <app-map [model]="threeComponentModel"></app-map>
-<app-search [model]="threeComponentModel"></app-search>
 <div class="loader" *ngIf="threeComponentModel.average != ''">
-  {{ threeComponentModel.average }} loaded<br>
-  <img src="./assets/textures/lensflare0.png">
+  <div class="loading">Loading stars...</div>
+  <img class="rotate" src="./assets/textures/lensflare0_alpha.png">
 </div>
+<app-search [model]="threeComponentModel"></app-search>
+<app-tooltip [model]="threeComponentModel"></app-tooltip>
+<app-indicators [model]="threeComponentModel"></app-indicators>
 <div class="github">
+  <a (click)="toggleSearch()" title="Search..."><img src="./assets/options.png" /></a>
   <a (click)="displayHelp(true)" title="How to navigate..."><img src="./assets/help.png" /></a>
   <a href="https://www.datastro.eu/" title="Visit this awesome website"><img src="./assets/datastro.svg" /></a>
   <a href="https://github.com/omanoel/stars-traveller" title="Source of this open project"><img

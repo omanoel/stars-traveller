@@ -1,8 +1,9 @@
 {
-  "id": 3,
-  "name": "HYG Catalog (mongo)",
-  "url": "http://localhost:8080/api/hyg-catalog-star",
-  "service": "HygCatalogMongoService",
+  "id": 1,
+  "name": "HYG Catalog (csv) local",
+  "production": false,
+  "url": "/assets/catalogs/hygdata_v3.csv",
+  "service": "HygCsvCatalogService",
   "properties": [{
     "key": "id",
     "type": "string",

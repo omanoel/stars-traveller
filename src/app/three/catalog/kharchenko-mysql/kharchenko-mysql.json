@@ -1,8 +1,9 @@
 {
-  "id": 1,
-  "name": "HYG Catalog (csv) local",
-  "url": "/assets/catalogs/hygdata_v3.csv",
-  "service": "HygCatalogCsvService",
+  "id": 4,
+  "name": "Kharchenko Catalog",
+  "production": true,
+  "url": "http://manoloexpo.free.fr/__experimentations/stars-traveller/api/index.php/kharchenko",
+  "service": "KharchenkoMysqlCatalogService",
   "properties": [{
     "key": "id",
     "type": "string",
@@ -24,6 +25,13 @@
     "unit": "deg",
     "min": -90,
     "max": 90
+  }, {
+    "key": "plx",
+    "type": "number",
+    "tooltip": "The star's trigonometric parallax",
+    "unit": "0.01mas",
+    "min": 0,
+    "max": 100000
   }, {
     "key": "dist",
     "type": "number",
@@ -264,6 +272,34 @@
     "max": null
   }, {
     "key": "tyc",
+    "type": "string",
+    "tooltip": "",
+    "unit": null,
+    "min": null,
+    "max": null
+  }, {
+    "key": "dm",
+    "type": "string",
+    "tooltip": "",
+    "unit": null,
+    "min": null,
+    "max": null
+  }, {
+    "key": "tyc1",
+    "type": "string",
+    "tooltip": "",
+    "unit": null,
+    "min": null,
+    "max": null
+  }, {
+    "key": "tyc2",
+    "type": "string",
+    "tooltip": "",
+    "unit": null,
+    "min": null,
+    "max": null
+  }, {
+    "key": "tyc3",
     "type": "string",
     "tooltip": "",
     "unit": null,

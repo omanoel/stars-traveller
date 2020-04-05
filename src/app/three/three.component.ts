@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnChanges,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import { ThreeComponentModel } from './three.component.model';
@@ -14,7 +14,7 @@ import { ThreeComponentService } from './three.component.service';
 @Component({
   selector: 'app-three',
   templateUrl: './three.component.html',
-  styleUrls: ['./three.component.scss']
+  styleUrls: ['./three.component.scss'],
 })
 export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   private _threeComponentModel: ThreeComponentModel;
@@ -28,7 +28,7 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   currentIntersected: any;
 
   renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
   });
 
   constructor(
@@ -58,6 +58,10 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
     if (this.threeComponentModel.frameId != null) {
       cancelAnimationFrame(this.threeComponentModel.frameId);
     }
+  }
+
+  public toggleSearch(): void {
+    this.threeComponentModel.showSearch = !this.threeComponentModel.showSearch;
   }
 
   public displayHelp(status: boolean): void {

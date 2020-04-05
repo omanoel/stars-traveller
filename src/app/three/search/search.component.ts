@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+
+import { Catalog } from '../catalog/catalog.model';
+import { CatalogService } from '../catalog/catalog.service';
 import { InTheSkyService } from '../external/in-the-sky.service';
 import { ThreeComponentModel } from '../three.component.model';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Catalog } from '../catalog/catalog.model';
-import { HygCatalogCsvService } from '../catalog/hyg-catalog-csv.service';
-import { HygCatalogMongoService } from '../catalog/hyg-catalog-mongo.service';
-import { CatalogService } from '../catalog/catalog.service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
   @Input() model: ThreeComponentModel;
@@ -20,159 +20,159 @@ export class SearchComponent implements OnInit {
   public tooltip = {
     id: {
       title: 'The database primary key',
-      unit: ''
+      unit: '',
     },
     ra: {
       title: "The star's right ascension, for epoch and equinox 2000.0",
-      unit: ''
+      unit: '',
     },
     dec: {
       title: "The star's declination ascension, for epoch and equinox 2000.0",
-      unit: '°'
+      unit: '°',
     },
     dist: {
       title: "The star's distance in parsecs",
-      unit: 'pc'
+      unit: 'pc',
     },
     hip: {
       title: "The star's ID in the Hipparcos catalog, if known.",
-      unit: ''
+      unit: '',
     },
     hd: {
       title: "The star's ID in the Henry Draper catalog, if known.",
-      unit: ''
+      unit: '',
     },
     hr: {
       title:
         "The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.",
-      unit: ''
+      unit: '',
     },
     gl: {
       title:
         "The star's ID in the third edition of the Gliese Catalog of Nearby Stars.",
-      unit: ''
+      unit: '',
     },
     bf: {
       title:
         'The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog.',
-      unit: ''
+      unit: '',
     },
     proper: {
       title: '',
-      unit: ''
+      unit: '',
     },
     pmra: {
       title: '',
-      unit: ''
+      unit: '',
     },
     pmdec: {
       title: '',
-      unit: ''
+      unit: '',
     },
     rv: {
       title: '',
-      unit: ''
+      unit: '',
     },
     mag: {
       title: '',
-      unit: ''
+      unit: '',
     },
     absmag: {
       title: '',
-      unit: ''
+      unit: '',
     },
     spect: {
       title: '',
-      unit: ''
+      unit: '',
     },
     ci: {
       title: '',
-      unit: ''
+      unit: '',
     },
     x: {
       title: '',
-      unit: ''
+      unit: '',
     },
     y: {
       title: '',
-      unit: ''
+      unit: '',
     },
     z: {
       title: '',
-      unit: ''
+      unit: '',
     },
     vx: {
       title: '',
-      unit: ''
+      unit: '',
     },
     vy: {
       title: '',
-      unit: ''
+      unit: '',
     },
     vz: {
       title: '',
-      unit: ''
+      unit: '',
     },
     rarad: {
       title: '',
-      unit: ''
+      unit: '',
     },
     decrad: {
       title: '',
-      unit: ''
+      unit: '',
     },
     pmrarad: {
       title: '',
-      unit: ''
+      unit: '',
     },
     pmdecrad: {
       title: '',
-      unit: ''
+      unit: '',
     },
     bayer: {
       title: '',
-      unit: ''
+      unit: '',
     },
     flam: {
       title: '',
-      unit: ''
+      unit: '',
     },
     con: {
       title: '',
-      unit: ''
+      unit: '',
     },
     comp: {
       title: '',
-      unit: ''
+      unit: '',
     },
     comp_primary: {
       title: '',
-      unit: ''
+      unit: '',
     },
     base: {
       title: '',
-      unit: ''
+      unit: '',
     },
     lum: {
       title: '',
-      unit: ''
+      unit: '',
     },
     var: {
       title: '',
-      unit: ''
+      unit: '',
     },
     var_min: {
       title: '',
-      unit: ''
+      unit: '',
     },
     var_max: {
       title: '',
-      unit: ''
+      unit: '',
     },
     tyc: {
       title: '',
-      unit: ''
-    }
+      unit: '',
+    },
   };
 
   objectKeys = Object.keys;
@@ -187,7 +187,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.model.selectedCatalog = this.model.catalogs[0];
     this.searchForm = new FormGroup({
-      catalogFc: new FormControl(this.model.selectedCatalog)
+      catalogFc: new FormControl(this.model.selectedCatalog),
     });
 
     this.searchForm
@@ -196,6 +196,13 @@ export class SearchComponent implements OnInit {
         this.model.selectedCatalog = value;
         this._catalogService.getCatalogService(value).load(this.model);
       });
+  }
+
+  public isCatalogDisabled(catalog: Catalog): boolean {
+    if (environment.production) {
+      return catalog.production !== environment.production;
+    }
+    return false;
   }
 
   public getTitle(key: string): string {
@@ -223,7 +230,9 @@ export class SearchComponent implements OnInit {
 
   public getLink(data: any, key: string): string {
     if (key === 'hip') {
-      const mapp = this._inTheSkyService.mapping.find(m => m.hip === data[key]);
+      const mapp = this._inTheSkyService.mapping.find(
+        (m) => m.hip === data[key]
+      );
       if (mapp) {
         return InTheSkyService.url + mapp.tyc;
       }

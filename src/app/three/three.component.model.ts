@@ -29,6 +29,7 @@ export interface ThreeComponentModel {
   width: number;
   catalogs: Catalog[];
   selectedCatalog: Catalog;
+  showSearch: boolean;
 }
 
 export interface StarOver {

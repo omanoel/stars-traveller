@@ -1,8 +1,9 @@
 {
-  "id": 1,
-  "name": "HYG Catalog (csv) distant",
-  "url": "https://raw.githubusercontent.com/astronexus/HYG-Database/master/hygdata_v3.csv",
-  "service": "HygCatalogCsvService",
+  "id": 3,
+  "name": "HYG Catalog (mongo)",
+  "production": false,
+  "url": "http://localhost:8080/api/hyg-catalog-star",
+  "service": "HygMongodbCatalogService",
   "properties": [{
     "key": "id",
     "type": "string",

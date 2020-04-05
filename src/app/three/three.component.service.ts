@@ -7,7 +7,6 @@ import { PerspectiveCameraService } from './perspective-camera/perspective-camer
 import { RaycasterService } from './raycaster/raycaster.service';
 import { ReferentielService } from './referentiel/referentiel.service';
 import { SceneService } from './scene/scene.service';
-import { HygCatalogCsvService } from './catalog/hyg-catalog-csv.service';
 import { OnStarOverService } from './stars/on-star-over.service';
 import { StarsService } from './stars/stars.service';
 import { TargetService } from './target/target.service';
@@ -16,13 +15,12 @@ import { TrackballControlsService } from './trackball-controls/trackball-control
 import { CatalogService } from './catalog/catalog.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThreeComponentService {
   constructor(
     private _ngZone: NgZone,
     private _catalogService: CatalogService,
-    private _hygCatalogCsvService: HygCatalogCsvService,
     private _perspectiveCameraService: PerspectiveCameraService,
     private _trackballControlsService: TrackballControlsService,
     private _raycasterService: RaycasterService,
@@ -36,7 +34,7 @@ export class ThreeComponentService {
   public initModel(element: ElementRef): ThreeComponentModel {
     return {
       renderer: new THREE.WebGLRenderer({
-        antialias: true
+        antialias: true,
       }),
       frameId: null,
       element: element,
@@ -56,7 +54,8 @@ export class ThreeComponentService {
       width: null,
       average: '',
       catalogs: [],
-      selectedCatalog: null
+      selectedCatalog: null,
+      showSearch: false,
     };
   }
 
@@ -116,9 +115,13 @@ export class ThreeComponentService {
       threeComponentModel.catalogs.shift();
     }
     threeComponentModel.selectedCatalog = threeComponentModel.catalogs[0];
-    this._hygCatalogCsvService.initialize(threeComponentModel).then(() => {
-      this._afterInitCatalog(threeComponentModel);
-    });
+    this._catalogService
+      .getCatalogService(threeComponentModel.selectedCatalog)
+      .initialize(threeComponentModel)
+      .then(() => {
+        threeComponentModel.average = '';
+        this._afterInitCatalog(threeComponentModel);
+      });
   }
 
   public resetWidthHeight(
