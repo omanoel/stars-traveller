@@ -20,13 +20,13 @@ mysqli_set_charset($link,'utf8');
 // retrieve the table and key from the path
 
 if ($input != null) {
+
 	// escape the columns and values from the input object
 	$columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
 	$values = array_map(function ($value) use ($link) {
 		if ($value===null) return null;
 		return mysqli_real_escape_string($link,(string)$value);
 	},array_values($input));
-
 	// build the SET part of the SQL command
 	$set = '';
 	for ($i=0;$i<count($columns);$i++) {
@@ -35,6 +35,29 @@ if ($input != null) {
 			$values[$i] = substr($values[$i], 0, 10).' '.substr($values[$i], 11, 8);
 		}
 		$set.=($values[$i]===null?'NULL':'"'.$values[$i].'"');
+	}
+} else if (!$key) {
+	$columns = array();
+	$values = array();
+	$query = explode('&',$_SERVER['QUERY_STRING']);
+	for ($i=0;$i<count($query);$i++) {
+		if ($query[$i] != '') {
+			$param = explode('=', $query[$i]);
+			array_push($columns, preg_replace('/[^a-z0-9]+/i','',$param[0]));
+			array_push($values, $param[1]);
+		}
+	}
+	$search = '1=1 ';
+	for ($i=0;$i<count($columns);$i++) {
+		if ($values[$i] !== "") {
+			$aMinMax = preg_replace('/[^0-9-]+/i','',explode(':', $values[$i]));
+			if ($aMinMax[0] || $aMinMax[0] == 0) {
+				$search.=" AND `".$columns[$i]."` >= ".$aMinMax[0];
+			}
+			if ($aMinMax[1] || $aMinMax[1] == 0) {
+				$search.=" AND `".$columns[$i]."` <= ".$aMinMax[1];
+			}
+		}
 	}
 }
 
@@ -81,7 +104,11 @@ if (($method != 'GET') && ($_SERVER['HTTP_HOST']!='localhost')) {
 // create SQL based on HTTP method
 switch ($method) {
 	case 'GET':
-		$sql = "select * from `$table`".($key?" WHERE `id`=$key":'');
+		if (!$search) {
+			$sql = "select * from `$table`".($key?" WHERE `id`=$key":'');
+		} else {
+			$sql = "select * from `$table` WHERE $search";
+		}
 		break;
 	case 'PUT':
 		$sql = "update `$table` set $set where `id`=$key";

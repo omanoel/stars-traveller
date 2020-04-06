@@ -16,11 +16,12 @@ export interface Property {
   tooltip: string;
   min: number;
   max: number;
+  filter: boolean;
 }
 
 export interface ICatalogService {
   load: Function;
-  find: Function;
+  findOne: Function;
   initialize: Function;
   transform: Function;
 }

@@ -13,7 +13,7 @@ export abstract class BaseCatalogService implements ICatalogService {
   public load(threeComponentModel: ThreeComponentModel): void {}
 
   // @override
-  public find(
+  public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
   ): Observable<any> {

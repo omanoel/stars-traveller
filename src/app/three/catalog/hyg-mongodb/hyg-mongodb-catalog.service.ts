@@ -2,17 +2,20 @@ import { Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as THREE from 'three';
 
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
-import { ICatalogService } from '../catalog.model';
 import { BaseCatalogService } from '../base-catalog.service';
+import { isNil } from 'lodash';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HygMongodbCatalogService extends BaseCatalogService {
+  private static readonly defaultFiler = {
+    dist: '0:30',
+  };
   //
   constructor(
     protected _starsService: StarsService,
@@ -24,18 +27,11 @@ export class HygMongodbCatalogService extends BaseCatalogService {
 
   // @override
   public load(threeComponentModel: ThreeComponentModel): void {
-    this.initialize(threeComponentModel).then(() => {
-      // fill objects
-      threeComponentModel.starsImported.forEach((item) => {
-        item.plx = 1 / item.dist;
-      });
-      // refresh
-      this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
-    });
+    this.search(threeComponentModel).subscribe();
   }
 
   // @override
-  public find(
+  public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
   ): Observable<any> {
@@ -50,6 +46,49 @@ export class HygMongodbCatalogService extends BaseCatalogService {
     return this._http.get(`${baseUrl}/${id}`);
   }
 
+  // @override
+  public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.average = 'Searching stars...';
+    const filtering = {};
+    if (threeComponentModel.filters.size === 0) {
+      threeComponentModel.filters.set('dist', [0, 30]);
+    }
+    threeComponentModel.filters.forEach((f, k) => {
+      let value = '';
+      if (!isNil(f[0])) {
+        value += f[0];
+      }
+      value += ':';
+      if (!isNil(f[1])) {
+        value += f[1];
+      }
+      filtering[k] = value;
+    });
+    return this._http
+      .get(
+        threeComponentModel.selectedCatalog.url +
+          '/search/' +
+          JSON.stringify(filtering)
+      )
+      .pipe(
+        map((starsImported: any) => {
+          threeComponentModel.starsImported = starsImported;
+          // fill objects
+          threeComponentModel.starsImported.forEach((item) => {
+            this.fillPositionProperties(threeComponentModel, item);
+          });
+          // refresh
+          this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+        })
+      );
+  }
+
+  public fillPositionProperties(
+    threeComponentModel: ThreeComponentModel,
+    star: any
+  ): void {
+    star.plx = 1 / star.dist;
+  }
   /*
   public create(data) {
     return this._http.post(baseUrl, data);

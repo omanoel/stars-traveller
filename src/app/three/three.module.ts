@@ -7,9 +7,10 @@ import { MapComponent } from './map/map.component';
 import { SearchComponent } from './search/search.component';
 import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   declarations: [
     ThreeComponent,
     MapComponent,

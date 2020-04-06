@@ -1,11 +1,14 @@
+import { isNil } from 'lodash';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
-import { Catalog } from '../catalog/catalog.model';
-import { CatalogService } from '../catalog/catalog.service';
-import { InTheSkyService } from '../external/in-the-sky.service';
-import { ThreeComponentModel } from '../three.component.model';
 import { environment } from '@env/environment';
+
+import { Catalog, Property } from '../catalog/catalog.model';
+import { CatalogService } from '../catalog/catalog.service';
+import { ThreeComponentModel } from '../three.component.model';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
@@ -16,186 +19,47 @@ export class SearchComponent implements OnInit {
   @Input() model: ThreeComponentModel;
 
   public isHelpVisible = false;
-
-  public tooltip = {
-    id: {
-      title: 'The database primary key',
-      unit: '',
-    },
-    ra: {
-      title: "The star's right ascension, for epoch and equinox 2000.0",
-      unit: '',
-    },
-    dec: {
-      title: "The star's declination ascension, for epoch and equinox 2000.0",
-      unit: '°',
-    },
-    dist: {
-      title: "The star's distance in parsecs",
-      unit: 'pc',
-    },
-    hip: {
-      title: "The star's ID in the Hipparcos catalog, if known.",
-      unit: '',
-    },
-    hd: {
-      title: "The star's ID in the Henry Draper catalog, if known.",
-      unit: '',
-    },
-    hr: {
-      title:
-        "The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.",
-      unit: '',
-    },
-    gl: {
-      title:
-        "The star's ID in the third edition of the Gliese Catalog of Nearby Stars.",
-      unit: '',
-    },
-    bf: {
-      title:
-        'The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog.',
-      unit: '',
-    },
-    proper: {
-      title: '',
-      unit: '',
-    },
-    pmra: {
-      title: '',
-      unit: '',
-    },
-    pmdec: {
-      title: '',
-      unit: '',
-    },
-    rv: {
-      title: '',
-      unit: '',
-    },
-    mag: {
-      title: '',
-      unit: '',
-    },
-    absmag: {
-      title: '',
-      unit: '',
-    },
-    spect: {
-      title: '',
-      unit: '',
-    },
-    ci: {
-      title: '',
-      unit: '',
-    },
-    x: {
-      title: '',
-      unit: '',
-    },
-    y: {
-      title: '',
-      unit: '',
-    },
-    z: {
-      title: '',
-      unit: '',
-    },
-    vx: {
-      title: '',
-      unit: '',
-    },
-    vy: {
-      title: '',
-      unit: '',
-    },
-    vz: {
-      title: '',
-      unit: '',
-    },
-    rarad: {
-      title: '',
-      unit: '',
-    },
-    decrad: {
-      title: '',
-      unit: '',
-    },
-    pmrarad: {
-      title: '',
-      unit: '',
-    },
-    pmdecrad: {
-      title: '',
-      unit: '',
-    },
-    bayer: {
-      title: '',
-      unit: '',
-    },
-    flam: {
-      title: '',
-      unit: '',
-    },
-    con: {
-      title: '',
-      unit: '',
-    },
-    comp: {
-      title: '',
-      unit: '',
-    },
-    comp_primary: {
-      title: '',
-      unit: '',
-    },
-    base: {
-      title: '',
-      unit: '',
-    },
-    lum: {
-      title: '',
-      unit: '',
-    },
-    var: {
-      title: '',
-      unit: '',
-    },
-    var_min: {
-      title: '',
-      unit: '',
-    },
-    var_max: {
-      title: '',
-      unit: '',
-    },
-    tyc: {
-      title: '',
-      unit: '',
-    },
-  };
-
-  objectKeys = Object.keys;
   searchForm: FormGroup;
   selectedCatalog: Catalog;
+  isSelectedCatalogWithSearch: boolean;
 
   constructor(
-    private _inTheSkyService: InTheSkyService,
+    public translate: TranslateService,
     private _catalogService: CatalogService
   ) {}
   //
   ngOnInit() {
     this.model.selectedCatalog = this.model.catalogs[0];
+    this.isSelectedCatalogWithSearch = !isNil(
+      this._catalogService.getCatalogService(this.model.selectedCatalog).search
+    );
     this.searchForm = new FormGroup({
       catalogFc: new FormControl(this.model.selectedCatalog),
     });
+    this._buildRangeForProperties(this.model.selectedCatalog.properties);
 
     this.searchForm
       .get('catalogFc')
       .valueChanges.subscribe((value: Catalog) => {
+        this._removeRangeForProperties(this.model.selectedCatalog.properties);
         this.model.selectedCatalog = value;
+        this._buildRangeForProperties(this.model.selectedCatalog.properties);
         this._catalogService.getCatalogService(value).load(this.model);
+        this.isSelectedCatalogWithSearch = !isNil(
+          this._catalogService.getCatalogService(this.model.selectedCatalog)
+            .search
+        );
       });
+
+    this.searchForm.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((values: any) => {
+        this._manageFormProperties(values);
+      });
+  }
+
+  public propertiesWithFilter(properties: Property[]): Property[] {
+    return properties.filter((p) => p.filter);
   }
 
   public isCatalogDisabled(catalog: Catalog): boolean {
@@ -205,74 +69,110 @@ export class SearchComponent implements OnInit {
     return false;
   }
 
-  public getTitle(key: string): string {
-    if (this.tooltip[key] && this.tooltip[key].title) {
-      return this.tooltip[key].title;
-    }
-    return key;
-  }
-
-  public getUnit(key: string): string {
-    if (this.tooltip[key] && this.tooltip[key].unit) {
-      return this.tooltip[key].unit;
-    }
-    return '';
-  }
-
-  public getValue(data: any, key: string): string {
-    if (key === 'ra') {
-      return this._computeRa(data[key]);
-    } else if (key === 'dec') {
-      return this._computeDec(data[key]);
-    }
-    return data[key];
-  }
-
-  public getLink(data: any, key: string): string {
-    if (key === 'hip') {
-      const mapp = this._inTheSkyService.mapping.find(
-        (m) => m.hip === data[key]
-      );
-      if (mapp) {
-        return InTheSkyService.url + mapp.tyc;
-      }
-    }
-    return null;
-  }
-
   public seeHelp(status: boolean): void {
     this.isHelpVisible = status;
   }
 
-  private _computeRa(ra: string): string {
-    const raNumber = Number(ra);
-    const hours = Math.floor(raNumber);
-    const minutes = raNumber - hours;
-    const min = Math.floor(minutes * 60);
-    const secondes = (minutes - min / 60) * 60;
-    return (
-      hours +
-      'h ' +
-      min +
-      'm ' +
-      (Math.floor(secondes * 6000) / 100).toFixed(3) +
-      's'
+  public search(): void {
+    this._catalogService
+      .getCatalogService(this.model.selectedCatalog)
+      .search(this.model)
+      .subscribe();
+  }
+
+  isPropertyDisabled(propKey): boolean {
+    return !this.searchForm.get(propKey).value;
+  }
+
+  private _manageFormProperties(values: any): void {
+    this.propertiesWithFilter(this.model.selectedCatalog.properties).forEach(
+      (prop) => {
+        if (!isNil(values[prop.key]) && values[prop.key]) {
+          if (!this.model.filters.has(prop.key)) {
+            this.searchForm.get(prop.key + '_1').enable({ emitEvent: false });
+            this.searchForm.get(prop.key + '_r1').enable({ emitEvent: false });
+            this.searchForm.get(prop.key + '_2').enable({ emitEvent: false });
+            this.searchForm.get(prop.key + '_r2').enable({ emitEvent: false });
+            this.model.filters.set(prop.key, [
+              this.searchForm.get(prop.key + '_1').value,
+              this.searchForm.get(prop.key + '_2').value,
+            ]);
+            return;
+          }
+          const f = this.model.filters.has(prop.key)
+            ? this.model.filters.get(prop.key)
+            : [null, null];
+
+          const vr1 = values[prop.key + '_r1'];
+          const vr2 = values[prop.key + '_r2'];
+          const v1 = values[prop.key + '_1'];
+          const v2 = values[prop.key + '_2'];
+          let newV1 = v1;
+          let newV2 = v2;
+          if (vr1 !== v1) {
+            if (vr1 !== f[0]) {
+              newV1 = vr1;
+            } else {
+              newV1 = v1;
+            }
+          }
+          if (vr2 !== v2) {
+            if (vr2 !== f[1]) {
+              newV2 = vr2;
+            } else {
+              newV2 = v2;
+            }
+          }
+          if (newV1 > newV2) {
+            const oldV = newV2;
+            newV2 = newV1;
+            newV1 = oldV;
+          }
+          this.searchForm
+            .get(prop.key + '_1')
+            .setValue(newV1, { emitEvent: false });
+          this.searchForm
+            .get(prop.key + '_r1')
+            .setValue(newV1, { emitEvent: false });
+          this.searchForm
+            .get(prop.key + '_2')
+            .setValue(newV2, { emitEvent: false });
+          this.searchForm
+            .get(prop.key + '_r2')
+            .setValue(newV2, { emitEvent: false });
+          this.model.filters.set(prop.key, [newV1, newV2]);
+        } else if (this.model.filters.has(prop.key)) {
+          this.model.filters.delete(prop.key);
+          this.searchForm.get(prop.key + '_1').disable({ emitEvent: false });
+          this.searchForm.get(prop.key + '_r1').disable({ emitEvent: false });
+          this.searchForm.get(prop.key + '_2').disable({ emitEvent: false });
+          this.searchForm.get(prop.key + '_r2').disable({ emitEvent: false });
+        }
+      }
     );
   }
 
-  private _computeDec(dec: string): string {
-    const raNumber = Number(dec);
-    const hours = Math.floor(raNumber);
-    const minutes = raNumber - hours;
-    const min = Math.floor(minutes * 60);
-    const secondes = (minutes - min / 60) * 60;
-    return (
-      hours +
-      '° ' +
-      min +
-      "' " +
-      (Math.floor(secondes * 6000) / 100).toFixed(3) +
-      '"'
-    );
+  private _buildRangeForProperties(properties: Property[]): void {
+    this.propertiesWithFilter(properties).forEach((prop) => {
+      this.searchForm.addControl(prop.key, new FormControl(false));
+      this.searchForm.addControl(prop.key + '_1', new FormControl(prop.min));
+      this.searchForm.addControl(prop.key + '_2', new FormControl(prop.max));
+      this.searchForm.addControl(prop.key + '_r1', new FormControl(prop.min));
+      this.searchForm.addControl(prop.key + '_r2', new FormControl(prop.max));
+      this.searchForm.get(prop.key + '_1').disable({ emitEvent: false });
+      this.searchForm.get(prop.key + '_r1').disable({ emitEvent: false });
+      this.searchForm.get(prop.key + '_2').disable({ emitEvent: false });
+      this.searchForm.get(prop.key + '_r2').disable({ emitEvent: false });
+    });
+  }
+
+  private _removeRangeForProperties(properties: Property[]): void {
+    this.propertiesWithFilter(properties).forEach((prop) => {
+      this.searchForm.removeControl(prop.key);
+      this.searchForm.removeControl(prop.key + '_1');
+      this.searchForm.removeControl(prop.key + '_2');
+      this.searchForm.removeControl(prop.key + '_r1');
+      this.searchForm.removeControl(prop.key + '_r2');
+    });
   }
 }

@@ -10,6 +10,7 @@ import {
 
 import { ThreeComponentModel } from './three.component.model';
 import { ThreeComponentService } from './three.component.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-three',
@@ -32,6 +33,7 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   });
 
   constructor(
+    public translate: TranslateService,
     private _element: ElementRef,
     private _threeComponentService: ThreeComponentService
   ) {

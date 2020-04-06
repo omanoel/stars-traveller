@@ -28,7 +28,7 @@ export class HygCsvCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public find(
+  public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
   ): Observable<any> {

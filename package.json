@@ -23,6 +23,8 @@
     "@angular/forms": "^9.1.0",
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
+    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
     "core-js": "^3.0.0",
     "lodash": "^4.17.15",
     "rxjs": "^6.5.4",

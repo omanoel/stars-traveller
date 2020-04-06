@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { ThreeComponentModel } from '../three.component.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-indicators',
@@ -9,7 +10,7 @@ import { ThreeComponentModel } from '../three.component.model';
 })
 export class IndicatorsComponent implements OnInit {
   //
-  constructor() {}
+  constructor(public translate: TranslateService) {}
 
   @Input() model: ThreeComponentModel;
   target: THREE.Vector3;
@@ -34,9 +35,13 @@ export class IndicatorsComponent implements OnInit {
   }
 
   public distanceToLastStar(): number {
-    const dist = this.model.camera.position.distanceTo(
-      this.model.lastStarIntersected.position
-    );
-    return this.roundValue(dist);
+    if (this.model.lastStarIntersected) {
+      const dist = this.model.camera.position.distanceTo(
+        this.model.lastStarIntersected.position
+      );
+      return this.roundValue(dist);
+    } else {
+      return this.distanceToTarget();
+    }
   }
 }

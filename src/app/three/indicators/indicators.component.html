@@ -1,6 +1,7 @@
 <div class="indicators" *ngIf="model.average === ''">
-  <p>Dist. to helper: {{ distanceToTarget() }} parsecs</p>
-  <p>Dist. to last hover star: {{ distanceToLastStar() }} parsecs</p>
-  <p>Helper coord. x: {{ roundValue(target.x) }} / y: {{ roundValue(target.x) }} / z: {{ roundValue(target.x) }}</p>
-  <p>{{ model.starsImported.length }} stars</p>
+  <p>{{ 'INDICATOR.DISTANCE_TO_HELPER' | translate }}: {{ distanceToTarget() }} parsecs</p>
+  <p>{{ 'INDICATOR.DISTANCE_TO_LAST_STAR' | translate }}: {{ distanceToLastStar() }} parsecs</p>
+  <p>{{ 'INDICATOR.HELPER_COORDS' | translate }} x: {{ roundValue(target.x) }} / y: {{ roundValue(target.y) }} / z:
+    {{ roundValue(target.z) }}</p>
+  <p class="count">{{ model.starsImported.length }} {{ 'INDICATOR.STARS' | translate }}</p>
 </div>

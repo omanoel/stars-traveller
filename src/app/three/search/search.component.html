@@ -1,22 +1,37 @@
 <div class="search" *ngIf="model.showSearch">
   <form [formGroup]="searchForm">
     <select formControlName="catalogFc">
-      <option value="" disabled>Choose your catalog</option>
+      <option value="" disabled>{{ 'SEARCH.CHOOSE_CATALOG' | translate }}</option>
       <option *ngFor="let _catalog of model.catalogs" [ngValue]="_catalog" [disabled]="isCatalogDisabled(_catalog)">
         {{ _catalog.name }}</option>
     </select>
-    <!--p class="property" *ngFor="let prop of model.selectedCatalog.properties">
-      <span class="key" title="{{ prop.tooltip }}">{{ prop.key }}</span>:
-      <span class="value"
-        *ngIf="model.lastStarIntersected && model.lastStarIntersected.userData.starProp">{{ getValue(model.lastStarIntersected.userData.starProp, prop.key) }}&nbsp;{{ prop.unit }}</span>
-      <span class="range"><input type="range" id="volume" name="volume" min="0" max="11"></span>
-    </p-->
+    <div class="properties" *ngIf="isSelectedCatalogWithSearch">
+      <div class="property" *ngFor="let prop of propertiesWithFilter(model.selectedCatalog.properties)">
+        <div class="label"><input type="checkbox"
+            [formControlName]="prop.key">{{ 'SEARCH.PARAM_' + prop.key | translate }}</div>
+        <div class="values">
+          <input [formControlName]="prop.key + '_1'" type="number" class="value min" min="{{ prop.min }}"
+            max="{{ prop.max }}">
+          <section class="range-slider">
+            <input [formControlName]="prop.key + '_r1'" min="{{ prop.min }}" max="{{ prop.max }}" type="range">
+            <input [formControlName]="prop.key + '_r2'" min="{{ prop.min }}" max="{{ prop.max }}" type="range">
+          </section>
+          <input [formControlName]="prop.key + '_2'" type="number" class="value max" min="{{ prop.min }}"
+            max="{{ prop.max }}">
+        </div>
+      </div>
+      <div class="bottom-search">
+        <button class="btn-search" (click)="search()">{{ 'SEARCH.SEARCH' | translate }}</button>
+      </div>
+    </div>
   </form>
-  <p class="action">[&nbsp;<a *ngIf="!isHelpVisible" (click)="seeHelp(true)">Show help for params</a><a
-      *ngIf="isHelpVisible" (click)="seeHelp(false)">Hide help for params</a>&nbsp;]</p>
+  <p class="action" *ngIf="model.selectedCatalog.service === 'HygCsvCatalogService'">[&nbsp;
+    <a *ngIf="!isHelpVisible" (click)="seeHelp(true)">{{ 'SEARCH.SHOW_PARAMS_DESCRIPTION' | translate }}</a>
+    <a *ngIf="isHelpVisible" (click)="seeHelp(false)">{{ 'SEARCH.HIDE_PARAMS_DESCRIPTION' | translate }}</a>
+    &nbsp;]</p>
 </div>
-<div class="search-help" *ngIf="isHelpVisible">
-  <p>From <a href="https://github.com/astronexus/HYG-Database">https://github.com/astronexus/HYG-Database</a></p>
+<div class="search-help" *ngIf="isHelpVisible && model.selectedCatalog.service === 'HygCsvCatalogService'">
+  <p>From <a href=" https://github.com/astronexus/HYG-Database">https://github.com/astronexus/HYG-Database </a> </p>
   <ul>
     <li>id: The database primary key.</li>
     <li>hip: The star's ID in the Hipparcos catalog, if known.</li>
@@ -63,5 +78,5 @@
     <li>var_min, var_max: Star's approximate magnitude range, for variables. This value is based on the Hp magnitudes
       for the range in the original Hipparcos catalog, adjusted to the V magnitude scale to match the "mag" field."</li>
   </ul>
-  <p class="close-me" (click)="seeHelp(false)">[x] Close me</p>
+  <p class="close-me" (click)="seeHelp(false)">[x] {{ 'COMMON.CLOSE' | translate }}</p>
 </div>

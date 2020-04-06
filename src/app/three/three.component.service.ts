@@ -56,6 +56,7 @@ export class ThreeComponentService {
       catalogs: [],
       selectedCatalog: null,
       showSearch: false,
+      filters: new Map<string, number[]>(),
     };
   }
 
@@ -253,7 +254,7 @@ export class ThreeComponentService {
         threeComponentModel.currentIntersected;
       this._catalogService
         .getCatalogService(threeComponentModel.selectedCatalog)
-        .find(
+        .findOne(
           threeComponentModel,
           threeComponentModel.currentIntersected.userData.starProp['id']
         )

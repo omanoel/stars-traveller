@@ -30,6 +30,7 @@ export interface ThreeComponentModel {
   catalogs: Catalog[];
   selectedCatalog: Catalog;
   showSearch: boolean;
+  filters: Map<string, number[]>;
 }
 
 export interface StarOver {

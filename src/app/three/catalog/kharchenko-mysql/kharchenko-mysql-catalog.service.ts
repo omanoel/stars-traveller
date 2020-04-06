@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
+import { isNil } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -23,18 +24,11 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
 
   // @override
   public load(threeComponentModel: ThreeComponentModel): void {
-    this.initialize(threeComponentModel).then(() => {
-      // fill objects
-      threeComponentModel.starsImported.forEach((item) => {
-        this.fillPositionProperties(threeComponentModel, item);
-      });
-      // refresh
-      this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
-    });
+    this.search(threeComponentModel).subscribe();
   }
 
   // @override
-  public find(
+  public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
   ): Observable<any> {
@@ -44,6 +38,39 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
         return starImported;
       })
     );
+  }
+
+  // @override
+  public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.average = 'Searching stars...';
+    let filtering = '?';
+    if (threeComponentModel.filters.size === 0) {
+      threeComponentModel.filters.set('plx', [-20, 20]);
+    }
+    threeComponentModel.filters.forEach((f, k) => {
+      let value = k + '=';
+      if (!isNil(f[0])) {
+        value += f[0];
+      }
+      value += ':';
+      if (!isNil(f[1])) {
+        value += f[1];
+      }
+      filtering += value + '&';
+    });
+    return this._http
+      .get(threeComponentModel.selectedCatalog.url + filtering)
+      .pipe(
+        map((starsImported: any) => {
+          threeComponentModel.starsImported = starsImported;
+          // fill objects
+          threeComponentModel.starsImported.forEach((item) => {
+            this.fillPositionProperties(threeComponentModel, item);
+          });
+          // refresh
+          this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+        })
+      );
   }
 
   public getAll$(baseUrl: string): Observable<any> {

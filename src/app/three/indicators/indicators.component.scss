@@ -17,5 +17,10 @@
     flex: 1;
     text-align: center;
     min-width: 200px;
+    padding: 0;
+
+    &.count {
+      font-size: 14px;
+    }
   }
 }

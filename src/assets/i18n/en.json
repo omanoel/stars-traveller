@@ -1,0 +1,37 @@
+{
+  "COMMON": {
+    "CLOSE": "Close",
+    "LOADING_STARS": "Loading stars catalog...",
+    "OPTIONS": "See options",
+    "HOW_TO_NAVIGATE": "How to navigate",
+    "DATASTRO": "Visit this awesome website",
+    "GITHUB": "See on GitHub"
+  },
+  "HOME": {
+    "SELECT": "Change language"
+  },
+  "INDICATOR": {
+    "STARS": "stars",
+    "DISTANCE_TO_HELPER": "Dist. to helper",
+    "DISTANCE_TO_LAST_STAR": "Dist. to last hover star",
+    "HELPER_COORDS": "Helper coord."
+  },
+  "SEARCH": {
+    "CHOOSE_CATALOG": "Choose your catalog",
+    "SEARCH": "Search",
+    "SHOW_PARAMS_DESCRIPTION": "Show params description",
+    "HIDE_PARAMS_DESCRIPTION": "Hide params description",
+    "PARAM_ra": "Right Ascension (h)",
+    "PARAM_dec": "Declination (°)",
+    "PARAM_dist": "Distance (pc)",
+    "PARAM_plx": "Parallaxe (0.01mas)",
+    "PARAM_mag": "Magnitude",
+    "PARAM_absmag": "Absolute magnitude"
+  },
+  "NAVIGATE": {
+    "ROTATE": "Left mouse click and drag for rotation around the target",
+    "TRANSLATE": "Right mouse click and drag for translation of the target",
+    "ZOOM": "Mouse wheel for zooming/dezooming from target",
+    "GOTO": "Left mouse single click on a star to navigate"
+  }
+}

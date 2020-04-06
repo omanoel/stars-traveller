@@ -1,22 +1,22 @@
 <app-map [model]="threeComponentModel"></app-map>
 <div class="loader" *ngIf="threeComponentModel.average != ''">
-  <div class="loading">Loading stars...</div>
+  <div class="loading">{{ 'COMMON.LOADING_STARS' | translate }}</div>
   <img class="rotate" src="./assets/textures/lensflare0_alpha.png">
 </div>
 <app-search [model]="threeComponentModel"></app-search>
 <app-tooltip [model]="threeComponentModel"></app-tooltip>
 <app-indicators [model]="threeComponentModel"></app-indicators>
 <div class="github">
-  <a (click)="toggleSearch()" title="Search..."><img src="./assets/options.png" /></a>
-  <a (click)="displayHelp(true)" title="How to navigate..."><img src="./assets/help.png" /></a>
-  <a href="https://www.datastro.eu/" title="Visit this awesome website"><img src="./assets/datastro.svg" /></a>
-  <a href="https://github.com/omanoel/stars-traveller" title="Source of this open project"><img
+  <a (click)="toggleSearch()" title="{{ 'COMMON.OPTIONS' | translate }}"><img src="./assets/options.png" /></a>
+  <a (click)="displayHelp(true)" title="{{ 'COMMON.HOW_TO_NAVIGATE' | translate }}"><img src="./assets/help.png" /></a>
+  <a href="https://www.datastro.eu/" title="{{ 'COMMON.DATASTRO' | translate }}"><img src="./assets/datastro.svg" /></a>
+  <a href="https://github.com/omanoel/stars-traveller" title="{{ 'COMMON.GITHUB' | translate }}"><img
       src="./assets/GitHub-Mark-Light-32px.png" /></a>
 </div>
 <div class="help" *ngIf="isHelpDisplayed">
-  <p>* Left mouse click and drag for rotation around the target</p>
-  <p>* Right mouse click and drag for translation around the target</p>
-  <p>* Mouse wheel for zooming/dezooming from target</p>
-  <p>* Left mouse single click on a star to navigate</p>
-  <p class="close"><a (click)="displayHelp(false)">Close this help</a></p>
+  <p>* {{ 'NAVIGATE.ROTATE' | translate }}</p>
+  <p>* {{ 'NAVIGATE.TRANSLATE' | translate }}</p>
+  <p>* {{ 'NAVIGATE.ZOOM' | translate }}</p>
+  <p>* {{ 'NAVIGATE.GOTO' | translate }}</p>
+  <p class="close"><a (click)="displayHelp(false)">{{ 'COMMON.CLOSE' | translate }}</a></p>
 </div>
