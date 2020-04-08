@@ -1,5 +1,3 @@
-import { ThreeComponentModel } from '../three.component.model';
-
 export interface Catalog {
   id: number;
   name: string;

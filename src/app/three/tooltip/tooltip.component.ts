@@ -1,12 +1,10 @@
+import { isNil } from 'lodash';
+
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 
 import { Catalog, Property } from '../catalog/catalog.model';
-import { CatalogService } from '../catalog/catalog.service';
 import { InTheSkyService } from '../external/in-the-sky.service';
 import { ThreeComponentModel } from '../three.component.model';
-import { environment } from '@env/environment';
-import { isNil } from 'lodash';
 
 @Component({
   selector: 'app-tooltip',
