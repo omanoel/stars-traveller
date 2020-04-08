@@ -5,7 +5,8 @@
     "OPTIONS": "See options",
     "HOW_TO_NAVIGATE": "How to navigate",
     "DATASTRO": "Visit this awesome website",
-    "GITHUB": "See on GitHub"
+    "GITHUB": "See on GitHub",
+    "ERROR_TOO_MANY_STARS": "Too many stars match the criterias."
   },
   "HOME": {
     "SELECT": "Change language"
@@ -26,7 +27,17 @@
     "PARAM_dist": "Distance (pc)",
     "PARAM_plx": "Parallaxe (0.01mas)",
     "PARAM_mag": "Magnitude",
-    "PARAM_absmag": "Absolute magnitude"
+    "PARAM_absmag": "Absolute magnitude",
+    "PARAM_vmag": "V magnitude in Johnson system (mmag)",
+    "PARAM_bmag": "B magnitude in Johnson system (mmag)",
+    "PARAM_tyc1": "TYC1 number from Tycho-2",
+    "PARAM_tyc2": "TYC2 number from Tycho-2",
+    "PARAM_tyc3": "TYC3 number from Tycho-2",
+    "PARAM_hip": "Hipparcos number",
+    "PARAM_dm": "DM number",
+    "PARAM_hd": "HD number",
+    "PARAM_pmra": "Proper Motion in RA*cos(DE) (0.01mas/yr)",
+    "PARAM_pmdec": "Proper Motion in Declination (0.01mas/yr)"
   },
   "NAVIGATE": {
     "ROTATE": "Left mouse click and drag for rotation around the target",

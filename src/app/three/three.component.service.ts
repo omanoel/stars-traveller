@@ -57,6 +57,7 @@ export class ThreeComponentService {
       selectedCatalog: null,
       showSearch: false,
       filters: new Map<string, number[]>(),
+      errorMessage: null,
     };
   }
 

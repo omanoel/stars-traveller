@@ -31,6 +31,7 @@ export interface ThreeComponentModel {
   selectedCatalog: Catalog;
   showSearch: boolean;
   filters: Map<string, number[]>;
+  errorMessage: string;
 }
 
 export interface StarOver {

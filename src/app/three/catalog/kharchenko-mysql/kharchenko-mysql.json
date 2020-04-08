@@ -9,8 +9,8 @@
     "type": "string",
     "tooltip": "The database primary key",
     "unit": null,
-    "min": 0,
-    "max": 119614,
+    "min": null,
+    "max": null,
     "filter": false
   }, {
     "key": "ra",
@@ -33,8 +33,8 @@
     "type": "number",
     "tooltip": "The star's trigonometric parallax",
     "unit": "0.01mas",
-    "min": -99999,
-    "max": 100000,
+    "min": -91909,
+    "max": 77233,
     "filter": true
   }, {
     "key": "dist",
@@ -46,102 +46,62 @@
     "filter": false
   }, {
     "key": "hip",
-    "type": "string",
+    "type": "number",
     "tooltip": "The star's ID in the Hipparcos catalog, if known.",
     "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "min": 0,
+    "max": 120404,
+    "filter": true
   }, {
     "key": "hd",
-    "type": "string",
+    "type": "number",
     "tooltip": "The star's ID in the Henry Draper catalog, if known.",
     "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "min": 0,
+    "max": 359083,
+    "filter": true
   }, {
-    "key": "hr",
-    "type": "string",
-    "tooltip": "The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.",
+    "key": "dm",
+    "type": "number",
+    "tooltip": "The star's DM number",
     "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "gl",
-    "type": "string",
-    "tooltip": "The star's ID in the third edition of the Gliese Catalog of Nearby Stars.",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "bf",
-    "type": "string",
-    "tooltip": "The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog.",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "proper",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "min": -8900053,
+    "max": 8916306,
+    "filter": true
   }, {
     "key": "pmra",
     "type": "number",
     "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "unit": "0.01mas/yr",
+    "min": -441735,
+    "max": 677335,
+    "filter": true
   }, {
     "key": "pmdec",
     "type": "number",
     "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "unit": "0.01mas/yr",
+    "min": -581370,
+    "max": 1030810,
+    "filter": true
   }, {
-    "key": "rv",
+    "key": "bmag",
     "type": "number",
     "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "unit": "mmag",
+    "min": -1429,
+    "max": 16052,
+    "filter": true
   }, {
-    "key": "mag",
+    "key": "vmag",
     "type": "number",
     "tooltip": "",
-    "unit": null,
-    "min": 0,
-    "max": 20,
-    "filter": false
-  }, {
-    "key": "absmag",
-    "type": "number",
-    "tooltip": "",
-    "unit": null,
-    "min": -20,
-    "max": 20,
-    "filter": false
+    "unit": "mmag",
+    "min": -1121,
+    "max": 14140,
+    "filter": true
   }, {
     "key": "spect",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "ci",
     "type": "string",
     "tooltip": "",
     "unit": null,
@@ -229,94 +189,6 @@
     "max": null,
     "filter": false
   }, {
-    "key": "bayer",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "flam",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "con",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "comp",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "comp_primary",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "base",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "lum",
-    "type": "number",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "var",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "var_min",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "var_max",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "tyc",
-    "type": "string",
-    "tooltip": "",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
     "key": "dm",
     "type": "string",
     "tooltip": "",
@@ -326,27 +198,27 @@
     "filter": false
   }, {
     "key": "tyc1",
-    "type": "string",
+    "type": "number",
     "tooltip": "",
     "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "min": 0,
+    "max": 9537,
+    "filter": true
   }, {
     "key": "tyc2",
-    "type": "string",
+    "type": "number",
     "tooltip": "",
     "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "min": 0,
+    "max": 12119,
+    "filter": true
   }, {
     "key": "tyc3",
-    "type": "string",
+    "type": "number",
     "tooltip": "",
     "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
+    "min": 0,
+    "max": 3,
+    "filter": true
   }]
 }

@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, concatMap } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -59,16 +59,32 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
       filtering += value + '&';
     });
     return this._http
-      .get(threeComponentModel.selectedCatalog.url + filtering)
+      .get(threeComponentModel.selectedCatalog.url + '/count' + filtering)
       .pipe(
+        concatMap((countOfStars: any) => {
+          console.log(countOfStars);
+          const count = +countOfStars[0].total;
+          if (count < 50000) {
+            return this._http.get(
+              threeComponentModel.selectedCatalog.url + filtering
+            );
+          } else {
+            return of(null);
+          }
+        }),
         map((starsImported: any) => {
-          threeComponentModel.starsImported = starsImported;
-          // fill objects
-          threeComponentModel.starsImported.forEach((item) => {
-            this.fillPositionProperties(threeComponentModel, item);
-          });
-          // refresh
-          this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+          if (starsImported) {
+            threeComponentModel.errorMessage = null;
+            threeComponentModel.starsImported = starsImported;
+            // fill objects
+            threeComponentModel.starsImported.forEach((item) => {
+              this.fillPositionProperties(threeComponentModel, item);
+            });
+            // refresh
+            this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+          } else {
+            threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_STARS';
+          }
         })
       );
   }
@@ -94,8 +110,14 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
       star.plx = 0.01;
     }
     star.dist = 100000 / Math.abs(star.plx);
-    star.x = star.dist * Math.cos((star.ra * Math.PI) / 12);
-    star.y = star.dist * Math.sin((star.ra * Math.PI) / 12);
+    star.x =
+      star.dist *
+      Math.cos((star.dec * Math.PI) / 180) *
+      Math.cos((star.ra * Math.PI) / 12);
+    star.y =
+      star.dist *
+      Math.cos((star.dec * Math.PI) / 180) *
+      Math.sin((star.ra * Math.PI) / 12);
     star.z = star.dist * Math.sin((star.dec * Math.PI) / 180);
   }
 

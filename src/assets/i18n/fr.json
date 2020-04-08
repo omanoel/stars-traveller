@@ -5,7 +5,8 @@
     "OPTIONS": "Voir les options",
     "HOW_TO_NAVIGATE": "Comment naviguer",
     "DATASTRO": "Visiter ce site génial",
-    "GITHUB": "Voir ce projet sur GitHub"
+    "GITHUB": "Voir ce projet sur GitHub",
+    "ERROR_TOO_MANY_STARS": "Trop d'étoiles correspondent aux critères. Affinez."
   },
   "HOME": {
     "SELECT": "Changer de langue"
@@ -26,7 +27,17 @@
     "PARAM_dist": "Distance (pc)",
     "PARAM_plx": "Parallaxe (0.01mas)",
     "PARAM_mag": "Magnitude",
-    "PARAM_absmag": "Magnitude absolue"
+    "PARAM_absmag": "Magnitude absolue",
+    "PARAM_vmag": "Magnitude V du filtre Johnson (mmag)",
+    "PARAM_bmag": "Magnitude B du filtre Johnson (mmag)",
+    "PARAM_tyc1": "Nombre TYC1 de Tycho-2",
+    "PARAM_tyc2": "Nombre TYC2 de Tycho-2",
+    "PARAM_tyc3": "Nombre TYC3 de Tycho-2",
+    "PARAM_hip": "Identifiant Hipparcos",
+    "PARAM_dm": "Identifiant DM",
+    "PARAM_hd": "Identifiant HD",
+    "PARAM_pmra": "Mouvement selon l'ascension droite RA*cos(DE) (0.01mas/an)",
+    "PARAM_pmdec": "Mouvement selon la déclinaison (0.01mas/an)"
   },
   "NAVIGATE": {
     "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
