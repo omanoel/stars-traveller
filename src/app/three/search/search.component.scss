@@ -1,6 +1,6 @@
 :host {
   position: absolute;
-  left: 5px;
+  left: 310px;
   top: 5px;
   background-color: rgba(0, 0, 0, 0.8);
 }
@@ -29,20 +29,20 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 3px;
   padding: 5px;
-  height: 800px;
+  max-height: 600px;
   overflow-y: auto;
 
-  .properties {
-    margin-top: 10px;
-  }
-
   .property {
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     margin: 2px;
     padding: 10px;
     font-size: 12px;
     display: flex;
     flex-direction: column;
+
+    &.used {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
 
     .label {
       flex: 1;

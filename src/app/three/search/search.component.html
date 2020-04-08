@@ -1,12 +1,8 @@
-<div class="search" *ngIf="model.showSearch">
+<div class="search">
   <form [formGroup]="searchForm">
-    <select formControlName="catalogFc">
-      <option value="" disabled>{{ 'SEARCH.CHOOSE_CATALOG' | translate }}</option>
-      <option *ngFor="let _catalog of model.catalogs" [ngValue]="_catalog" [disabled]="isCatalogDisabled(_catalog)">
-        {{ _catalog.name }}</option>
-    </select>
     <div class="properties" *ngIf="isSelectedCatalogWithSearch">
-      <div class="property" *ngFor="let prop of propertiesWithFilter(model.selectedCatalog.properties)">
+      <div class="property" [ngClass]="{'used': searchForm.get(prop.key).value}"
+        *ngFor="let prop of propertiesWithFilter(model.selectedCatalog.properties)">
         <div class="label"><input type="checkbox"
             [formControlName]="prop.key">{{ 'SEARCH.PARAM_' + prop.key | translate }}</div>
         <div class="values">
@@ -21,7 +17,8 @@
         </div>
       </div>
       <div class="bottom-search">
-        <button class="btn-search" (click)="search()">{{ 'SEARCH.SEARCH' | translate }}</button>
+        <button class="btn-search" (click)="search()">{{ 'SEARCH.SEARCH' | translate }}</button>&nbsp;&nbsp;&nbsp;
+        <button class="btn-search" (click)="close()">{{ 'COMMON.CLOSE' | translate }}</button>
       </div>
     </div>
   </form>

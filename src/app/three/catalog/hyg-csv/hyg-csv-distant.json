@@ -1,5 +1,5 @@
 {
-  "id": 1,
+  "id": 2,
   "name": "HYG Catalog (csv) distant",
   "production": true,
   "url": "https://raw.githubusercontent.com/astronexus/HYG-Database/master/hygdata_v3.csv",

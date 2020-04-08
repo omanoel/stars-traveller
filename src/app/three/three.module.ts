@@ -8,12 +8,14 @@ import { SearchComponent } from './search/search.component';
 import { ThreeComponent } from './three.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { CatalogsComponent } from './catalogs/catalogs.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   declarations: [
     ThreeComponent,
     MapComponent,
+    CatalogsComponent,
     IndicatorsComponent,
     SearchComponent,
     TooltipComponent,

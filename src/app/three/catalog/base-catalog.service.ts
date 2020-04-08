@@ -1,4 +1,4 @@
-import { ICatalogService } from './catalog.model';
+import { ICatalogService, Catalog } from './catalog.model';
 import { StarsService } from '../stars/stars.service';
 import { ThreeComponentModel } from '../three.component.model';
 import { Observable, of } from 'rxjs';
@@ -7,6 +7,11 @@ import * as THREE from 'three';
 export abstract class BaseCatalogService implements ICatalogService {
   constructor(protected _starsService: StarsService) {
     // Empty
+  }
+
+  // @override
+  public count$(catalog: Catalog): Observable<number> {
+    return of(0);
   }
 
   // @override

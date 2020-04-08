@@ -4,13 +4,13 @@
     <p>{{ 'COMMON.LOADING_STARS' | translate }}</p>
     <p class="error" *ngIf="threeComponentModel.errorMessage">{{ threeComponentModel.errorMessage | translate }}</p>
   </div>
-  <img class="rotate" src="./assets/textures/lensflare0_alpha.png">
+  <img class="rotate" src="./assets/textures/lensflare0_alpha.png" *ngIf="!threeComponentModel.errorMessage">
 </div>
-<app-search [model]="threeComponentModel"></app-search>
+<app-catalogs [model]="threeComponentModel"></app-catalogs>
+<app-search [model]="threeComponentModel" *ngIf="threeComponentModel.showSearch"></app-search>
 <app-tooltip [model]="threeComponentModel"></app-tooltip>
 <app-indicators [model]="threeComponentModel"></app-indicators>
 <div class="github">
-  <a (click)="toggleSearch()" title="{{ 'COMMON.OPTIONS' | translate }}"><img src="./assets/options.png" /></a>
   <a (click)="displayHelp(true)" title="{{ 'COMMON.HOW_TO_NAVIGATE' | translate }}"><img src="./assets/help.png" /></a>
   <a href="https://www.datastro.eu/" title="{{ 'COMMON.DATASTRO' | translate }}"><img src="./assets/datastro.svg" /></a>
   <a href="https://github.com/omanoel/stars-traveller" title="{{ 'COMMON.GITHUB' | translate }}"><img

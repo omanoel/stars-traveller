@@ -1,5 +1,5 @@
-import { Observable, of } from 'rxjs';
-import { map, concatMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { map, concatMap, catchError } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,6 +8,7 @@ import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
 import { isNil } from 'lodash';
+import { Catalog } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,19 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
   }
 
   // @override
+  public count$(catalog: Catalog): Observable<number> {
+    return this._http.get(catalog.url + '/count').pipe(
+      map((result) => {
+        return result[0].total;
+      })
+    );
+  }
+
+  // @override
   public load(threeComponentModel: ThreeComponentModel): void {
+    threeComponentModel.filters.clear();
+    threeComponentModel.errorMessage = null;
+    threeComponentModel.filters.set('bmag', [-1429, 7000]);
     this.search(threeComponentModel).subscribe();
   }
 
@@ -36,17 +49,16 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
       map((starImported: any) => {
         this.fillPositionProperties(threeComponentModel, starImported);
         return starImported;
-      })
+      }),
+      catchError(() => of('Error, could not count'))
     );
   }
 
   // @override
   public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.errorMessage = null;
     threeComponentModel.average = 'Searching stars...';
     let filtering = '?';
-    if (threeComponentModel.filters.size === 0) {
-      threeComponentModel.filters.set('plx', [-20, 20]);
-    }
     threeComponentModel.filters.forEach((f, k) => {
       let value = k + '=';
       if (!isNil(f[0])) {
@@ -85,6 +97,10 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
           } else {
             threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_STARS';
           }
+        }),
+        catchError((err: any) => {
+          threeComponentModel.errorMessage = 'COMMON.CATALOG_NOT_READY';
+          return of(null);
         })
       );
   }

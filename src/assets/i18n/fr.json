@@ -6,7 +6,11 @@
     "HOW_TO_NAVIGATE": "Comment naviguer",
     "DATASTRO": "Visiter ce site génial",
     "GITHUB": "Voir ce projet sur GitHub",
-    "ERROR_TOO_MANY_STARS": "Trop d'étoiles correspondent aux critères. Affinez."
+    "ERROR_TOO_MANY_STARS": "Trop d'étoiles correspondent aux critères. Affinez.",
+    "CATALOG_NOT_READY": "Ce catalogue ne répond pas."
+  },
+  "CATALOGS": {
+    "FILTERS": "Afficher modifier les filtres"
   },
   "HOME": {
     "SELECT": "Changer de langue"

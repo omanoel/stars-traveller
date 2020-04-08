@@ -62,10 +62,6 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  public toggleSearch(): void {
-    this.threeComponentModel.showSearch = !this.threeComponentModel.showSearch;
-  }
-
   public displayHelp(status: boolean): void {
     this.isHelpDisplayed = status;
   }

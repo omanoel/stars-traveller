@@ -1,4 +1,6 @@
-import { Observable } from 'rxjs';
+import { isNil } from 'lodash';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -6,14 +8,13 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
-import { isNil } from 'lodash';
-import { map } from 'rxjs/operators';
+import { Catalog } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HygMongodbCatalogService extends BaseCatalogService {
-  private static readonly defaultFiler = {
+  private static readonly defaultFilter = {
     dist: '0:30',
   };
   //
@@ -26,7 +27,15 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   }
 
   // @override
+  public count$(catalog: Catalog): Observable<number> {
+    return of(119614);
+  }
+
+  // @override
   public load(threeComponentModel: ThreeComponentModel): void {
+    threeComponentModel.errorMessage = null;
+    threeComponentModel.filters.clear();
+    threeComponentModel.filters.set('dist', [0, 30]);
     this.search(threeComponentModel).subscribe();
   }
 
@@ -48,11 +57,9 @@ export class HygMongodbCatalogService extends BaseCatalogService {
 
   // @override
   public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.errorMessage = null;
     threeComponentModel.average = 'Searching stars...';
     const filtering = {};
-    if (threeComponentModel.filters.size === 0) {
-      threeComponentModel.filters.set('dist', [0, 30]);
-    }
     threeComponentModel.filters.forEach((f, k) => {
       let value = '';
       if (!isNil(f[0])) {
@@ -79,6 +86,10 @@ export class HygMongodbCatalogService extends BaseCatalogService {
           });
           // refresh
           this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+        }),
+        catchError((err: any) => {
+          threeComponentModel.errorMessage = 'COMMON.CATALOG_NOT_READY';
+          return of(null);
         })
       );
   }

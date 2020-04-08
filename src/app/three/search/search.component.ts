@@ -19,9 +19,9 @@ export class SearchComponent implements OnInit {
   @Input() model: ThreeComponentModel;
 
   public isHelpVisible = false;
-  searchForm: FormGroup;
-  selectedCatalog: Catalog;
-  isSelectedCatalogWithSearch: boolean;
+  public searchForm: FormGroup;
+  public selectedCatalog: Catalog;
+  public isSelectedCatalogWithSearch: boolean;
 
   constructor(
     public translate: TranslateService,
@@ -29,27 +29,11 @@ export class SearchComponent implements OnInit {
   ) {}
   //
   ngOnInit() {
-    this.model.selectedCatalog = this.model.catalogs[0];
     this.isSelectedCatalogWithSearch = !isNil(
       this._catalogService.getCatalogService(this.model.selectedCatalog).search
     );
-    this.searchForm = new FormGroup({
-      catalogFc: new FormControl(this.model.selectedCatalog),
-    });
-    this._buildRangeForProperties(this.model.selectedCatalog.properties);
-
-    this.searchForm
-      .get('catalogFc')
-      .valueChanges.subscribe((value: Catalog) => {
-        this._removeRangeForProperties(this.model.selectedCatalog.properties);
-        this.model.selectedCatalog = value;
-        this._buildRangeForProperties(this.model.selectedCatalog.properties);
-        this._catalogService.getCatalogService(value).load(this.model);
-        this.isSelectedCatalogWithSearch = !isNil(
-          this._catalogService.getCatalogService(this.model.selectedCatalog)
-            .search
-        );
-      });
+    this.searchForm = new FormGroup({});
+    this._buildRangeForProperties(this.model);
 
     this.searchForm.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
@@ -60,13 +44,6 @@ export class SearchComponent implements OnInit {
 
   public propertiesWithFilter(properties: Property[]): Property[] {
     return properties.filter((p) => p.filter);
-  }
-
-  public isCatalogDisabled(catalog: Catalog): boolean {
-    if (environment.production) {
-      return catalog.production !== environment.production;
-    }
-    return false;
   }
 
   public seeHelp(status: boolean): void {
@@ -80,8 +57,8 @@ export class SearchComponent implements OnInit {
       .subscribe();
   }
 
-  isPropertyDisabled(propKey): boolean {
-    return !this.searchForm.get(propKey).value;
+  public close(): void {
+    this.model.showSearch = false;
   }
 
   private _manageFormProperties(values: any): void {
@@ -152,17 +129,28 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  private _buildRangeForProperties(properties: Property[]): void {
+  private _buildRangeForProperties(model: ThreeComponentModel): void {
+    const properties = model.selectedCatalog.properties;
     this.propertiesWithFilter(properties).forEach((prop) => {
-      this.searchForm.addControl(prop.key, new FormControl(false));
-      this.searchForm.addControl(prop.key + '_1', new FormControl(prop.min));
-      this.searchForm.addControl(prop.key + '_2', new FormControl(prop.max));
-      this.searchForm.addControl(prop.key + '_r1', new FormControl(prop.min));
-      this.searchForm.addControl(prop.key + '_r2', new FormControl(prop.max));
-      this.searchForm.get(prop.key + '_1').disable({ emitEvent: false });
-      this.searchForm.get(prop.key + '_r1').disable({ emitEvent: false });
-      this.searchForm.get(prop.key + '_2').disable({ emitEvent: false });
-      this.searchForm.get(prop.key + '_r2').disable({ emitEvent: false });
+      const isUsed = model.filters.has(prop.key);
+      let min = prop.min;
+      let max = prop.max;
+      if (isUsed) {
+        min = model.filters.get(prop.key)[0];
+        max = model.filters.get(prop.key)[1];
+      }
+
+      this.searchForm.addControl(prop.key, new FormControl(isUsed));
+      this.searchForm.addControl(prop.key + '_1', new FormControl(min));
+      this.searchForm.addControl(prop.key + '_2', new FormControl(max));
+      this.searchForm.addControl(prop.key + '_r1', new FormControl(min));
+      this.searchForm.addControl(prop.key + '_r2', new FormControl(max));
+      if (!isUsed) {
+        this.searchForm.get(prop.key + '_1').disable({ emitEvent: false });
+        this.searchForm.get(prop.key + '_r1').disable({ emitEvent: false });
+        this.searchForm.get(prop.key + '_2').disable({ emitEvent: false });
+        this.searchForm.get(prop.key + '_r2').disable({ emitEvent: false });
+      }
     });
   }
 

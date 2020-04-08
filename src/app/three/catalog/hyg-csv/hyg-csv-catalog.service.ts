@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
+import { Catalog } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class HygCsvCatalogService extends BaseCatalogService {
 
   // @override
   public load(threeComponentModel: ThreeComponentModel): void {
+    threeComponentModel.errorMessage = null;
     this.initialize(threeComponentModel).then(() => {
       // fill objects
       threeComponentModel.starsImported.forEach((item) => {
@@ -25,6 +27,11 @@ export class HygCsvCatalogService extends BaseCatalogService {
       // refresh
       this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
     });
+  }
+
+  // @override
+  public count$(catalog: Catalog): Observable<number> {
+    return of(119614);
   }
 
   // @override

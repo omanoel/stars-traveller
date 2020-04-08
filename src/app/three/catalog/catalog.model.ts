@@ -18,6 +18,7 @@ export interface Property {
 }
 
 export interface ICatalogService {
+  count$: Function;
   load: Function;
   findOne: Function;
   initialize: Function;
