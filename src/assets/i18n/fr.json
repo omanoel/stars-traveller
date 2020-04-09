@@ -7,7 +7,9 @@
     "DATASTRO": "Visiter ce site génial",
     "GITHUB": "Voir ce projet sur GitHub",
     "ERROR_TOO_MANY_STARS": "Trop d'étoiles correspondent aux critères. Affinez.",
-    "CATALOG_NOT_READY": "Ce catalogue ne répond pas."
+    "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
+    "COLLAPSE": "Réduire ce panneau",
+    "EXPAND": "Agrandrir ce panneau"
   },
   "CATALOGS": {
     "FILTERS": "Afficher modifier les filtres"
