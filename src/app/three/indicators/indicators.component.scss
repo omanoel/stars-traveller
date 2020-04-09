@@ -1,0 +1,45 @@
+:host {
+  position: absolute;
+  bottom: 5px;
+  left: 25%;
+  width: 50%;
+  padding: 5px;
+}
+
+.indicators {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.6);
+  min-height: 20px;
+
+  .expanded {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  p {
+    flex: 1;
+    text-align: center;
+    min-width: 200px;
+    padding: 0;
+
+    &.count {
+      font-size: 14px;
+    }
+  }
+
+  .expandable {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    .icone {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}

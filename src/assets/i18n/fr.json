@@ -1,0 +1,54 @@
+{
+  "COMMON": {
+    "CLOSE": "Fermer",
+    "LOADING_STARS": "Chargement des étoiles du catalogue...",
+    "OPTIONS": "Voir les options",
+    "HOW_TO_NAVIGATE": "Comment naviguer",
+    "DATASTRO": "Visiter ce site génial",
+    "GITHUB": "Voir ce projet sur GitHub",
+    "ERROR_TOO_MANY_STARS": "Trop d'étoiles correspondent aux critères. Affinez.",
+    "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
+    "COLLAPSE": "Réduire ce panneau",
+    "EXPAND": "Agrandrir ce panneau"
+  },
+  "CATALOGS": {
+    "FILTERS": "Afficher modifier les filtres"
+  },
+  "HOME": {
+    "SELECT": "Changer de langue"
+  },
+  "INDICATOR": {
+    "STARS": "étoiles",
+    "DISTANCE_TO_HELPER": "Dist. au curseur",
+    "DISTANCE_TO_LAST_STAR": "Dist. de la dernière étoile",
+    "HELPER_COORDS": "Coord. du curseur"
+  },
+  "SEARCH": {
+    "CHOOSE_CATALOG": "Choisir un catalogue",
+    "SEARCH": "Rechercher",
+    "SHOW_PARAMS_DESCRIPTION": "Afficher la description des paramètres",
+    "HIDE_PARAMS_DESCRIPTION": "Masquer la description des paramètres",
+    "PARAM_ra": "Ascension droite (h)",
+    "PARAM_dec": "Déclinaison (°)",
+    "PARAM_dist": "Distance (pc)",
+    "PARAM_plx": "Parallaxe (0.01mas)",
+    "PARAM_mag": "Magnitude",
+    "PARAM_absmag": "Magnitude absolue",
+    "PARAM_vmag": "Magnitude V du filtre Johnson (mmag)",
+    "PARAM_bmag": "Magnitude B du filtre Johnson (mmag)",
+    "PARAM_tyc1": "Nombre TYC1 de Tycho-2",
+    "PARAM_tyc2": "Nombre TYC2 de Tycho-2",
+    "PARAM_tyc3": "Nombre TYC3 de Tycho-2",
+    "PARAM_hip": "Identifiant Hipparcos",
+    "PARAM_dm": "Identifiant DM",
+    "PARAM_hd": "Identifiant HD",
+    "PARAM_pmra": "Mouvement selon l'ascension droite RA*cos(DE) (0.01mas/an)",
+    "PARAM_pmdec": "Mouvement selon la déclinaison (0.01mas/an)"
+  },
+  "NAVIGATE": {
+    "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
+    "TRANSLATE": "Clic droit souris plus déplacement pour effectuer un déplacement du curseur",
+    "ZOOM": "Molette souris pour zoomer / dézoomer",
+    "GOTO": "Click gauche souris sur une étoile pour la visualiser de près"
+  }
+}

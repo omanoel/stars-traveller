@@ -10,14 +10,14 @@ import { ThreeComponentService } from '../three.component.service';
 })
 export class MapComponent implements OnInit {
   private _mouseDown = false;
-  @Input() threeComponentModel: ThreeComponentModel;
+  @Input() model: ThreeComponentModel;
 
   constructor(private _threeComponentService: ThreeComponentService) {}
 
   @HostListener('window:resize')
   resetWidthHeight() {
     this._threeComponentService.resetWidthHeight(
-      this.threeComponentModel,
+      this.model,
       window.innerWidth,
       window.innerHeight
     );
@@ -27,10 +27,8 @@ export class MapComponent implements OnInit {
   onMousemove(event: MouseEvent) {
     event.preventDefault();
     if (!this._mouseDown) {
-      this.threeComponentModel.mouse.x =
-        (event.clientX / window.innerWidth) * 2 - 1;
-      this.threeComponentModel.mouse.y =
-        -(event.clientY / window.innerHeight) * 2 + 1;
+      this.model.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      this.model.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
   }
 
@@ -43,14 +41,14 @@ export class MapComponent implements OnInit {
   @HostListener('mouseup', ['$event'])
   onMouseup(event: MouseEvent) {
     event.preventDefault();
-    this.threeComponentModel.target.targetOnClick = null;
+    this.model.target.targetOnClick = null;
     this._mouseDown = false;
   }
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     event.preventDefault();
-    this._threeComponentService.gotoTarget(this.threeComponentModel);
+    this._threeComponentService.gotoTarget(this.model);
   }
 
   ngOnInit(): void {}

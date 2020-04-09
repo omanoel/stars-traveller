@@ -1,0 +1,328 @@
+:host {
+  position: absolute;
+  left: 310px;
+  top: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.search {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  padding: 5px;
+  max-height: 600px;
+  overflow-y: auto;
+
+  .property {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 2px;
+    padding: 10px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+
+    &.used {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .label {
+      flex: 1;
+      padding-bottom: 10px;
+    }
+
+    .values {
+      flex-direction: row;
+
+      .value {
+        flex: 1;
+        float: left;
+        width: 60px;
+      }
+
+      .min {
+        margin-right: 5px;
+      }
+
+      .max {
+        margin-left: 5px;
+      }
+
+      .disabled {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  .bottom-search {
+    margin: 20px;
+    text-align: center;
+  }
+
+  .btn-search {
+    font-size: 12px;
+    border: 1px solid grey;
+    padding: 5px;
+  }
+
+  .key {
+    flex: 1;
+    text-align: right;
+    padding-right: 5px;
+  }
+
+  .range {
+    flex: 1;
+  }
+
+  .value {
+    padding-left: 2px;
+    flex: 1;
+  }
+
+  p {
+    font-size: 12px;
+
+    strong {
+      cursor: context-menu;
+      font-weight: bold;
+      width: 80px;
+      text-align: right;
+      display: inline-block;
+    }
+  }
+  .action {
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+
+    a {
+      cursor: pointer;
+    }
+  }
+}
+.search-help {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background-color: black;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  left: 250px;
+  width: 500px;
+  height: 400px;
+  overflow-y: auto;
+  font-size: 12px;
+
+  a {
+    color: white;
+  }
+
+  .close-me {
+    text-align: center;
+    cursor: pointer;
+  }
+  li {
+    padding: 5px;
+  }
+}
+
+@mixin range-slider(
+  $width,
+  $height,
+  $input-top,
+  $input-bg-color,
+  $input-thumb-color,
+  $float: none,
+  $input-height: 10px,
+  $input-border-radius: 10px
+) {
+  position: relative;
+  width: $width;
+  height: $height;
+  float: $float;
+  text-align: center;
+
+  input[type='range'] {
+    pointer-events: none;
+    position: absolute;
+    border: none;
+    border-radius: $input-border-radius;
+    background: $input-bg-color;
+    left: 0;
+    top: $input-top;
+    width: $width;
+    outline: none;
+    height: $input-height;
+    margin: 0;
+    padding: 0;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    pointer-events: all;
+    position: relative;
+    z-index: 1;
+    outline: 0;
+    -webkit-appearance: none;
+    width: $input-height;
+    height: $input-height;
+    border: none;
+    border-radius: $input-border-radius;
+    background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0%, lighten($input-thumb-color, 60%)),
+      color-stop(100%, $input-thumb-color)
+    ); /* android <= 2.2 */
+    background-image: -webkit-linear-gradient(
+      top,
+      lighten($input-thumb-color, 60%) 0,
+      $input-thumb-color 100%
+    ); /* older mobile safari and android > 2.2 */
+    background-image: linear-gradient(
+      to bottom,
+      lighten($input-thumb-color, 60%) 0,
+      $input-thumb-color 100%
+    ); /* W3C */
+  }
+
+  input[type='range']::-moz-range-thumb {
+    pointer-events: all;
+    position: relative;
+    z-index: 10;
+    -moz-appearance: none;
+    width: $input-height;
+    height: $input-height;
+    border: none;
+    border-radius: $input-border-radius;
+    background-image: linear-gradient(
+      to bottom,
+      lighten($input-thumb-color, 60%) 0,
+      $input-thumb-color 100%
+    ); /* W3C */
+  }
+
+  input[type='range']::-ms-thumb {
+    pointer-events: all;
+    position: relative;
+    z-index: 10;
+    -ms-appearance: none;
+    width: $input-height;
+    height: $input-height;
+    border-radius: $input-border-radius;
+    border: 0;
+    background-image: linear-gradient(
+      to bottom,
+      lighten($input-thumb-color, 60%) 0,
+      $input-thumb-color 100%
+    ); /* W3C */
+  }
+
+  input[type='range']::-moz-range-track {
+    position: relative;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 1);
+    border: 0;
+  }
+
+  input[type='range']:last-of-type::-moz-range-track {
+    -moz-appearance: none;
+    background: none transparent;
+    border: 0;
+  }
+
+  input[type='range']::-moz-focus-outer {
+    border: 0;
+  }
+}
+
+section.range-slider {
+  @include range-slider(200px, 10px, 5px, rgb(185, 162, 162), #413f41, left);
+}
+
+/*
+input[type='range'] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type='range']:focus {
+  outline: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: #03a9f4;
+  border-radius: 25px;
+}
+input[type='range']::-webkit-slider-thumb {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 1);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+input[type='range']:focus::-webkit-slider-runnable-track {
+  background: #03a9f4;
+}
+.range-wrap {
+  width: 500px;
+  position: relative;
+}
+.range-value {
+  position: absolute;
+  top: -50%;
+}
+.range-value span {
+  width: 30px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #03a9f4;
+  color: #fff;
+  font-size: 12px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range-value span:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #03a9f4;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+*/

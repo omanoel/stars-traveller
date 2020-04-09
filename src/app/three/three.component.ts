@@ -5,16 +5,17 @@ import {
   ElementRef,
   OnChanges,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import { ThreeComponentModel } from './three.component.model';
 import { ThreeComponentService } from './three.component.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-three',
   templateUrl: './three.component.html',
-  styleUrls: ['./three.component.scss']
+  styleUrls: ['./three.component.scss'],
 })
 export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   private _threeComponentModel: ThreeComponentModel;
@@ -28,10 +29,11 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   currentIntersected: any;
 
   renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
   });
 
   constructor(
+    public translate: TranslateService,
     private _element: ElementRef,
     private _threeComponentService: ThreeComponentService
   ) {

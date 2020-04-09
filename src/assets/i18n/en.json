@@ -1,0 +1,54 @@
+{
+  "COMMON": {
+    "CLOSE": "Close",
+    "LOADING_STARS": "Loading stars catalog...",
+    "OPTIONS": "See options",
+    "HOW_TO_NAVIGATE": "How to navigate",
+    "DATASTRO": "Visit this awesome website",
+    "GITHUB": "See on GitHub",
+    "ERROR_TOO_MANY_STARS": "Too many stars match the criterias.",
+    "CATALOG_NOT_READY": "This catalog doesn't respond.",
+    "COLLAPSE": "Collapse this panel",
+    "EXPAND": "Expand this panel"
+  },
+  "CATALOGS": {
+    "FILTERS": "Show / modify filters"
+  },
+  "HOME": {
+    "SELECT": "Change language"
+  },
+  "INDICATOR": {
+    "STARS": "stars",
+    "DISTANCE_TO_HELPER": "Dist. to helper",
+    "DISTANCE_TO_LAST_STAR": "Dist. to last hover star",
+    "HELPER_COORDS": "Helper coord."
+  },
+  "SEARCH": {
+    "CHOOSE_CATALOG": "Choose your catalog",
+    "SEARCH": "Search",
+    "SHOW_PARAMS_DESCRIPTION": "Show params description",
+    "HIDE_PARAMS_DESCRIPTION": "Hide params description",
+    "PARAM_ra": "Right Ascension (h)",
+    "PARAM_dec": "Declination (°)",
+    "PARAM_dist": "Distance (pc)",
+    "PARAM_plx": "Parallaxe (0.01mas)",
+    "PARAM_mag": "Magnitude",
+    "PARAM_absmag": "Absolute magnitude",
+    "PARAM_vmag": "V magnitude in Johnson system (mmag)",
+    "PARAM_bmag": "B magnitude in Johnson system (mmag)",
+    "PARAM_tyc1": "TYC1 number from Tycho-2",
+    "PARAM_tyc2": "TYC2 number from Tycho-2",
+    "PARAM_tyc3": "TYC3 number from Tycho-2",
+    "PARAM_hip": "Hipparcos number",
+    "PARAM_dm": "DM number",
+    "PARAM_hd": "HD number",
+    "PARAM_pmra": "Proper Motion in RA*cos(DE) (0.01mas/yr)",
+    "PARAM_pmdec": "Proper Motion in Declination (0.01mas/yr)"
+  },
+  "NAVIGATE": {
+    "ROTATE": "Left mouse click and drag for rotation around the target",
+    "TRANSLATE": "Right mouse click and drag for translation of the target",
+    "ZOOM": "Mouse wheel for zooming/dezooming from target",
+    "GOTO": "Left mouse single click on a star to navigate"
+  }
+}

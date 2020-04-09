@@ -7,7 +7,7 @@ import { ShadersConstant } from './shaders.constant';
 import { StarsModel } from './stars.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StarsService {
   constructor(private _shadersConstant: ShadersConstant) {
@@ -25,12 +25,24 @@ export class StarsService {
       basicMaterials: {},
       colors: null,
       loaded: false,
-      meshStars: []
+      meshStars: [],
     };
     this._initMaterials(starsModel);
     starsModel.groupOfStars.name = 'GroupOfStars';
-    this._createPoints(starsImported, starsModel);
+    this.createPoints(starsImported, starsModel);
     return starsModel;
+  }
+
+  public refreshAfterLoadingCatalog(
+    threeComponentModel: ThreeComponentModel
+  ): void {
+    threeComponentModel.average = '';
+    threeComponentModel.starsModel.starsPoints.children = [];
+    this.createPoints(
+      threeComponentModel.starsImported,
+      threeComponentModel.starsModel
+    );
+    this.updateProximityStars(threeComponentModel);
   }
 
   public addStarObjectsInScene(
@@ -60,7 +72,7 @@ export class StarsService {
   }
 
   public getPositionFromId(id: number, starsImported: any): THREE.Vector3 {
-    let goodRecord = starsImported.find(record => record.id === +id);
+    let goodRecord = starsImported.find((record) => record.id === +id);
     if (goodRecord) {
       return new THREE.Vector3(goodRecord.x, goodRecord.y, goodRecord.z);
     } else {
@@ -68,7 +80,7 @@ export class StarsService {
     }
   }
 
-  private _createPoints(starsImported: any, starsModel: StarsModel): void {
+  public createPoints(starsImported: any, starsModel: StarsModel): void {
     const geometryLight = new THREE.BufferGeometry();
     const geometryGlow = new THREE.BufferGeometry();
     const vertices = [];
@@ -119,7 +131,7 @@ export class StarsService {
       color: 0xffecdf,
       sizeAttenuation: false,
       alphaTest: 1,
-      transparent: false
+      transparent: false,
     });
     starsModel.starsPoints.add(new THREE.Points(geometryLight, materialLight));
     starsModel.starsPoints.add(new THREE.Points(geometryGlow, materialGlow));
@@ -158,18 +170,18 @@ export class StarsService {
     const materialHelper = new THREE.LineBasicMaterial({
       color: 0xfffff,
       transparent: true,
-      opacity: 0.2
+      opacity: 0.2,
     });
     const geometrySphere = new THREE.SphereBufferGeometry(0.02, 32, 16);
     // const geometrySphereGlow = new THREE.SphereGeometry(0.02, 32, 16);
 
-    nearest.forEach(near => {
+    nearest.forEach((near) => {
       const materialSphere = this._getMaterialFromSpectrum(starsModel, near);
       const star = new THREE.Mesh(geometrySphere, materialSphere);
       star.translateX(near.x);
       star.translateY(near.y);
       star.translateZ(near.z);
-      star.userData.hyg = near;
+      star.userData.starProp = near;
       // starsModel.meshStars.push(star);
       starsModel.groupOfStars.add(star);
       this._createStarHelper(
@@ -242,13 +254,13 @@ export class StarsService {
       M: 0xffaa58,
       L: 0xff7300,
       T: 0xff3500,
-      Y: 0x999999
+      Y: 0x999999,
     };
     Object.keys(starsModel.colors).forEach((key: string) => {
       starsModel.basicMaterials[key] = new THREE.MeshBasicMaterial({
         color: starsModel.colors[key],
         transparent: true,
-        opacity: 0.1
+        opacity: 0.1,
       });
     });
   }
@@ -273,8 +285,8 @@ export class StarsService {
         pointTexture: {
           value: new THREE.TextureLoader().load(
             'assets/textures/star_alpha.png'
-          )
-        }
+          ),
+        },
       },
       vertexShader: this._shadersConstant.shaderForPoints().vertex,
       fragmentShader: this._shadersConstant.shaderForPoints().fragment,
@@ -282,7 +294,7 @@ export class StarsService {
       blending: THREE.AdditiveBlending,
       depthTest: false,
       transparent: true,
-      vertexColors: true
+      vertexColors: true,
     });
   }
 
@@ -296,13 +308,13 @@ export class StarsService {
         c: { type: 'f', value: 0.1 },
         p: { type: 'f', value: 3.0 },
         glowColor: { type: 'c', value: new THREE.Color(color) },
-        viewVector: { type: 'v3', value: target.clone().sub(camera.position) }
+        viewVector: { type: 'v3', value: target.clone().sub(camera.position) },
       },
       vertexShader: this._shadersConstant.shaderForSphereAka().vertex,
       fragmentShader: this._shadersConstant.shaderForSphereAka().fragment,
       side: THREE.FrontSide,
       blending: THREE.AdditiveBlending,
-      transparent: true
+      transparent: true,
     });
 
     /*

@@ -1,7 +1,26 @@
 .loader {
   position: absolute;
-  left: 200px;
+  left: 0px;
   top: 50px;
+  width: 100%;
+  text-align: center;
+  z-index: 50;
+
+  .loading {
+    position: absolute;
+    top: 350px;
+    left: 40%;
+    width: 20%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 1);
+    padding: 10px;
+
+    .error {
+      font-size: 14px;
+      font-weight: bold;
+      color: red;
+    }
+  }
 }
 
 .github {
@@ -42,5 +61,18 @@
     a {
       cursor: pointer;
     }
+  }
+}
+
+.rotate {
+  animation: rotation 4s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
   }
 }
