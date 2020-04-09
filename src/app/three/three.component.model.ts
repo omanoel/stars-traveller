@@ -17,13 +17,14 @@ export interface ThreeComponentModel {
   referentiel: ReferentielModel;
   target: TargetModel;
   starsModel: StarsModel;
+  objectsImported: any;
   starsImported: any;
   trackballControls: TrackballControlsModel;
   raycaster: THREE.Raycaster;
   mouse: THREE.Vector2;
-  myStarOver: StarOver;
+  myObjectOver: ObjectOver;
   currentIntersected: any;
-  lastStarIntersected: THREE.Object3D;
+  lastObjectIntersected: THREE.Object3D;
   average: string;
   height: number;
   width: number;
@@ -34,7 +35,7 @@ export interface ThreeComponentModel {
   errorMessage: string;
 }
 
-export interface StarOver {
-  starIntersected: THREE.Object3D;
-  overObject: THREE.Object3D;
+export interface ObjectOver {
+  objectIntersected: THREE.Object3D;
+  objectDisplay: THREE.Object3D;
 }

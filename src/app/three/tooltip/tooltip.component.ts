@@ -24,9 +24,9 @@ export class TooltipComponent implements OnInit {
   public isVisible(): boolean {
     return (
       this.model.average === '' &&
-      this.model.lastStarIntersected &&
-      this.model.lastStarIntersected.userData.starProp &&
-      !isNil(this.model.lastStarIntersected.userData.starProp.pmra)
+      this.model.lastObjectIntersected &&
+      this.model.lastObjectIntersected.userData.properties &&
+      !isNil(this.model.lastObjectIntersected.userData.properties.ra)
     );
   }
 

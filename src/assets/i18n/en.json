@@ -1,12 +1,12 @@
 {
   "COMMON": {
     "CLOSE": "Close",
-    "LOADING_STARS": "Loading stars catalog...",
+    "LOADING_OBJECTS": "Loading objects catalog...",
     "OPTIONS": "See options",
     "HOW_TO_NAVIGATE": "How to navigate",
     "DATASTRO": "Visit this awesome website",
     "GITHUB": "See on GitHub",
-    "ERROR_TOO_MANY_STARS": "Too many stars match the criterias.",
+    "ERROR_TOO_MANY_OBJECTS": "Too many objects match the criterias.",
     "CATALOG_NOT_READY": "This catalog doesn't respond.",
     "COLLAPSE": "Collapse this panel",
     "EXPAND": "Expand this panel"
@@ -18,9 +18,9 @@
     "SELECT": "Change language"
   },
   "INDICATOR": {
-    "STARS": "stars",
+    "OBJECTS": "objects",
     "DISTANCE_TO_HELPER": "Dist. to helper",
-    "DISTANCE_TO_LAST_STAR": "Dist. to last hover star",
+    "DISTANCE_TO_LAST_OBJECT": "Dist. to last hover object",
     "HELPER_COORDS": "Helper coord."
   },
   "SEARCH": {
@@ -49,6 +49,6 @@
     "ROTATE": "Left mouse click and drag for rotation around the target",
     "TRANSLATE": "Right mouse click and drag for translation of the target",
     "ZOOM": "Mouse wheel for zooming/dezooming from target",
-    "GOTO": "Left mouse single click on a star to navigate"
+    "GOTO": "Left mouse single click on an object to navigate"
   }
 }

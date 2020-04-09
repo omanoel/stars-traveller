@@ -42,9 +42,9 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   // @override
   public findOne(
     threeComponentModel: ThreeComponentModel,
-    id: string
+    properties: any
   ): Observable<any> {
-    return this.get$(id, threeComponentModel.selectedCatalog.url);
+    return this.get$(properties.id, threeComponentModel.selectedCatalog.url);
   }
 
   public getAll$(baseUrl: string): Observable<any> {
