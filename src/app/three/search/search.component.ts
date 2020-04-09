@@ -1,14 +1,13 @@
 import { isNil } from 'lodash';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { environment } from '@env/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Catalog, Property } from '../catalog/catalog.model';
 import { CatalogService } from '../catalog/catalog.service';
 import { ThreeComponentModel } from '../three.component.model';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',

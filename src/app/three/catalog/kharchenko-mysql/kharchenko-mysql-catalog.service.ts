@@ -1,5 +1,6 @@
-import { Observable, of, throwError } from 'rxjs';
-import { map, concatMap, catchError } from 'rxjs/operators';
+import { isNil } from 'lodash';
+import { Observable, of } from 'rxjs';
+import { catchError, concatMap, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
-import { isNil } from 'lodash';
 import { Catalog } from '../catalog.model';
 
 @Injectable({
