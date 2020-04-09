@@ -6,6 +6,7 @@ import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
 import { Catalog } from '../catalog.model';
+import { isNil } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -65,5 +66,34 @@ export class HygCsvCatalogService extends BaseCatalogService {
       }
     }
     return result;
+  }
+
+  // @override
+  public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.errorMessage = null;
+    threeComponentModel.average = 'Searching stars...';
+    this.initialize(threeComponentModel).then(() => {
+      // fill objects
+      threeComponentModel.starsImported.forEach((item) => {
+        item.plx = 1 / item.dist;
+      });
+      threeComponentModel.filters.forEach((f, k) => {
+        threeComponentModel.starsImported = threeComponentModel.starsImported.filter(
+          (star) => {
+            let keep = true;
+            if (!isNil(f[0])) {
+              keep = star[k] < f[0];
+            }
+            if (!isNil(f[1])) {
+              keep = star[k] > f[1];
+            }
+            return keep;
+          }
+        );
+      });
+      // refresh
+      this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+    });
+    return of(null);
   }
 }

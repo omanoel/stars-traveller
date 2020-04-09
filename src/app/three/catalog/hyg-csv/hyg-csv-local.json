@@ -1,7 +1,7 @@
 {
   "id": 1,
-  "name": "HYG Catalog (csv) local",
-  "production": false,
+  "name": "HYG Catalog (csv)",
+  "production": true,
   "url": "/assets/catalogs/hygdata_v3.csv",
   "service": "HygCsvCatalogService",
   "properties": [{
@@ -19,7 +19,7 @@
     "unit": "h",
     "min": 0,
     "max": 24,
-    "filter": false
+    "filter": true
   }, {
     "key": "dec",
     "type": "number",
@@ -27,7 +27,7 @@
     "unit": "deg",
     "min": -90,
     "max": 90,
-    "filter": false
+    "filter": true
   }, {
     "key": "dist",
     "type": "number",
@@ -35,7 +35,7 @@
     "unit": "pc",
     "min": 0,
     "max": 100000,
-    "filter": false
+    "filter": true
   }, {
     "key": "hip",
     "type": "string",

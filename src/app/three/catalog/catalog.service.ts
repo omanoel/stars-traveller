@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Catalog } from './catalog.model';
 import { HygCsvCatalogService } from './hyg-csv/hyg-csv-catalog.service';
-import hygcsvDistant from './hyg-csv/hyg-csv-distant.json';
 import hygcsvLocal from './hyg-csv/hyg-csv-local.json';
 import { HygMongodbCatalogService } from './hyg-mongodb/hyg-mongodb-catalog.service';
 import hygMongo from './hyg-mongodb/hyg-mongodb.json';
@@ -23,7 +22,7 @@ export class CatalogService {
   }
 
   public list(): Catalog[] {
-    return [hygcsvLocal, hygcsvDistant, hygMongo, kharchenkoMysql];
+    return [hygcsvLocal, hygMongo, kharchenkoMysql];
   }
 
   public getCatalogService(catalog: Catalog): any {
