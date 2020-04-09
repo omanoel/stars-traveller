@@ -10,10 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class IndicatorsComponent implements OnInit {
   //
-  constructor(public translate: TranslateService) {}
-
   @Input() model: ThreeComponentModel;
-  target: THREE.Vector3;
+  public target: THREE.Vector3;
+  public expanded: boolean = true;
+  //
+  constructor(public translate: TranslateService) {}
 
   ngOnInit() {
     this.target = this.model.trackballControls.controls.target;

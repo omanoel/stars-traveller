@@ -12,9 +12,10 @@ import { ThreeComponentModel } from '../three.component.model';
   styleUrls: ['./tooltip.component.scss'],
 })
 export class TooltipComponent implements OnInit {
+  //
   @Input() model: ThreeComponentModel;
-
-  selectedCatalog: Catalog;
+  public selectedCatalog: Catalog;
+  public expanded = true;
 
   constructor(private _inTheSkyService: InTheSkyService) {}
   //
