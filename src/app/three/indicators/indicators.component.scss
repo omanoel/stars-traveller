@@ -7,11 +7,17 @@
 }
 
 .indicators {
+  position: relative;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-wrap: wrap;
+  min-height: 20px;
+
+  .expanded {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 
   p {
     flex: 1;
@@ -21,6 +27,19 @@
 
     &.count {
       font-size: 14px;
+    }
+  }
+
+  .expandable {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    .icone {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
     }
   }
 }
