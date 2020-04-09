@@ -1,18 +1,17 @@
 import * as THREE from 'three';
 
 import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
-import { environment } from '@env/environment';
 
+import { CatalogService } from './catalog/catalog.service';
+import { OnObjectOverService } from './objects/on-object-over.service';
 import { PerspectiveCameraService } from './perspective-camera/perspective-camera.service';
 import { RaycasterService } from './raycaster/raycaster.service';
 import { ReferentielService } from './referentiel/referentiel.service';
 import { SceneService } from './scene/scene.service';
-import { OnStarOverService } from './stars/on-star-over.service';
 import { StarsService } from './stars/stars.service';
 import { TargetService } from './target/target.service';
 import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
-import { CatalogService } from './catalog/catalog.service';
 import { BaseCatalogData } from './catalog/catalog.model';
 
 @Injectable({
@@ -29,7 +28,7 @@ export class ThreeComponentService {
     private _referentielService: ReferentielService,
     private _targetService: TargetService,
     private _starsService: StarsService,
-    private _onStarOverService: OnStarOverService
+    private _onObjectOverService: OnObjectOverService
   ) {}
 
   public initModel(element: ElementRef): ThreeComponentModel {
@@ -45,12 +44,13 @@ export class ThreeComponentService {
       scene: null,
       trackballControls: null,
       raycaster: null,
+      objectsImported: null,
       starsImported: null,
       starsModel: null,
       mouse: new THREE.Vector2(),
-      myStarOver: null,
+      myObjectOver: null,
       currentIntersected: null,
-      lastStarIntersected: null,
+      lastObjectIntersected: null,
       height: null,
       width: null,
       average: '',
@@ -107,13 +107,10 @@ export class ThreeComponentService {
       threeComponentModel.trackballControls.controls.target
     );
     //
-    threeComponentModel.myStarOver = this._onStarOverService.initialize(
+    threeComponentModel.myObjectOver = this._onObjectOverService.initialize(
       threeComponentModel.scene
     );
     //
-    if (environment.production) {
-      threeComponentModel.catalogs.shift();
-    }
     threeComponentModel.selectedCatalog = threeComponentModel.catalogs[0];
     this._catalogService
       .getCatalogService(threeComponentModel.selectedCatalog)
@@ -220,9 +217,9 @@ export class ThreeComponentService {
       this._starsService.updateProximityStars(threeComponentModel);
     }
     //
-    this.findIntersection(threeComponentModel);
+    this._findIntersection(threeComponentModel);
     //
-    this._onStarOverService.update(threeComponentModel.myStarOver);
+    this._onObjectOverService.update(threeComponentModel.myObjectOver);
     //
     threeComponentModel.renderer.render(
       threeComponentModel.scene,
@@ -230,17 +227,22 @@ export class ThreeComponentService {
     );
   }
 
-  public findIntersection(threeComponentModel: ThreeComponentModel): void {
+  private _findIntersection(threeComponentModel: ThreeComponentModel): void {
     threeComponentModel.raycaster.setFromCamera(
       threeComponentModel.mouse,
       threeComponentModel.camera
     );
     //
-    if (!this._sceneService.getGroupOfStars(threeComponentModel.scene)) {
+    if (
+      !this._sceneService.getGroupOfIntersectedObjects(
+        threeComponentModel.scene
+      )
+    ) {
       return;
     }
     const intersects = threeComponentModel.raycaster.intersectObjects(
-      this._sceneService.getGroupOfStars(threeComponentModel.scene).children,
+      this._sceneService.getGroupOfIntersectedObjects(threeComponentModel.scene)
+        .children,
       false
     );
     if (intersects.length > 0) {
@@ -249,22 +251,22 @@ export class ThreeComponentService {
         return;
       }
       threeComponentModel.currentIntersected = intersects[0].object;
-      threeComponentModel.myStarOver.starIntersected =
+      threeComponentModel.myObjectOver.objectIntersected =
         threeComponentModel.currentIntersected;
       this._catalogService
         .getCatalogService(threeComponentModel.selectedCatalog)
         .findOne(
           threeComponentModel,
-          threeComponentModel.currentIntersected.userData.starProp['id']
+          threeComponentModel.currentIntersected.userData.properties
         )
-        .subscribe((starProp: BaseCatalogData) => {
-          threeComponentModel.lastStarIntersected = intersects[0].object;
-          threeComponentModel.lastStarIntersected.userData.starProp = starProp;
+        .subscribe((properties: BaseCatalogData) => {
+          threeComponentModel.lastObjectIntersected = intersects[0].object;
+          threeComponentModel.lastObjectIntersected.userData.properties = properties;
         });
-      threeComponentModel.lastStarIntersected = intersects[0].object;
+      threeComponentModel.lastObjectIntersected = intersects[0].object;
     } else {
       if (threeComponentModel.currentIntersected) {
-        threeComponentModel.myStarOver.starIntersected = null;
+        threeComponentModel.myObjectOver.objectIntersected = null;
       }
       threeComponentModel.currentIntersected = null;
     }

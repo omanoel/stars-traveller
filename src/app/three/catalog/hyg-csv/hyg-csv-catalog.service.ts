@@ -37,9 +37,11 @@ export class HygCsvCatalogService extends BaseCatalogService {
   // @override
   public findOne(
     threeComponentModel: ThreeComponentModel,
-    id: string
+    properties: BaseCatalogData
   ): Observable<BaseCatalogData> {
-    return of(threeComponentModel.starsImported.find((s) => s.id === id));
+    return of(
+      threeComponentModel.starsImported.find((s) => s.id === properties.id)
+    );
   }
 
   // @override

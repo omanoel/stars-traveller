@@ -42,10 +42,10 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
   // @override
   public findOne(
     threeComponentModel: ThreeComponentModel,
-    id: string
+    properties: BaseCatalogData
   ): Observable<BaseCatalogData> {
     return <Observable<BaseCatalogData>>this.get$(
-      id,
+      properties.id,
       threeComponentModel.selectedCatalog.url
     ).pipe(
       map((starImported: BaseCatalogData) => {
@@ -59,7 +59,7 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
   // @override
   public search(threeComponentModel: ThreeComponentModel): Observable<void> {
     threeComponentModel.errorMessage = null;
-    threeComponentModel.average = 'Searching stars...';
+    threeComponentModel.average = 'Searching objects...';
     let filtering = '?';
     threeComponentModel.filters.forEach((f, k) => {
       let value = k + '=';
@@ -98,7 +98,7 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
             // refresh
             this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
           } else {
-            threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_STARS';
+            threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_OBJECTS';
           }
         }),
         catchError(() => {

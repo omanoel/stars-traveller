@@ -35,10 +35,10 @@ export class IndicatorsComponent implements OnInit {
     return this.roundValue(dist);
   }
 
-  public distanceToLastStar(): number {
-    if (this.model.lastStarIntersected) {
+  public distanceToLastObject(): number {
+    if (this.model.lastObjectIntersected) {
       const dist = this.model.camera.position.distanceTo(
-        this.model.lastStarIntersected.position
+        this.model.lastObjectIntersected.position
       );
       return this.roundValue(dist);
     } else {

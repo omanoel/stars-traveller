@@ -20,9 +20,9 @@ export class TooltipComponent {
   public isVisible(): boolean {
     return (
       this.model.average === '' &&
-      this.model.lastStarIntersected &&
-      this.model.lastStarIntersected.userData.starProp &&
-      this.model.lastStarIntersected.userData.starProp.pmra != null
+      this.model.lastObjectIntersected &&
+      this.model.lastObjectIntersected.userData.properties &&
+      this.model.lastObjectIntersected.userData.properties.ra != null
     );
   }
 

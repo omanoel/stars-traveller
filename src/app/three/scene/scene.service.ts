@@ -6,8 +6,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SceneService {
-  public static readonly GROUP_NAME = 'GroupOfStars';
-
+  public static readonly GROUP_STARS = 'GroupOfStars';
+  public static readonly GROUP_INTERSECTED_OBJECTS =
+    'GroupOfIntersectedObjects';
   constructor() {
     // Empty
   }
@@ -17,6 +18,14 @@ export class SceneService {
   }
 
   public getGroupOfStars(scene: THREE.Scene): THREE.Object3D {
-    return scene.children.find((obj) => obj.name === SceneService.GROUP_NAME);
+    return scene.children.find((obj) => obj.name === SceneService.GROUP_STARS);
+  }
+
+  public getGroupOfIntersectedObjects(scene: THREE.Scene): THREE.Object3D {
+    return scene.children.find(
+      (obj) =>
+        obj.name === SceneService.GROUP_STARS ||
+        obj.name === SceneService.GROUP_INTERSECTED_OBJECTS
+    );
   }
 }

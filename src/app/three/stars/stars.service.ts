@@ -190,7 +190,7 @@ export class StarsService {
       star.translateX(near.x);
       star.translateY(near.y);
       star.translateZ(near.z);
-      star.userData.starProp = near;
+      star.userData.properties = near;
       // starsModel.meshStars.push(star);
       starsModel.groupOfStars.add(star);
       this._createStarHelper(
