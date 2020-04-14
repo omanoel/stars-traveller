@@ -12,7 +12,11 @@
     "EXPAND": "Agrandrir ce panneau"
   },
   "CATALOGS": {
-    "FILTERS": "Afficher modifier les filtres"
+    "FILTERS": "Afficher modifier les filtres",
+    "GOTO_NEXT": "Voir l'objet suivant",
+    "GOTO_PREVIOUS": "Voir l'objet précédent",
+    "NEXT": "Objet suivant >>",
+    "PREVIOUS": "<< Objet précédent"
   },
   "HOME": {
     "SELECT": "Changer de langue"

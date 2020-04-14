@@ -1,5 +1,5 @@
-<div class="tooltip" *ngIf="isVisible()">
-  <div *ngIf="expanded" class="expanded">
+<div class="tooltip">
+  <div *ngIf="expanded && model.lastObjectIntersected" class="expanded">
     <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
       <span class="key" title="{{ prop.tooltip }}">{{ prop.key }}</span>:
       <span class="value">

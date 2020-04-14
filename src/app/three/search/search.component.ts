@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
   public ngOnInit(): void {
     this.isSelectedCatalogWithSearch =
       this._catalogService.getCatalogService(this.model.selectedCatalog)
-        .search != null;
+        .search$ != null;
     this.searchForm = new FormGroup({});
     this._buildRangeForProperties(this.model);
 
@@ -51,7 +51,7 @@ export class SearchComponent implements OnInit {
   public search(): void {
     this._catalogService
       .getCatalogService(this.model.selectedCatalog)
-      .search(this.model)
+      .search$(this.model)
       .subscribe();
   }
 

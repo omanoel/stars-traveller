@@ -43,6 +43,20 @@
   }
 }
 
+.navigate {
+  text-align: center;
+
+  a {
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 3px;
+
+    &:hover {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
