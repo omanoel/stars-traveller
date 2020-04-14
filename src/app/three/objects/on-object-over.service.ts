@@ -28,7 +28,7 @@ export class OnObjectOverService {
       this.previousPosition = new THREE.Vector3(0, 0, 0);
       return;
     }
-    const myPosition = objectOver.objectIntersected.position;
+    const myPosition = objectOver.objectIntersected.parent.position;
     if (
       myPosition.x === this.previousPosition.x &&
       myPosition.y === this.previousPosition.y &&

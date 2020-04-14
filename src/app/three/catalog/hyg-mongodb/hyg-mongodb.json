@@ -4,6 +4,7 @@
   "production": false,
   "url": "http://localhost:8080/api/hyg-catalog-star",
   "service": "HygMongodbCatalogService",
+  "scale": 1,
   "properties": [{
     "key": "id",
     "type": "string",

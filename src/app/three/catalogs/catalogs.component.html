@@ -12,4 +12,10 @@
       </div>
     </div>
   </form>
+  <p class="navigate">
+    <a (click)="goToPreviousObject()" title="{{ 'CATALOGS.GOTO_PREVIOUS' | translate }}">
+      {{ 'CATALOGS.PREVIOUS' | translate }}</a> &nbsp;&nbsp;
+    <a (click)="goToNextObject()" title="{{ 'CATALOGS.GOTO_NEXT' | translate }}">{{ 'CATALOGS.NEXT' | translate }}
+    </a>
+  </p>
 </div>

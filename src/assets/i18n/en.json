@@ -12,7 +12,11 @@
     "EXPAND": "Expand this panel"
   },
   "CATALOGS": {
-    "FILTERS": "Show / modify filters"
+    "FILTERS": "Show / modify filters",
+    "GOTO_NEXT": "See next object",
+    "GOTO_PREVIOUS": "See previous object",
+    "NEXT": "Next object >>",
+    "PREVIOUS": "<< Previous object"
   },
   "HOME": {
     "SELECT": "Change language"

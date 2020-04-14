@@ -1,0 +1,13 @@
+https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
+
+https://www.flickr.com/services/rest/?method=flickr.photos.search&tags=M1,Messier&api_key=04ada82154bbbf0e94a7257cb5c3f4bb&license=10,1,2,3,4,5,6&tag_mode=all
+
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+    <photos page="1" pages="1" perpage="100" total="4">
+        <photo id="39373094621" owner="91014013@N08" secret="4789f0233e" server="4693" farm="5" title="Crab Nebula (LRGB)" ispublic="1" isfriend="0" isfamily="0" />
+        <photo id="6538947265" owner="25623140@N00" secret="cd8049473a" server="7022" farm="8" title="M1_narrowband_2011-12-18_001" ispublic="1" isfriend="0" isfamily="0" />
+        <photo id="3149781584" owner="82141030@N00" secret="f8772d60bd" server="3259" farm="4" title="The Crab Nebula (crop)" ispublic="1" isfriend="0" isfamily="0" />
+        <photo id="3149781544" owner="82141030@N00" secret="ee8fe140da" server="3232" farm="4" title="The Crab Nebula (full size)" ispublic="1" isfriend="0" isfamily="0" />
+    </photos>
+</rsp>

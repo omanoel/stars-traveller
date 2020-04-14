@@ -5,6 +5,7 @@ export interface Catalog {
   url: string;
   properties: Property[];
   service: string;
+  scale: number;
 }
 
 export interface Property {
@@ -19,8 +20,7 @@ export interface Property {
 
 export interface ICatalogService {
   count$: Function;
+  findOne$: Function;
   load: Function;
-  findOne: Function;
-  initialize: Function;
-  transform: Function;
+  search$: Function;
 }

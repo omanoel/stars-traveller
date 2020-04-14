@@ -31,13 +31,26 @@ export class TooltipComponent implements OnInit {
   }
 
   public getValue(data: any, prop: Property): string {
+    if (!data) {
+      return '-';
+    }
     if (prop.key === 'ra') {
       return this._computeRa(data[prop.key]);
     } else if (prop.key === 'dec') {
       return this._computeDec(data[prop.key]);
     }
     if (data[prop.key]) {
-      return data[prop.key] + (prop.unit ? ' ' + prop.unit : '');
+      if (prop.type === 'number') {
+        let value = data[prop.key];
+        if ((value > 1 && value < 1000) || (value < -1 && value > -1000)) {
+          value = Math.round(value * 100) / 100;
+        } else if (value >= 1000 || value <= -1000) {
+          value = Math.round(value);
+        }
+        return value + (prop.unit ? ' ' + prop.unit : '');
+      } else {
+        return data[prop.key];
+      }
     } else {
       return '-';
     }

@@ -8,10 +8,10 @@ import { PerspectiveCameraService } from './perspective-camera/perspective-camer
 import { RaycasterService } from './raycaster/raycaster.service';
 import { ReferentielService } from './referentiel/referentiel.service';
 import { SceneService } from './scene/scene.service';
-import { StarsService } from './stars/stars.service';
 import { TargetService } from './target/target.service';
 import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
+import { ObjectsService } from './objects/objects.sevice';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class ThreeComponentService {
     private _sceneService: SceneService,
     private _referentielService: ReferentielService,
     private _targetService: TargetService,
-    private _starsService: StarsService,
+    private _objectsService: ObjectsService,
     private _onObjectOverService: OnObjectOverService
   ) {}
 
@@ -44,8 +44,7 @@ export class ThreeComponentService {
       trackballControls: null,
       raycaster: null,
       objectsImported: null,
-      starsImported: null,
-      starsModel: null,
+      collection3d: null,
       mouse: new THREE.Vector2(),
       myObjectOver: null,
       currentIntersected: null,
@@ -58,6 +57,8 @@ export class ThreeComponentService {
       showSearch: false,
       filters: new Map<string, number[]>(),
       errorMessage: null,
+      scale: 1,
+      indexOfCurrent: 0,
     };
   }
 
@@ -116,7 +117,7 @@ export class ThreeComponentService {
     threeComponentModel.selectedCatalog = threeComponentModel.catalogs[0];
     this._catalogService
       .getCatalogService(threeComponentModel.selectedCatalog)
-      .initialize(threeComponentModel)
+      .initialize$(threeComponentModel)
       .then(() => {
         threeComponentModel.average = '';
         this._afterInitCatalog(threeComponentModel);
@@ -145,7 +146,7 @@ export class ThreeComponentService {
     if (threeComponentModel.currentIntersected !== null) {
       this._targetService.setObjectsOnClick(
         threeComponentModel,
-        threeComponentModel.currentIntersected.position
+        threeComponentModel.currentIntersected.parent.position
       );
     }
   }
@@ -170,30 +171,25 @@ export class ThreeComponentService {
     }
   }
 
-  public afterContentInit(threeComponentModel: ThreeComponentModel): void {
-    // this.starsService.initialize();
-    this.animate(threeComponentModel);
-  }
-
-  public animate(threeComponentModel: ThreeComponentModel): void {
+  private _animate(threeComponentModel: ThreeComponentModel): void {
     /*
     requestAnimationFrame(() => this.animate(threeComponentModel));
     this.render(threeComponentModel);
     */
     this._ngZone.runOutsideAngular(() => {
       if (document.readyState !== 'loading') {
-        this.render(threeComponentModel);
+        this._render(threeComponentModel);
       } else {
         window.addEventListener('DOMContentLoaded', () => {
-          this.render(threeComponentModel);
+          this._render(threeComponentModel);
         });
       }
     });
   }
 
-  public render(threeComponentModel: ThreeComponentModel): void {
+  private _render(threeComponentModel: ThreeComponentModel): void {
     threeComponentModel.frameId = requestAnimationFrame(() => {
-      this.render(threeComponentModel);
+      this._render(threeComponentModel);
     });
     //
     this._targetService.refreshObjectsOnClick(threeComponentModel);
@@ -215,8 +211,8 @@ export class ThreeComponentService {
       threeComponentModel.camera
     );
     //
-    if (!this._perspectiveCameraService.isMoving(threeComponentModel.camera)) {
-      this._starsService.updateProximityStars(threeComponentModel);
+    if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
+      this._objectsService.updateProximityObjects(threeComponentModel);
     }
     //
     this._findIntersection(threeComponentModel);
@@ -245,11 +241,11 @@ export class ThreeComponentService {
     const intersects = threeComponentModel.raycaster.intersectObjects(
       this._sceneService.getGroupOfIntersectedObjects(threeComponentModel.scene)
         .children,
-      false
+      true
     );
     if (intersects.length > 0) {
       if (threeComponentModel.currentIntersected) {
-        threeComponentModel.currentIntersected.material.linewidth = 1;
+        // threeComponentModel.currentIntersected.material.linewidth = 1;
         return;
       }
       threeComponentModel.currentIntersected = intersects[0].object;
@@ -257,7 +253,7 @@ export class ThreeComponentService {
         threeComponentModel.currentIntersected;
       this._catalogService
         .getCatalogService(threeComponentModel.selectedCatalog)
-        .findOne(
+        .findOne$(
           threeComponentModel,
           threeComponentModel.currentIntersected.userData.properties
         )
@@ -275,14 +271,14 @@ export class ThreeComponentService {
   }
 
   private _afterInitCatalog(threeComponentModel: ThreeComponentModel): void {
-    threeComponentModel.starsModel = this._starsService.initialize(
-      threeComponentModel.starsImported
+    threeComponentModel.collection3d = this._objectsService.initialize(
+      threeComponentModel.objectsImported
     );
-    this._starsService.addStarObjectsInScene(
+    this._objectsService.addObjectsInScene(
       threeComponentModel.scene,
-      threeComponentModel.starsModel
+      threeComponentModel.collection3d
     );
-    this._starsService.updateProximityStars(threeComponentModel);
-    this.afterContentInit(threeComponentModel);
+    this._objectsService.updateProximityObjects(threeComponentModel);
+    this._animate(threeComponentModel);
   }
 }

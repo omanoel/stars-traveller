@@ -4,6 +4,7 @@
   "production": true,
   "url": "http://manoloexpo.free.fr/__experimentations/stars-traveller/api/index.php/kharchenko",
   "service": "KharchenkoMysqlCatalogService",
+  "scale": 1,
   "properties": [{
     "key": "id",
     "type": "string",

@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
+import { ThreeComponentModel } from '../three.component.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PerspectiveCameraService {
-  private static readonly EPSILON = 1e-2;
+  private static readonly EPSILON = 0.01;
   private static readonly VIEW_ANGLE = 25;
   private static readonly NEAR = 0.01;
   private static readonly FAR = 1e12;
@@ -55,11 +56,14 @@ export class PerspectiveCameraService {
     }
   }
 
-  public isMoving(camera: THREE.PerspectiveCamera): boolean {
-    if (camera) {
+  public isMoving(threeComponentModel: ThreeComponentModel): boolean {
+    if (threeComponentModel.camera) {
       if (
-        this.previousPositionOfCamera.distanceTo(camera.position) <
-        PerspectiveCameraService.EPSILON
+        this.previousPositionOfCamera.distanceTo(
+          threeComponentModel.camera.position
+        ) <
+        PerspectiveCameraService.EPSILON *
+          (threeComponentModel.scale > 1 ? 10 : 1)
       ) {
         if (!this.alreadyChecked) {
           this.alreadyChecked = true;
@@ -70,7 +74,7 @@ export class PerspectiveCameraService {
       } else {
         this.alreadyChecked = false;
       }
-      this.previousPositionOfCamera.copy(camera.position);
+      this.previousPositionOfCamera.copy(threeComponentModel.camera.position);
       return true;
     } else {
       this.alreadyChecked = false;

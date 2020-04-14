@@ -1,29 +1,27 @@
 import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ObjectsService } from '@app/three/objects/objects.sevice';
 
-import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
-import { BaseCatalogService } from '../base-catalog.service';
-import { Catalog } from '../catalog.model';
+import { Catalog, ICatalogService } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HygMongodbCatalogService extends BaseCatalogService {
+export class HygMongodbCatalogService implements ICatalogService {
   private static readonly defaultFilter = {
     dist: '0:30',
   };
   //
   constructor(
-    protected _starsService: StarsService,
+    protected _objectsService: ObjectsService,
     private _http: HttpClient
   ) {
     // Empty
-    super(_starsService);
   }
 
   // @override
@@ -36,11 +34,11 @@ export class HygMongodbCatalogService extends BaseCatalogService {
     threeComponentModel.errorMessage = null;
     threeComponentModel.filters.clear();
     threeComponentModel.filters.set('dist', [0, 30]);
-    this.search(threeComponentModel).subscribe();
+    this.search$(threeComponentModel).subscribe();
   }
 
   // @override
-  public findOne(
+  public findOne$(
     threeComponentModel: ThreeComponentModel,
     properties: any
   ): Observable<any> {
@@ -56,9 +54,11 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+  public search$(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.indexOfCurrent = 0;
+    threeComponentModel.scale = threeComponentModel.selectedCatalog.scale;
     threeComponentModel.errorMessage = null;
-    threeComponentModel.average = 'Searching stars...';
+    threeComponentModel.average = 'Searching objects...';
     const filtering = {};
     threeComponentModel.filters.forEach((f, k) => {
       let value = '';
@@ -78,14 +78,14 @@ export class HygMongodbCatalogService extends BaseCatalogService {
           JSON.stringify(filtering)
       )
       .pipe(
-        map((starsImported: any) => {
-          threeComponentModel.starsImported = starsImported;
+        map((objectsImported: any) => {
+          threeComponentModel.objectsImported = objectsImported;
           // fill objects
-          threeComponentModel.starsImported.forEach((item) => {
-            this.fillPositionProperties(threeComponentModel, item);
+          threeComponentModel.objectsImported.forEach((item) => {
+            this._fillPositionProperties(threeComponentModel, item);
           });
           // refresh
-          this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+          this._objectsService.refreshAfterLoadingCatalog(threeComponentModel);
         }),
         catchError((err: any) => {
           threeComponentModel.errorMessage = 'COMMON.CATALOG_NOT_READY';
@@ -94,31 +94,10 @@ export class HygMongodbCatalogService extends BaseCatalogService {
       );
   }
 
-  public fillPositionProperties(
+  private _fillPositionProperties(
     threeComponentModel: ThreeComponentModel,
-    star: any
+    item: any
   ): void {
-    star.plx = 1 / star.dist;
+    item.plx = 1 / item.dist;
   }
-  /*
-  public create(data) {
-    return this._http.post(baseUrl, data);
-  }
-
-  public update(id, data) {
-    return this._http.put(`${baseUrl}/${id}`, data);
-  }
-
-  public delete(id) {
-    return this._http.delete(`${baseUrl}/${id}`);
-  }
-
-  public deleteAll() {
-    return this._http.delete(baseUrl);
-  }
-
-  public findByTitle(title) {
-    return this._http.get(`${baseUrl}?title=${title}`);
-  }
-  */
 }
