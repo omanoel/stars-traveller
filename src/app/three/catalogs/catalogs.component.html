@@ -6,10 +6,16 @@
         <input id="rb_{{ _catalog.id }}" type="radio" class="custom-control-input" value="{{ _catalog.id }}"
           formControlName="catalogFc">
         <label class="custom-control-label" for="rb_{{ _catalog.id }}">{{ _catalog.name }} - {{ _catalog.count }}
-          {{ 'INDICATOR.STARS' | translate }}</label> <img *ngIf="_catalog.id === model.selectedCatalog.id"
+          {{ 'INDICATOR.OBJECTS' | translate }}</label> <img *ngIf="_catalog.id === model.selectedCatalog.id"
           (click)="showFilters()" class="options" src="./assets/options.png"
           title="{{ 'CATALOGS.FILTERS' | translate }}" />
       </div>
     </div>
   </form>
+  <p class="navigate">
+    <a (click)="goToPreviousObject()" title="{{ 'CATALOGS.GOTO_PREVIOUS' | translate }}">
+      {{ 'CATALOGS.PREVIOUS' | translate }}</a> &nbsp;&nbsp;
+    <a (click)="goToNextObject()" title="{{ 'CATALOGS.GOTO_NEXT' | translate }}">{{ 'CATALOGS.NEXT' | translate }}
+    </a>
+  </p>
 </div>

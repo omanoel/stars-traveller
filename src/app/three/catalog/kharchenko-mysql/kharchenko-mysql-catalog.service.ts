@@ -4,23 +4,21 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ObjectsService } from '@app/three/objects/objects.sevice';
 
-import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
-import { BaseCatalogService } from '../base-catalog.service';
-import { Catalog } from '../catalog.model';
+import { Catalog, ICatalogService } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class KharchenkoMysqlCatalogService extends BaseCatalogService {
+export class KharchenkoMysqlCatalogService implements ICatalogService {
   //
   constructor(
-    protected _starsService: StarsService,
+    private _objectsService: ObjectsService,
     private _http: HttpClient
   ) {
     // Empty
-    super(_starsService);
   }
 
   // @override
@@ -33,31 +31,38 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public load(threeComponentModel: ThreeComponentModel): void {
-    threeComponentModel.filters.clear();
-    threeComponentModel.errorMessage = null;
-    threeComponentModel.filters.set('bmag', [-1429, 7000]);
-    this.search(threeComponentModel).subscribe();
-  }
-
-  // @override
-  public findOne(
+  public findOne$(
     threeComponentModel: ThreeComponentModel,
-    id: string
+    properties: any
   ): Observable<any> {
-    return this.get$(id, threeComponentModel.selectedCatalog.url).pipe(
-      map((starImported: any) => {
-        this.fillPositionProperties(threeComponentModel, starImported);
-        return starImported;
+    return this.get$(
+      properties.id,
+      threeComponentModel.selectedCatalog.url
+    ).pipe(
+      map((objectImported: any) => {
+        this._fillPositionProperties(threeComponentModel, objectImported);
+        return objectImported;
       }),
       catchError(() => of('Error, could not count'))
     );
   }
 
+  initialize$: Function;
+
   // @override
-  public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+  public load(threeComponentModel: ThreeComponentModel): void {
+    threeComponentModel.filters.clear();
     threeComponentModel.errorMessage = null;
-    threeComponentModel.average = 'Searching stars...';
+    threeComponentModel.filters.set('bmag', [-1429, 7000]);
+    this.search$(threeComponentModel).subscribe();
+  }
+
+  // @override
+  public search$(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.indexOfCurrent = 0;
+    threeComponentModel.scale = threeComponentModel.selectedCatalog.scale;
+    threeComponentModel.errorMessage = null;
+    threeComponentModel.average = 'Searching objects...';
     let filtering = '?';
     threeComponentModel.filters.forEach((f, k) => {
       let value = k + '=';
@@ -73,9 +78,9 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
     return this._http
       .get(threeComponentModel.selectedCatalog.url + '/count' + filtering)
       .pipe(
-        concatMap((countOfStars: any) => {
-          console.log(countOfStars);
-          const count = +countOfStars[0].total;
+        concatMap((countOfObjects: any) => {
+          console.log(countOfObjects);
+          const count = +countOfObjects[0].total;
           if (count < 50000) {
             return this._http.get(
               threeComponentModel.selectedCatalog.url + filtering
@@ -84,18 +89,20 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
             return of(null);
           }
         }),
-        map((starsImported: any) => {
-          if (starsImported) {
+        map((objectsImported: any) => {
+          if (objectsImported) {
             threeComponentModel.errorMessage = null;
-            threeComponentModel.starsImported = starsImported;
+            threeComponentModel.objectsImported = objectsImported;
             // fill objects
-            threeComponentModel.starsImported.forEach((item) => {
-              this.fillPositionProperties(threeComponentModel, item);
+            threeComponentModel.objectsImported.forEach((item) => {
+              this._fillPositionProperties(threeComponentModel, item);
             });
             // refresh
-            this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+            this._objectsService.refreshAfterLoadingCatalog(
+              threeComponentModel
+            );
           } else {
-            threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_STARS';
+            threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_OBJECTS';
           }
         }),
         catchError((err: any) => {
@@ -113,49 +120,31 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
     return this._http.get(`${baseUrl}/${id}`);
   }
 
-  public fillPositionProperties(
+  private _fillPositionProperties(
     threeComponentModel: ThreeComponentModel,
-    star: any
+    item: any
   ): void {
     threeComponentModel.selectedCatalog.properties.forEach((prop) => {
-      if (prop.type === 'number' && star[prop.key]) {
-        star[prop.key] = +star[prop.key];
+      if (prop.type === 'number' && item[prop.key]) {
+        item[prop.key] = +item[prop.key];
       }
     });
-    if (star.plx === 0) {
-      star.plx = 0.01;
+    if (item.plx === 0) {
+      item.plx = 0.01;
     }
-    star.dist = 100000 / Math.abs(star.plx);
-    star.x =
-      star.dist *
-      Math.cos((star.dec * Math.PI) / 180) *
-      Math.cos((star.ra * Math.PI) / 12);
-    star.y =
-      star.dist *
-      Math.cos((star.dec * Math.PI) / 180) *
-      Math.sin((star.ra * Math.PI) / 12);
-    star.z = star.dist * Math.sin((star.dec * Math.PI) / 180);
+    item.dist = 100000 / Math.abs(item.plx);
+    item.x =
+      (item.dist *
+        Math.cos((item.dec * Math.PI) / 180) *
+        Math.cos((item.ra * Math.PI) / 12)) /
+      threeComponentModel.scale;
+    item.y =
+      (item.dist *
+        Math.cos((item.dec * Math.PI) / 180) *
+        Math.sin((item.ra * Math.PI) / 12)) /
+      threeComponentModel.scale;
+    item.z =
+      (item.dist * Math.sin((item.dec * Math.PI) / 180)) /
+      threeComponentModel.scale;
   }
-
-  /*
-  public create(data) {
-    return this._http.post(baseUrl, data);
-  }
-
-  public update(id, data) {
-    return this._http.put(`${baseUrl}/${id}`, data);
-  }
-
-  public delete(id) {
-    return this._http.delete(`${baseUrl}/${id}`);
-  }
-
-  public deleteAll() {
-    return this._http.delete(baseUrl);
-  }
-
-  public findByTitle(title) {
-    return this._http.get(`${baseUrl}?title=${title}`);
-  }
-  */
 }

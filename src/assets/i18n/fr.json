@@ -1,26 +1,30 @@
 {
   "COMMON": {
     "CLOSE": "Fermer",
-    "LOADING_STARS": "Chargement des étoiles du catalogue...",
+    "LOADING_OBJECTS": "Chargement des objets du catalogue...",
     "OPTIONS": "Voir les options",
     "HOW_TO_NAVIGATE": "Comment naviguer",
     "DATASTRO": "Visiter ce site génial",
     "GITHUB": "Voir ce projet sur GitHub",
-    "ERROR_TOO_MANY_STARS": "Trop d'étoiles correspondent aux critères. Affinez.",
+    "ERROR_TOO_MANY_OBJECTS": "Trop d'objets correspondent aux critères. Affinez.",
     "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
     "COLLAPSE": "Réduire ce panneau",
     "EXPAND": "Agrandrir ce panneau"
   },
   "CATALOGS": {
-    "FILTERS": "Afficher modifier les filtres"
+    "FILTERS": "Afficher modifier les filtres",
+    "GOTO_NEXT": "Voir l'objet suivant",
+    "GOTO_PREVIOUS": "Voir l'objet précédent",
+    "NEXT": "Objet suivant >>",
+    "PREVIOUS": "<< Objet précédent"
   },
   "HOME": {
     "SELECT": "Changer de langue"
   },
   "INDICATOR": {
-    "STARS": "étoiles",
+    "OBJECTS": "objets",
     "DISTANCE_TO_HELPER": "Dist. au curseur",
-    "DISTANCE_TO_LAST_STAR": "Dist. de la dernière étoile",
+    "DISTANCE_TO_LAST_OBJECT": "Dist. du dernier objet survolé",
     "HELPER_COORDS": "Coord. du curseur"
   },
   "SEARCH": {
@@ -49,6 +53,6 @@
     "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
     "TRANSLATE": "Clic droit souris plus déplacement pour effectuer un déplacement du curseur",
     "ZOOM": "Molette souris pour zoomer / dézoomer",
-    "GOTO": "Click gauche souris sur une étoile pour la visualiser de près"
+    "GOTO": "Clic gauche souris sur un objet pour le visualiser de près"
   }
 }

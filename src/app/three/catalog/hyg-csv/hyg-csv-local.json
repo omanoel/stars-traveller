@@ -4,6 +4,7 @@
   "production": true,
   "url": "/assets/catalogs/hygdata_v3.csv",
   "service": "HygCsvCatalogService",
+  "scale": 1,
   "properties": [{
     "key": "id",
     "type": "string",

@@ -1,7 +1,7 @@
 <app-map [model]="threeComponentModel"></app-map>
 <div class="loader" *ngIf="threeComponentModel.average != ''">
   <div class="loading">
-    <p>{{ 'COMMON.LOADING_STARS' | translate }}</p>
+    <p>{{ 'COMMON.LOADING_OBJECTS' | translate }}</p>
     <p class="error" *ngIf="threeComponentModel.errorMessage">{{ threeComponentModel.errorMessage | translate }}</p>
   </div>
   <img class="rotate" src="./assets/textures/lensflare0_alpha.png" *ngIf="!threeComponentModel.errorMessage">

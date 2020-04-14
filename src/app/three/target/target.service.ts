@@ -6,7 +6,7 @@ import { ThreeComponentModel } from '@app/three/three.component.model';
 import { TargetModel } from './target.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TargetService {
   private static readonly SCALE = 0.2;
@@ -23,7 +23,7 @@ export class TargetService {
       ratio: 1,
       targetOnClick: null,
       cameraOnClick: null,
-      stepper: TargetService.STEP
+      stepper: TargetService.STEP,
     };
   }
 
@@ -73,11 +73,13 @@ export class TargetService {
   }
 
   public refreshObjectsOnClick(threeComponentModel: ThreeComponentModel): void {
+    const gap = threeComponentModel.scale > 1 ? 10 : 1;
     if (threeComponentModel.target.targetOnClick) {
       if (
         threeComponentModel.target.targetOnClick.distanceTo(
           threeComponentModel.trackballControls.controls.target
-        ) > TargetService.EPSILON
+        ) >
+        TargetService.EPSILON * gap
       ) {
         this._getNewPosition(threeComponentModel);
       } else {
