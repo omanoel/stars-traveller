@@ -8,7 +8,7 @@
   "properties": [{
     "key": "id",
     "type": "string",
-    "tooltip": "The database primary key",
+    "tooltip": "KHARCHENKO.ID",
     "unit": null,
     "min": null,
     "max": null,
@@ -16,7 +16,7 @@
   }, {
     "key": "ra",
     "type": "number",
-    "tooltip": "The star's right ascension, for epoch and equinox 2000.0",
+    "tooltip": "KHARCHENKO.RA",
     "unit": "h",
     "min": 0,
     "max": 24,
@@ -24,7 +24,7 @@
   }, {
     "key": "dec",
     "type": "number",
-    "tooltip": "The star's declination ascension, for epoch and equinox 2000.0",
+    "tooltip": "KHARCHENKO.DEC",
     "unit": "deg",
     "min": -90,
     "max": 90,
@@ -32,7 +32,7 @@
   }, {
     "key": "plx",
     "type": "number",
-    "tooltip": "The star's trigonometric parallax",
+    "tooltip": "KHARCHENKO.PLX",
     "unit": "0.01mas",
     "min": -91909,
     "max": 77233,
@@ -40,7 +40,7 @@
   }, {
     "key": "dist",
     "type": "number",
-    "tooltip": "The star's distance in parsecs",
+    "tooltip": "KHARCHENKO.DIST",
     "unit": "pc",
     "min": 0,
     "max": 100000,
@@ -48,7 +48,7 @@
   }, {
     "key": "hip",
     "type": "number",
-    "tooltip": "The star's ID in the Hipparcos catalog, if known.",
+    "tooltip": "KHARCHENKO.HIP",
     "unit": null,
     "min": 0,
     "max": 120404,
@@ -56,7 +56,7 @@
   }, {
     "key": "hd",
     "type": "number",
-    "tooltip": "The star's ID in the Henry Draper catalog, if known.",
+    "tooltip": "KHARCHENKO.HD",
     "unit": null,
     "min": 0,
     "max": 359083,
@@ -64,7 +64,7 @@
   }, {
     "key": "dm",
     "type": "number",
-    "tooltip": "The star's DM number",
+    "tooltip": "KHARCHENKO.DM",
     "unit": null,
     "min": -8900053,
     "max": 8916306,
@@ -72,7 +72,7 @@
   }, {
     "key": "pmra",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.PMRA",
     "unit": "0.01mas/yr",
     "min": -441735,
     "max": 677335,
@@ -80,7 +80,7 @@
   }, {
     "key": "pmdec",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.PMDEC",
     "unit": "0.01mas/yr",
     "min": -581370,
     "max": 1030810,
@@ -88,7 +88,7 @@
   }, {
     "key": "bmag",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.BMAG",
     "unit": "mmag",
     "min": -1429,
     "max": 16052,
@@ -96,7 +96,7 @@
   }, {
     "key": "vmag",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.VMAG",
     "unit": "mmag",
     "min": -1121,
     "max": 14140,
@@ -104,7 +104,7 @@
   }, {
     "key": "spect",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.SPECT",
     "unit": null,
     "min": null,
     "max": null,
@@ -112,7 +112,7 @@
   }, {
     "key": "x",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.X",
     "unit": null,
     "min": null,
     "max": null,
@@ -120,7 +120,7 @@
   }, {
     "key": "y",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.Y",
     "unit": null,
     "min": null,
     "max": null,
@@ -128,7 +128,7 @@
   }, {
     "key": "z",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.Z",
     "unit": null,
     "min": null,
     "max": null,
@@ -136,7 +136,7 @@
   }, {
     "key": "vx",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.VX",
     "unit": null,
     "min": null,
     "max": null,
@@ -144,7 +144,7 @@
   }, {
     "key": "vy",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.VY",
     "unit": null,
     "min": null,
     "max": null,
@@ -152,7 +152,7 @@
   }, {
     "key": "vz",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.VZ",
     "unit": null,
     "min": null,
     "max": null,
@@ -160,7 +160,7 @@
   }, {
     "key": "rarad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.RARAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -168,7 +168,7 @@
   }, {
     "key": "decrad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.DECRAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -176,7 +176,7 @@
   }, {
     "key": "pmrarad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.PMRARAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -184,7 +184,7 @@
   }, {
     "key": "pmdecrad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.PMDECRAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -200,7 +200,7 @@
   }, {
     "key": "tyc1",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.TYC1",
     "unit": null,
     "min": 0,
     "max": 9537,
@@ -208,7 +208,7 @@
   }, {
     "key": "tyc2",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.TYC2",
     "unit": null,
     "min": 0,
     "max": 12119,
@@ -216,7 +216,7 @@
   }, {
     "key": "tyc3",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "KHARCHENKO.TYC3",
     "unit": null,
     "min": 0,
     "max": 3,

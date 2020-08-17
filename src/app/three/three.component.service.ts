@@ -12,7 +12,7 @@ import { TargetService } from './target/target.service';
 import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
 import { BaseCatalogData } from './catalog/catalog.model';
-import { ObjectsService } from './objects/objects.sevice';
+import { ObjectsService } from './objects/objects.service';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +63,8 @@ export class ThreeComponentService {
       indexOfCurrent: 0,
       dateMax: 10000,
       dateCurrent: 2000,
-      showProperMotion: false
+      showProperMotion: false,
+      changeOnShowProperMotion: false
     };
   }
 
@@ -213,10 +214,14 @@ export class ThreeComponentService {
       threeComponentModel.camera
     );
     //
-    if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
+    if (
+      !this._perspectiveCameraService.isMoving(threeComponentModel) ||
+      threeComponentModel.changeOnShowProperMotion
+    ) {
       this._objectsService.updateProximityObjects(threeComponentModel);
+      threeComponentModel.changeOnShowProperMotion = false;
     }
-    this._objectsService.updateMovementObjects(threeComponentModel);
+    // this._objectsService.updateMovementObjects(threeComponentModel);
     if (!threeComponentModel.showProperMotion) {
       threeComponentModel.dateCurrent = 2000;
     }

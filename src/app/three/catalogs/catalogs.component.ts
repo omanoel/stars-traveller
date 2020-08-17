@@ -42,13 +42,7 @@ export class CatalogsComponent implements OnInit {
         '' + this.model.selectedCatalog.id,
         Validators.required
       ),
-      nearDetectionFc: new FormControl(this.model.near, Validators.required),
-      properMotionFc: new FormControl(this.model.showProperMotion),
-      dateMaxFc: new FormControl(this.model.dateMax, Validators.required),
-      dateCurrentFc: new FormControl(
-        this.model.dateCurrent,
-        Validators.required
-      )
+      properMotionFc: new FormControl(this.model.showProperMotion)
     });
     this.model.catalogs.forEach((catalog) => {
       const catalogExt: CatalogExt = { ...catalog, count: 0 };
@@ -64,42 +58,10 @@ export class CatalogsComponent implements OnInit {
     });
     // subscriptions
     this.catalogsForm
-      .get('nearDetectionFc')
-      .valueChanges.subscribe((value: number) => {
-        this.model.near = +value;
-      });
-    this.catalogsForm
-      .get('dateMaxFc')
-      .valueChanges.subscribe((value: number) => {
-        if (+value < this.model.dateCurrent) {
-          value = this.model.dateCurrent;
-          this.catalogsForm
-            .get('dateMaxFc')
-            .setValue(value, { emitEvent: false });
-        }
-        this.model.dateMax = +value;
-      });
-    this.catalogsForm
-      .get('dateCurrentFc')
-      .valueChanges.subscribe((value: number) => {
-        if (+value < 2000) {
-          value = 2000;
-          this.catalogsForm
-            .get('dateCurrentFc')
-            .setValue(value, { emitEvent: false });
-        }
-        if (+value > this.model.dateMax) {
-          value = this.model.dateMax;
-          this.catalogsForm
-            .get('dateCurrentFc')
-            .setValue(value, { emitEvent: false });
-        }
-        this.model.dateCurrent = +value;
-      });
-    this.catalogsForm
       .get('properMotionFc')
       .valueChanges.subscribe((value: boolean) => {
         this.model.showProperMotion = value;
+        this.model.changeOnShowProperMotion = true;
       });
     this.catalogsForm.get('catalogFc').valueChanges.subscribe((id: string) => {
       this.model.selectedCatalog = this.model.catalogs.find(

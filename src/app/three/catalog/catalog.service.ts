@@ -7,8 +7,6 @@ import { HygMongodbCatalogService } from './hyg-mongodb/hyg-mongodb-catalog.serv
 import hygMongo from './hyg-mongodb/hyg-mongodb.json';
 import { KharchenkoMysqlCatalogService } from './kharchenko-mysql/kharchenko-mysql-catalog.service';
 import kharchenkoMysql from './kharchenko-mysql/kharchenko-mysql.json';
-import { MessierCsvCatalogService } from './messier-csv/messier-csv-catalog.service';
-import messierCsv from './messier-csv/messier-csv.json';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +16,13 @@ export class CatalogService {
   constructor(
     private _hygCsvCatalogService: HygCsvCatalogService,
     private _hygMongodbCatalogService: HygMongodbCatalogService,
-    private _kharchenkoMysqlCatalogService: KharchenkoMysqlCatalogService,
-    private _messierCsvCatalogService: MessierCsvCatalogService
+    private _kharchenkoMysqlCatalogService: KharchenkoMysqlCatalogService
   ) {
     // Empty
   }
 
   public list(): Catalog[] {
-    return [hygcsvLocal, hygMongo, kharchenkoMysql, messierCsv];
+    return [<Catalog>hygcsvLocal, <Catalog>hygMongo, <Catalog>kharchenkoMysql];
   }
 
   public getCatalogService(
@@ -40,8 +37,6 @@ export class CatalogService {
       return this._hygMongodbCatalogService;
     } else if (catalog.service === 'KharchenkoMysqlCatalogService') {
       return this._kharchenkoMysqlCatalogService;
-    } else if (catalog.service === 'MessierCsvCatalogService') {
-      return this._messierCsvCatalogService;
     }
   }
 }

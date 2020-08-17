@@ -8,7 +8,7 @@
   "properties": [{
     "key": "id",
     "type": "string",
-    "tooltip": "The database primary key",
+    "tooltip": "HYG.ID",
     "unit": null,
     "min": 0,
     "max": 119614,
@@ -16,7 +16,7 @@
   }, {
     "key": "ra",
     "type": "number",
-    "tooltip": "The star's right ascension, for epoch and equinox 2000.0",
+    "tooltip": "HYG.RA",
     "unit": "h",
     "min": 0,
     "max": 24,
@@ -24,7 +24,7 @@
   }, {
     "key": "dec",
     "type": "number",
-    "tooltip": "The star's declination ascension, for epoch and equinox 2000.0",
+    "tooltip": "HYG.DEC",
     "unit": "deg",
     "min": -90,
     "max": 90,
@@ -32,7 +32,7 @@
   }, {
     "key": "dist",
     "type": "number",
-    "tooltip": "The star's distance in parsecs",
+    "tooltip": "HYG.DIST",
     "unit": "pc",
     "min": 0,
     "max": 100000,
@@ -40,7 +40,7 @@
   }, {
     "key": "hip",
     "type": "string",
-    "tooltip": "The star's ID in the Hipparcos catalog, if known.",
+    "tooltip": "HYG.HIP",
     "unit": null,
     "min": null,
     "max": null,
@@ -48,7 +48,7 @@
   }, {
     "key": "hd",
     "type": "string",
-    "tooltip": "The star's ID in the Henry Draper catalog, if known.",
+    "tooltip": "HYG.HD",
     "unit": null,
     "min": null,
     "max": null,
@@ -56,7 +56,7 @@
   }, {
     "key": "hr",
     "type": "string",
-    "tooltip": "The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.",
+    "tooltip": "HYG.HR",
     "unit": null,
     "min": null,
     "max": null,
@@ -64,7 +64,7 @@
   }, {
     "key": "gl",
     "type": "string",
-    "tooltip": "The star's ID in the third edition of the Gliese Catalog of Nearby Stars.",
+    "tooltip": "HYG.GL",
     "unit": null,
     "min": null,
     "max": null,
@@ -72,7 +72,7 @@
   }, {
     "key": "bf",
     "type": "string",
-    "tooltip": "The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog.",
+    "tooltip": "HYG.BF",
     "unit": null,
     "min": null,
     "max": null,
@@ -80,7 +80,7 @@
   }, {
     "key": "proper",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.PROPER",
     "unit": null,
     "min": null,
     "max": null,
@@ -88,7 +88,7 @@
   }, {
     "key": "pmra",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.PMRA",
     "unit": null,
     "min": null,
     "max": null,
@@ -96,7 +96,7 @@
   }, {
     "key": "pmdec",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.PMDEC",
     "unit": null,
     "min": null,
     "max": null,
@@ -104,7 +104,7 @@
   }, {
     "key": "rv",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.RV",
     "unit": null,
     "min": null,
     "max": null,
@@ -112,7 +112,7 @@
   }, {
     "key": "mag",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.MAG",
     "unit": null,
     "min": null,
     "max": null,
@@ -120,7 +120,7 @@
   }, {
     "key": "absmag",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.ABSMAG",
     "unit": null,
     "min": null,
     "max": null,
@@ -128,7 +128,7 @@
   }, {
     "key": "spect",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.SPECT",
     "unit": null,
     "min": null,
     "max": null,
@@ -136,7 +136,7 @@
   }, {
     "key": "ci",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.CI",
     "unit": null,
     "min": null,
     "max": null,
@@ -144,7 +144,7 @@
   }, {
     "key": "x",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.X",
     "unit": null,
     "min": null,
     "max": null,
@@ -152,7 +152,7 @@
   }, {
     "key": "y",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.Y",
     "unit": null,
     "min": null,
     "max": null,
@@ -160,7 +160,7 @@
   }, {
     "key": "z",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.Z",
     "unit": null,
     "min": null,
     "max": null,
@@ -168,7 +168,7 @@
   }, {
     "key": "vx",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.VX",
     "unit": null,
     "min": null,
     "max": null,
@@ -176,7 +176,7 @@
   }, {
     "key": "vy",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.VY",
     "unit": null,
     "min": null,
     "max": null,
@@ -184,7 +184,7 @@
   }, {
     "key": "vz",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.VZ",
     "unit": null,
     "min": null,
     "max": null,
@@ -192,7 +192,7 @@
   }, {
     "key": "rarad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.RARAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -200,7 +200,7 @@
   }, {
     "key": "decrad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.DECRAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -208,7 +208,7 @@
   }, {
     "key": "pmrarad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.PMRARAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -216,7 +216,7 @@
   }, {
     "key": "pmdecrad",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.PMDECRAD",
     "unit": null,
     "min": null,
     "max": null,
@@ -224,7 +224,7 @@
   }, {
     "key": "bayer",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.BAYER",
     "unit": null,
     "min": null,
     "max": null,
@@ -232,7 +232,7 @@
   }, {
     "key": "flam",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.FLAM",
     "unit": null,
     "min": null,
     "max": null,
@@ -240,7 +240,7 @@
   }, {
     "key": "con",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.CON",
     "unit": null,
     "min": null,
     "max": null,
@@ -248,7 +248,7 @@
   }, {
     "key": "comp",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.COMP",
     "unit": null,
     "min": null,
     "max": null,
@@ -256,7 +256,7 @@
   }, {
     "key": "comp_primary",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.COMP_PRIMARY",
     "unit": null,
     "min": null,
     "max": null,
@@ -264,7 +264,7 @@
   }, {
     "key": "base",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.BASE",
     "unit": null,
     "min": null,
     "max": null,
@@ -272,7 +272,7 @@
   }, {
     "key": "lum",
     "type": "number",
-    "tooltip": "",
+    "tooltip": "HYG.LUM",
     "unit": null,
     "min": null,
     "max": null,
@@ -280,7 +280,7 @@
   }, {
     "key": "var",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.VAR",
     "unit": null,
     "min": null,
     "max": null,
@@ -288,7 +288,7 @@
   }, {
     "key": "var_min",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.VAR_MIN",
     "unit": null,
     "min": null,
     "max": null,
@@ -296,7 +296,7 @@
   }, {
     "key": "var_max",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.VAR_MAX",
     "unit": null,
     "min": null,
     "max": null,
@@ -304,7 +304,7 @@
   }, {
     "key": "tyc",
     "type": "string",
-    "tooltip": "",
+    "tooltip": "HYG.TYC",
     "unit": null,
     "min": null,
     "max": null,

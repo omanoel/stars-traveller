@@ -38,6 +38,7 @@ export interface ThreeComponentModel {
   dateMax: number;
   dateCurrent: number;
   showProperMotion: boolean;
+  changeOnShowProperMotion: boolean;
 }
 
 export interface ObjectOver {

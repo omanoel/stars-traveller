@@ -1,12 +1,11 @@
-import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
-import { ObjectsService } from '@app/three/objects/objects.sevice';
+import { ObjectsService } from '@app/three/objects/objects.service';
 
 import { ThreeComponentModel } from '../../three.component.model';
-import { Catalog, ICatalogService, BaseCatalogData } from '../catalog.model';
+import { ICatalogService, BaseCatalogData } from '../catalog.model';
 import { environment } from '@env/environment';
 
 @Injectable({
@@ -33,9 +32,8 @@ export class HygCsvCatalogService implements ICatalogService {
     );
   }
 
-  public initialize$(threeComponentModel: ThreeComponentModel): Promise<any> {
+  public initialize$(threeComponentModel: ThreeComponentModel): Promise<void> {
     threeComponentModel.average = 'Loading objects...';
-    const _that = this;
     return new Promise((resolve, reject) => {
       new THREE.FileLoader().load(
         // resource URL
@@ -43,7 +41,7 @@ export class HygCsvCatalogService implements ICatalogService {
 
         // Function when resource is loaded
         (data: string) => {
-          threeComponentModel.objectsImported = _that._transform(data);
+          threeComponentModel.objectsImported = this._transform(data);
           resolve();
         },
 
@@ -53,8 +51,7 @@ export class HygCsvCatalogService implements ICatalogService {
         },
 
         // Function called when download errors
-        (error: ErrorEvent) => {
-          console.error('An error happened: ' + error);
+        () => {
           reject();
         }
       );
@@ -89,12 +86,12 @@ export class HygCsvCatalogService implements ICatalogService {
         threeComponentModel.objectsImported = threeComponentModel.objectsImported.filter(
           (item) => {
             let keep = true;
-            if (!isNil(f[0])) {
+            if (f[0] != null) {
               keep = item[k] >= f[0];
-              if (keep && !isNil(f[1])) {
+              if (keep && f[1] != null) {
                 keep = item[k] <= f[1];
               }
-            } else if (!isNil(f[1])) {
+            } else if (f[1] != null) {
               keep = item[k] <= f[1];
             }
 
@@ -108,7 +105,7 @@ export class HygCsvCatalogService implements ICatalogService {
     return of(null);
   }
 
-  private _transform(data: any): any {
+  private _transform(data: string): BaseCatalogData[] {
     const lines = data.split('\n');
     const result = [];
     const headers = lines[0].split(',');

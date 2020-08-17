@@ -3,10 +3,15 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ObjectsService } from '@app/three/objects/objects.sevice';
+import { ObjectsService } from '@app/three/objects/objects.service';
 
 import { ThreeComponentModel } from '../../three.component.model';
-import { Catalog, ICatalogService } from '../catalog.model';
+import {
+  Catalog,
+  ICatalogService,
+  BaseCatalogData,
+  CountOfStars
+} from '../catalog.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +37,13 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
   // @override
   public findOne$(
     threeComponentModel: ThreeComponentModel,
-    properties: BaseCatalogData
+    prop: BaseCatalogData
   ): Observable<BaseCatalogData> {
     return <Observable<BaseCatalogData>>this.get$(
-      properties.id,
+      <string>prop.id,
       threeComponentModel.selectedCatalog.url
     ).pipe(
-      map((objectImported: any) => {
+      map((objectImported: BaseCatalogData) => {
         this._fillPositionProperties(threeComponentModel, objectImported);
         return objectImported;
       }),
@@ -46,7 +51,14 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
     );
   }
 
-  initialize$: Function;
+  // @override
+  public initialize$(threeComponentModel: ThreeComponentModel): Promise<void> {
+    threeComponentModel.average = 'Loading objects...';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return new Promise((resolve, reject) => {
+      // empty
+    });
+  }
 
   // @override
   public load(threeComponentModel: ThreeComponentModel): void {
@@ -78,7 +90,6 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
       .get(threeComponentModel.selectedCatalog.url + '/count' + filtering)
       .pipe(
         concatMap((countOfObjects: CountOfStars[]) => {
-          console.log(countOfObjects);
           const count = +countOfObjects[0].total;
           if (count < 50000) {
             return <Observable<BaseCatalogData[]>>(
