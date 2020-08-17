@@ -12,7 +12,7 @@ import { ThreeComponentModel } from '../three.component.model';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
   @Input() model: ThreeComponentModel;
@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit {
     private _catalogService: CatalogService
   ) {}
   //
-  ngOnInit() {
+  public ngOnInit(): void {
     this.isSelectedCatalogWithSearch = !isNil(
       this._catalogService.getCatalogService(this.model.selectedCatalog).search
     );
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
 
     this.searchForm.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((values: any) => {
+      .subscribe((values: unknown) => {
         this._manageFormProperties(values);
       });
   }
@@ -60,7 +60,7 @@ export class SearchComponent implements OnInit {
     this.model.showSearch = false;
   }
 
-  private _manageFormProperties(values: any): void {
+  private _manageFormProperties(values: unknown): void {
     this.propertiesWithFilter(this.model.selectedCatalog.properties).forEach(
       (prop) => {
         if (!isNil(values[prop.key]) && values[prop.key]) {
@@ -71,7 +71,7 @@ export class SearchComponent implements OnInit {
             this.searchForm.get(prop.key + '_r2').enable({ emitEvent: false });
             this.model.filters.set(prop.key, [
               this.searchForm.get(prop.key + '_1').value,
-              this.searchForm.get(prop.key + '_2').value,
+              this.searchForm.get(prop.key + '_2').value
             ]);
             return;
           }

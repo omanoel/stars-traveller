@@ -51,7 +51,9 @@
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).__zone_symbol__BLACK_LISTED_EVENTS = ['scroll', 'mousemove']; // disable patch specified eventNames
 
 /***************************************************************************************************

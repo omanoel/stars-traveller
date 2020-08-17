@@ -1,15 +1,15 @@
 import { Observable, of } from 'rxjs';
+import { isNil } from 'lodash';
 
 import { Injectable } from '@angular/core';
 
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
-import { Catalog } from '../catalog.model';
-import { isNil } from 'lodash';
+import { BaseCatalogData } from '../catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HygCsvCatalogService extends BaseCatalogService {
   constructor(protected _starsService: StarsService) {
@@ -31,7 +31,7 @@ export class HygCsvCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public count$(catalog: Catalog): Observable<number> {
+  public count$(): Observable<number> {
     return of(119614);
   }
 
@@ -39,12 +39,12 @@ export class HygCsvCatalogService extends BaseCatalogService {
   public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
-  ): Observable<any> {
+  ): Observable<BaseCatalogData> {
     return of(threeComponentModel.starsImported.find((s) => s.id === id));
   }
 
   // @override
-  public transform(data: any): any {
+  public transform(data: string): BaseCatalogData[] {
     const lines = data.split('\n');
     const result = [];
     const headers = lines[0].split(',');

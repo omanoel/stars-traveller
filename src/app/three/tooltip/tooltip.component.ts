@@ -1,25 +1,23 @@
 import { isNil } from 'lodash';
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { Catalog, Property } from '../catalog/catalog.model';
+import { Catalog, Property, BaseCatalogData } from '../catalog/catalog.model';
 import { InTheSkyService } from '../external/in-the-sky.service';
 import { ThreeComponentModel } from '../three.component.model';
 
 @Component({
   selector: 'app-tooltip',
   templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss'],
+  styleUrls: ['./tooltip.component.scss']
 })
-export class TooltipComponent implements OnInit {
+export class TooltipComponent {
   //
   @Input() model: ThreeComponentModel;
   public selectedCatalog: Catalog;
   public expanded = true;
 
   constructor(private _inTheSkyService: InTheSkyService) {}
-  //
-  ngOnInit() {}
 
   public isVisible(): boolean {
     return (
@@ -30,7 +28,7 @@ export class TooltipComponent implements OnInit {
     );
   }
 
-  public getValue(data: any, prop: Property): string {
+  public getValue(data: BaseCatalogData, prop: Property): string {
     if (prop.key === 'ra') {
       return this._computeRa(data[prop.key]);
     } else if (prop.key === 'dec') {
@@ -43,7 +41,7 @@ export class TooltipComponent implements OnInit {
     }
   }
 
-  public getLink(data: any, key: string): string {
+  public getLink(data: BaseCatalogData, key: string): string {
     if (key === 'hip') {
       const mapp = this._inTheSkyService.mapping.find(
         (m) => m.hip === data[key]
@@ -55,7 +53,7 @@ export class TooltipComponent implements OnInit {
     return null;
   }
 
-  private _computeRa(ra: string): string {
+  private _computeRa(ra: number | string): string {
     const raNumber = Number(ra);
     const hours = Math.floor(raNumber);
     const minutes = raNumber - hours;
@@ -71,7 +69,7 @@ export class TooltipComponent implements OnInit {
     );
   }
 
-  private _computeDec(dec: string): string {
+  private _computeDec(dec: number | string): string {
     const raNumber = Number(dec);
     const hours = Math.floor(raNumber);
     const minutes = raNumber - hours;

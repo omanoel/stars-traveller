@@ -5,27 +5,28 @@ import { Injectable } from '@angular/core';
 import { ThreeComponentModel } from '../three.component.model';
 import { ShadersConstant } from './shaders.constant';
 import { StarsModel } from './stars.model';
+import { BaseCatalogData } from '../catalog/catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class StarsService {
   constructor(private _shadersConstant: ShadersConstant) {
     // Empty
   }
 
-  public initialize(starsImported: any): StarsModel {
+  public initialize(starsImported: BaseCatalogData[]): StarsModel {
     const starsModel: StarsModel = {
       groupOfStars: new THREE.Object3D(),
       groupOfStarsHelpers: new THREE.Object3D(),
       groupOfStarsGlow: new THREE.Object3D(),
       nbStars: 0,
       starsPoints: new THREE.Object3D(),
-      shaderMaterials: {},
-      basicMaterials: {},
+      shaderMaterials: new Map<string, THREE.ShaderMaterial>(),
+      basicMaterials: new Map<string, THREE.MeshBasicMaterial>(),
       colors: null,
       loaded: false,
-      meshStars: [],
+      meshStars: []
     };
     this._initMaterials(starsModel);
     starsModel.groupOfStars.name = 'GroupOfStars';
@@ -71,8 +72,11 @@ export class StarsService {
     this._createSpheresAndHelpers(threeComponentModel.starsModel, nearest);
   }
 
-  public getPositionFromId(id: number, starsImported: any): THREE.Vector3 {
-    let goodRecord = starsImported.find((record) => record.id === +id);
+  public getPositionFromId(
+    id: number,
+    starsImported: BaseCatalogData[]
+  ): THREE.Vector3 {
+    const goodRecord = starsImported.find((record) => record.id === +id);
     if (goodRecord) {
       return new THREE.Vector3(goodRecord.x, goodRecord.y, goodRecord.z);
     } else {
@@ -80,7 +84,10 @@ export class StarsService {
     }
   }
 
-  public createPoints(starsImported: any, starsModel: StarsModel): void {
+  public createPoints(
+    starsImported: BaseCatalogData[],
+    starsModel: StarsModel
+  ): void {
     const geometryLight = new THREE.BufferGeometry();
     const geometryGlow = new THREE.BufferGeometry();
     const vertices = [];
@@ -131,16 +138,18 @@ export class StarsService {
       color: 0xffecdf,
       sizeAttenuation: false,
       alphaTest: 1,
-      transparent: false,
+      transparent: false
     });
     starsModel.starsPoints.add(new THREE.Points(geometryLight, materialLight));
     starsModel.starsPoints.add(new THREE.Points(geometryGlow, materialGlow));
   }
 
-  private _getNearest(threeComponentModel: ThreeComponentModel): any[] {
+  private _getNearest(
+    threeComponentModel: ThreeComponentModel
+  ): BaseCatalogData[] {
     const camera = threeComponentModel.camera;
     const target = threeComponentModel.trackballControls.controls.target;
-    let nears = [];
+    const nears: BaseCatalogData[] = [];
     for (let i = 0; i < threeComponentModel.starsImported.length; i++) {
       const record = threeComponentModel.starsImported[i];
       const pos = new THREE.Vector3(record.x, record.y, record.z);
@@ -161,7 +170,7 @@ export class StarsService {
 
   private _createSpheresAndHelpers(
     starsModel: StarsModel,
-    nearest: any[]
+    nearest: BaseCatalogData[]
   ): void {
     starsModel.meshStars = [];
     starsModel.groupOfStars.children = [];
@@ -170,7 +179,7 @@ export class StarsService {
     const materialHelper = new THREE.LineBasicMaterial({
       color: 0xfffff,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.2
     });
     const geometrySphere = new THREE.SphereBufferGeometry(0.02, 32, 16);
     // const geometrySphereGlow = new THREE.SphereGeometry(0.02, 32, 16);
@@ -217,11 +226,11 @@ export class StarsService {
     starsModel.groupOfStarsHelpers.add(new THREE.Line(geometryZ, material));
   }
 
-  private _getSpectrum(starsModel: StarsModel, near: any): string {
+  private _getSpectrum(starsModel: StarsModel, near: BaseCatalogData): string {
     let spectrum = 'Z';
     if (near.spect && near.spect.length > 0) {
       const idx0 = near.spect.charAt(0);
-      if (starsModel.basicMaterials[idx0]) {
+      if (starsModel.basicMaterials.get(idx0)) {
         spectrum = idx0;
       }
     }
@@ -230,16 +239,16 @@ export class StarsService {
 
   private _getMaterialFromSpectrum(
     starsModel: StarsModel,
-    near: any
+    near: BaseCatalogData
   ): THREE.MeshBasicMaterial {
-    return starsModel.basicMaterials[this._getSpectrum(starsModel, near)];
+    return starsModel.basicMaterials.get(this._getSpectrum(starsModel, near));
   }
 
   private _getShaderMaterialFromSpectrum(
     starsModel: StarsModel,
-    near: any
+    near: BaseCatalogData
   ): THREE.ShaderMaterial {
-    return starsModel.shaderMaterials[this._getSpectrum(starsModel, near)];
+    return starsModel.shaderMaterials.get(this._getSpectrum(starsModel, near));
   }
 
   private _initMaterials(starsModel: StarsModel): void {
@@ -254,14 +263,17 @@ export class StarsService {
       M: 0xffaa58,
       L: 0xff7300,
       T: 0xff3500,
-      Y: 0x999999,
+      Y: 0x999999
     };
     Object.keys(starsModel.colors).forEach((key: string) => {
-      starsModel.basicMaterials[key] = new THREE.MeshBasicMaterial({
-        color: starsModel.colors[key],
-        transparent: true,
-        opacity: 0.1,
-      });
+      starsModel.basicMaterials.set(
+        key,
+        new THREE.MeshBasicMaterial({
+          color: starsModel.colors[key],
+          transparent: true,
+          opacity: 0.1
+        })
+      );
     });
   }
 
@@ -271,10 +283,9 @@ export class StarsService {
     target: THREE.Vector3
   ): void {
     Object.keys(starsModel.colors).forEach((key: string) => {
-      starsModel.shaderMaterials[key] = this._getShaderMaterialWithColor(
-        starsModel.colors[key],
-        camera,
-        target
+      starsModel.shaderMaterials.set(
+        key,
+        this._getShaderMaterialWithColor(starsModel.colors[key], camera, target)
       );
     });
   }
@@ -285,8 +296,8 @@ export class StarsService {
         pointTexture: {
           value: new THREE.TextureLoader().load(
             'assets/textures/star_alpha.png'
-          ),
-        },
+          )
+        }
       },
       vertexShader: this._shadersConstant.shaderForPoints().vertex,
       fragmentShader: this._shadersConstant.shaderForPoints().fragment,
@@ -294,12 +305,12 @@ export class StarsService {
       blending: THREE.AdditiveBlending,
       depthTest: false,
       transparent: true,
-      vertexColors: true,
+      vertexColors: true
     });
   }
 
   private _getShaderMaterialWithColor(
-    color: any,
+    color: number,
     camera: THREE.PerspectiveCamera,
     target: THREE.Vector3
   ): THREE.ShaderMaterial {
@@ -308,13 +319,13 @@ export class StarsService {
         c: { type: 'f', value: 0.1 },
         p: { type: 'f', value: 3.0 },
         glowColor: { type: 'c', value: new THREE.Color(color) },
-        viewVector: { type: 'v3', value: target.clone().sub(camera.position) },
+        viewVector: { type: 'v3', value: target.clone().sub(camera.position) }
       },
       vertexShader: this._shadersConstant.shaderForSphereAka().vertex,
       fragmentShader: this._shadersConstant.shaderForSphereAka().fragment,
       side: THREE.FrontSide,
       blending: THREE.AdditiveBlending,
-      transparent: true,
+      transparent: true
     });
 
     /*

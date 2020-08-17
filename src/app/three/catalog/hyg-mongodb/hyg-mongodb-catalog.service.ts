@@ -8,14 +8,14 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
-import { Catalog } from '../catalog.model';
+import { BaseCatalogData } from '../catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HygMongodbCatalogService extends BaseCatalogService {
   private static readonly defaultFilter = {
-    dist: '0:30',
+    dist: '0:30'
   };
   //
   constructor(
@@ -27,7 +27,7 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public count$(catalog: Catalog): Observable<number> {
+  public count$(): Observable<number> {
     return of(119614);
   }
 
@@ -43,16 +43,16 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
-  ): Observable<any> {
+  ): Observable<BaseCatalogData> {
     return this.get$(id, threeComponentModel.selectedCatalog.url);
   }
 
-  public getAll$(baseUrl: string): Observable<any> {
-    return this._http.get(baseUrl + '/');
+  public getAll$(baseUrl: string): Observable<BaseCatalogData[]> {
+    return <Observable<BaseCatalogData[]>>this._http.get(baseUrl + '/');
   }
 
-  public get$(id: string, baseUrl: string): Observable<any> {
-    return this._http.get(`${baseUrl}/${id}`);
+  public get$(id: string, baseUrl: string): Observable<BaseCatalogData> {
+    return <Observable<BaseCatalogData>>this._http.get(`${baseUrl}/${id}`);
   }
 
   // @override
@@ -78,26 +78,23 @@ export class HygMongodbCatalogService extends BaseCatalogService {
           JSON.stringify(filtering)
       )
       .pipe(
-        map((starsImported: any) => {
+        map((starsImported: BaseCatalogData[]) => {
           threeComponentModel.starsImported = starsImported;
           // fill objects
-          threeComponentModel.starsImported.forEach((item) => {
-            this.fillPositionProperties(threeComponentModel, item);
+          threeComponentModel.starsImported.forEach((item: BaseCatalogData) => {
+            this.fillPositionProperties(item);
           });
           // refresh
           this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
         }),
-        catchError((err: any) => {
+        catchError(() => {
           threeComponentModel.errorMessage = 'COMMON.CATALOG_NOT_READY';
           return of(null);
         })
       );
   }
 
-  public fillPositionProperties(
-    threeComponentModel: ThreeComponentModel,
-    star: any
-  ): void {
+  public fillPositionProperties(star: BaseCatalogData): void {
     star.plx = 1 / star.dist;
   }
   /*

@@ -1,33 +1,20 @@
-import { ICatalogService, Catalog } from './catalog.model';
+import * as THREE from 'three';
+
+import { ICatalogService, BaseCatalogData } from './catalog.model';
 import { StarsService } from '../stars/stars.service';
 import { ThreeComponentModel } from '../three.component.model';
-import { Observable, of } from 'rxjs';
-import * as THREE from 'three';
+import { Observable } from 'rxjs';
 
 export abstract class BaseCatalogService implements ICatalogService {
   constructor(protected _starsService: StarsService) {
     // Empty
   }
+  public count$: () => Observable<number>;
+  public load: () => void;
+  public findOne: () => Observable<BaseCatalogData>;
 
-  // @override
-  public count$(catalog: Catalog): Observable<number> {
-    return of(0);
-  }
-
-  // @override
-  public load(threeComponentModel: ThreeComponentModel): void {}
-
-  // @override
-  public findOne(
-    threeComponentModel: ThreeComponentModel,
-    id: string
-  ): Observable<any> {
-    return of(null);
-  }
-
-  public initialize(threeComponentModel: ThreeComponentModel): Promise<any> {
+  public initialize(threeComponentModel: ThreeComponentModel): Promise<void> {
     threeComponentModel.average = 'loading stars...';
-    const _that = this;
     return new Promise((resolve, reject) => {
       new THREE.FileLoader().load(
         // resource URL
@@ -35,7 +22,7 @@ export abstract class BaseCatalogService implements ICatalogService {
 
         // Function when resource is loaded
         (data: string) => {
-          threeComponentModel.starsImported = _that.transform(data);
+          threeComponentModel.starsImported = this.transform(data);
           resolve();
         },
 
@@ -45,15 +32,15 @@ export abstract class BaseCatalogService implements ICatalogService {
         },
 
         // Function called when download errors
-        (error: ErrorEvent) => {
-          console.error('An error happened: ' + error);
+        () => {
+          // console.error('An error happened: ' + error);
           reject();
         }
       );
     });
   }
 
-  public transform(data): any {
+  public transform(data: string): BaseCatalogData[] {
     return JSON.parse(data);
   }
 

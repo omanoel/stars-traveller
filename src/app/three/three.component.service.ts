@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { ElementRef, Injectable, NgZone } from '@angular/core';
+import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
 import { environment } from '@env/environment';
 
 import { PerspectiveCameraService } from './perspective-camera/perspective-camera.service';
@@ -13,9 +13,10 @@ import { TargetService } from './target/target.service';
 import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
 import { CatalogService } from './catalog/catalog.service';
+import { BaseCatalogData } from './catalog/catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ThreeComponentService {
   constructor(
@@ -34,7 +35,7 @@ export class ThreeComponentService {
   public initModel(element: ElementRef): ThreeComponentModel {
     return {
       renderer: new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: true
       }),
       frameId: null,
       element: element,
@@ -57,7 +58,7 @@ export class ThreeComponentService {
       selectedCatalog: null,
       showSearch: false,
       filters: new Map<string, number[]>(),
-      errorMessage: null,
+      errorMessage: null
     };
   }
 
@@ -95,9 +96,6 @@ export class ThreeComponentService {
 
     this._trackballControlsService.setupControls(threeComponentModel);
 
-    const initDist = threeComponentModel.camera.position.distanceTo(
-      new THREE.Vector3(0, 0, 0)
-    );
     threeComponentModel.camera.position.y = 1;
     threeComponentModel.camera.position.z = 1;
     //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
@@ -155,7 +153,7 @@ export class ThreeComponentService {
 
   public onChanges(
     threeComponentModel: ThreeComponentModel,
-    changes: any
+    changes: SimpleChanges
   ): void {
     //
     const widthChange = changes.width && changes.width.currentValue;
@@ -259,7 +257,7 @@ export class ThreeComponentService {
           threeComponentModel,
           threeComponentModel.currentIntersected.userData.starProp['id']
         )
-        .subscribe((starProp: any) => {
+        .subscribe((starProp: BaseCatalogData) => {
           threeComponentModel.lastStarIntersected = intersects[0].object;
           threeComponentModel.lastStarIntersected.userData.starProp = starProp;
         });
