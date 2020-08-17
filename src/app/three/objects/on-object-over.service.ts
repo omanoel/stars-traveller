@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ObjectOver } from '../three.component.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OnObjectOverService {
   private static readonly ELLIPSIS_NAME = 'ellipsisName';
@@ -18,7 +18,7 @@ export class OnObjectOverService {
     scene.add(objectToDisplay);
     return {
       objectIntersected: null,
-      objectDisplay: objectToDisplay,
+      objectDisplay: objectToDisplay
     };
   }
 
@@ -40,7 +40,7 @@ export class OnObjectOverService {
     const material = new THREE.LineBasicMaterial({
       color: 0xfffff,
       transparent: true,
-      opacity: 1,
+      opacity: 1
     });
 
     // Z axis

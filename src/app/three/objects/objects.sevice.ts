@@ -7,10 +7,10 @@ import { ThreeComponentModel } from '../three.component.model';
 import { Collection3d } from './objects.model';
 import { ShadersConstant } from './shaders.constant';
 import { TargetService } from '../target/target.service';
-import { isNil } from 'lodash';
+import { BaseCatalogData } from '../catalog/catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ObjectsService {
   //
@@ -23,7 +23,7 @@ export class ObjectsService {
     // Empty
   }
 
-  public initialize(objectsImported: any): Collection3d {
+  public initialize(objectsImported: BaseCatalogData[]): Collection3d {
     const collection3d: Collection3d = {
       nbObjects: 0,
       groupOfObjects: new THREE.Object3D(),
@@ -33,10 +33,10 @@ export class ObjectsService {
       groupOfObjectsMovement: new THREE.Object3D(),
       groupOfObjectsProperMotion: new THREE.Object3D(),
       geometryMovementGlow: null,
-      shaderMaterials: {},
-      basicMaterials: {},
+      shaderMaterials: new Map<string, THREE.ShaderMaterial>(),
+      basicMaterials: new Map<string, THREE.MeshBasicMaterial>(),
       colors: null,
-      loaded: false,
+      loaded: false
     };
     this._initMaterials(collection3d);
     collection3d.groupOfObjects.name = SceneService.GROUP_INTERSECTED_OBJECTS;
@@ -97,7 +97,7 @@ export class ObjectsService {
   }
 
   private _createPoints(
-    objectsImported: any,
+    objectsImported: BaseCatalogData[],
     collection3d: Collection3d
   ): void {
     const geometryLight = new THREE.BufferGeometry();
@@ -126,7 +126,7 @@ export class ObjectsService {
       color: 0xffecdf,
       sizeAttenuation: false,
       alphaTest: 1,
-      transparent: false,
+      transparent: false
     });
     collection3d.groupOfObjectsPoints.add(
       new THREE.Points(geometryLight, materialLight)
@@ -152,10 +152,12 @@ export class ObjectsService {
     }
   }
 
-  private _getNearest(threeComponentModel: ThreeComponentModel): any[] {
+  private _getNearest(
+    threeComponentModel: ThreeComponentModel
+  ): BaseCatalogData[] {
     const camera = threeComponentModel.camera;
     const target = threeComponentModel.trackballControls.controls.target;
-    let nears = [];
+    const nears = [];
     for (let i = 0; i < threeComponentModel.objectsImported.length; i++) {
       const record = threeComponentModel.objectsImported[i];
       const pos = new THREE.Vector3(record.x, record.y, record.z);
@@ -176,7 +178,7 @@ export class ObjectsService {
 
   private _createProximityObjectsAndHelpers(
     threeComponentModel: ThreeComponentModel,
-    nearest: any[]
+    nearest: BaseCatalogData[]
   ): void {
     threeComponentModel.collection3d.groupOfObjects.children = [];
     threeComponentModel.collection3d.groupOfObjectsHelpers.children = [];
@@ -198,12 +200,12 @@ export class ObjectsService {
     const materialHelper = new THREE.LineBasicMaterial({
       color: 0xfffff,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.2
     });
     const materialProperMotion = new THREE.LineBasicMaterial({
       color: 0xcdcd00,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.5
     });
     const geometrySphere = new THREE.SphereBufferGeometry(0.02, 32, 16);
     const geometryPlane = new THREE.PlaneBufferGeometry(0.5, 0.5, 1);
@@ -243,7 +245,7 @@ export class ObjectsService {
             alphaMap: texture,
             map: texture,
             transparent: true,
-            side: THREE.DoubleSide,
+            side: THREE.DoubleSide
           });
           threeComponentModel.collection3d.shaderMaterials[
             near.id
@@ -276,7 +278,7 @@ export class ObjectsService {
         let vx = 0,
           vy = 0,
           vz = 0;
-        if (!isNil(near.vx)) {
+        if (near.vx != null) {
           vx =
             (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vx;
           vy =
@@ -319,7 +321,7 @@ export class ObjectsService {
   private _createObjectProperMotion(
     period: number,
     collection3d: Collection3d,
-    near: any,
+    near: BaseCatalogData,
     material: THREE.Material
   ): void {
     if (near.vx && near.vy && near.vz) {
@@ -340,7 +342,7 @@ export class ObjectsService {
 
   private _updateMovementObjects(
     threeComponentModel: ThreeComponentModel,
-    nearest: any[]
+    nearest: BaseCatalogData[]
   ): void {
     // only if show proper motion
     if (!threeComponentModel.showProperMotion) {
@@ -362,7 +364,7 @@ export class ObjectsService {
       let vx = 0,
         vy = 0,
         vz = 0;
-      if (!isNil(near.vx)) {
+      if (near.vx != null) {
         vx = (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vx;
         vy = (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vy;
         vz = (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vz;
@@ -392,7 +394,10 @@ export class ObjectsService {
     collection3d.groupOfObjectsHelpers.add(new THREE.Line(geometryZ, material));
   }
 
-  private _getSpectrum(collection3d: Collection3d, near: any): string {
+  private _getSpectrum(
+    collection3d: Collection3d,
+    near: BaseCatalogData
+  ): string {
     let spectrum = 'Z';
     if (near.spect && near.spect.length > 0) {
       const idx0 = near.spect.charAt(0);
@@ -405,14 +410,14 @@ export class ObjectsService {
 
   private _getMaterialFromSpectrum(
     collection3d: Collection3d,
-    near: any
+    near: BaseCatalogData
   ): THREE.MeshBasicMaterial {
     return collection3d.basicMaterials[this._getSpectrum(collection3d, near)];
   }
 
   private _getShaderMaterialFromSpectrum(
     collection3d: Collection3d,
-    near: any
+    near: BaseCatalogData
   ): THREE.ShaderMaterial {
     return collection3d.shaderMaterials[this._getSpectrum(collection3d, near)];
   }
@@ -429,13 +434,13 @@ export class ObjectsService {
       M: 0xffaa58,
       L: 0xff7300,
       T: 0xff3500,
-      Y: 0x999999,
+      Y: 0x999999
     };
     Object.keys(collection3d.colors).forEach((key: string) => {
       collection3d.basicMaterials[key] = new THREE.MeshBasicMaterial({
         color: collection3d.colors[key],
         transparent: true,
-        opacity: 0.1,
+        opacity: 0.1
       });
     });
   }
@@ -460,39 +465,39 @@ export class ObjectsService {
         pointTexture: {
           value: new THREE.TextureLoader().load(
             'assets/textures/star_alpha.png'
-          ),
-        },
+          )
+        }
       },
       vertexShader: this._shadersConstant.shaderForPoints().vertex,
       fragmentShader: this._shadersConstant.shaderForPoints().fragment,
       blending: THREE.AdditiveBlending,
       depthTest: false,
       transparent: true,
-      vertexColors: true,
+      vertexColors: true
     });
   }
 
   private _getShaderMaterialWithColor(
-    color: any,
+    color: number,
     camera: THREE.PerspectiveCamera,
     target: THREE.Vector3
   ): THREE.ShaderMaterial {
     return new THREE.ShaderMaterial({
       uniforms: {
-        c: { type: 'f', value: 0.1 },
-        p: { type: 'f', value: 3.0 },
-        glowColor: { type: 'c', value: new THREE.Color(color) },
-        viewVector: { type: 'v3', value: target.clone().sub(camera.position) },
+        c: { value: 0.1 },
+        p: { value: 3.0 },
+        glowColor: { value: new THREE.Color(color) },
+        viewVector: { value: target.clone().sub(camera.position) }
       },
       vertexShader: this._shadersConstant.shaderForSphereAka().vertex,
       fragmentShader: this._shadersConstant.shaderForSphereAka().fragment,
       side: THREE.FrontSide,
       blending: THREE.AdditiveBlending,
-      transparent: true,
+      transparent: true
     });
   }
 
-  private _isCatalogMessier(objectsImported: any): boolean {
+  private _isCatalogMessier(objectsImported: BaseCatalogData[]): boolean {
     return (
       objectsImported &&
       objectsImported.length > 0 &&

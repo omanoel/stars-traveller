@@ -25,7 +25,12 @@ export class CatalogService {
   }
 
   public list(): Catalog[] {
-    return [hygcsvLocal, hygMongo, kharchenkoMysql, messierCsv];
+    return [
+      <Catalog>hygcsvLocal,
+      <Catalog>hygMongo,
+      <Catalog>kharchenkoMysql,
+      <Catalog>messierCsv
+    ];
   }
 
   public getCatalogService(
@@ -33,7 +38,8 @@ export class CatalogService {
   ):
     | HygCsvCatalogService
     | HygMongodbCatalogService
-    | KharchenkoMysqlCatalogService {
+    | KharchenkoMysqlCatalogService
+    | MessierCsvCatalogService {
     if (catalog.service === 'HygCsvCatalogService') {
       return this._hygCsvCatalogService;
     } else if (catalog.service === 'HygMongodbCatalogService') {

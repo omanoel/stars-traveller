@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
@@ -6,10 +5,15 @@ import { Injectable } from '@angular/core';
 import { ObjectsService } from '@app/three/objects/objects.sevice';
 
 import { ThreeComponentModel } from '../../three.component.model';
-import { Catalog, ICatalogService, Property } from '../catalog.model';
+import {
+  Catalog,
+  ICatalogService,
+  Property,
+  BaseCatalogData
+} from '../catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MessierCsvCatalogService implements ICatalogService {
   //
@@ -25,6 +29,7 @@ export class MessierCsvCatalogService implements ICatalogService {
   }
 
   // @override
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public count$(catalog: Catalog): Observable<number> {
     return of(110);
   }
@@ -32,15 +37,15 @@ export class MessierCsvCatalogService implements ICatalogService {
   // @override
   public findOne$(
     threeComponentModel: ThreeComponentModel,
-    properties: any
-  ): Observable<any> {
+    prop: BaseCatalogData
+  ): Observable<BaseCatalogData> {
     return of(
-      threeComponentModel.objectsImported.find((s) => s.id === properties.id)
+      threeComponentModel.objectsImported.find((s) => s.id === prop.id)
     );
   }
 
   // @override
-  public transform(data: any): any {
+  public transform(data: string): BaseCatalogData[] {
     const lines = data.split('\n');
     const result = [];
     const headers = lines[0].split(';');
@@ -51,8 +56,7 @@ export class MessierCsvCatalogService implements ICatalogService {
       if (currentline.length > 1) {
         for (let j = 0; j < headers.length; j++) {
           const value = currentline[j];
-          let valueTransform;
-          valueTransform = parseFloat(value);
+          let valueTransform: number | string = parseFloat(value);
           if (isNaN(valueTransform)) {
             valueTransform = value;
           }
@@ -78,10 +82,10 @@ export class MessierCsvCatalogService implements ICatalogService {
         threeComponentModel.objectsImported = threeComponentModel.objectsImported.filter(
           (star) => {
             let keep = true;
-            if (!isNil(f[0])) {
+            if (f[0] != null) {
               keep = star[k] < f[0];
             }
-            if (!isNil(f[1])) {
+            if (f[1] != null) {
               keep = star[k] > f[1];
             }
             return keep;
@@ -94,9 +98,10 @@ export class MessierCsvCatalogService implements ICatalogService {
     return of(null);
   }
 
-  private _initialize$(threeComponentModel: ThreeComponentModel): Promise<any> {
+  private _initialize$(
+    threeComponentModel: ThreeComponentModel
+  ): Promise<void> {
     threeComponentModel.average = 'Loading objects...';
-    const _that = this;
     return new Promise((resolve, reject) => {
       new THREE.FileLoader().load(
         // resource URL
@@ -104,7 +109,7 @@ export class MessierCsvCatalogService implements ICatalogService {
 
         // Function when resource is loaded
         (data: string) => {
-          threeComponentModel.objectsImported = _that._transform(
+          threeComponentModel.objectsImported = this._transform(
             threeComponentModel.selectedCatalog.properties,
             data
           );
@@ -117,15 +122,14 @@ export class MessierCsvCatalogService implements ICatalogService {
         },
 
         // Function called when download errors
-        (error: ErrorEvent) => {
-          console.error('An error happened: ' + error);
+        () => {
           reject();
         }
       );
     });
   }
 
-  private _transform(properties: Property[], data: any): any {
+  private _transform(properties: Property[], data: string): BaseCatalogData[] {
     const lines = data.replace(/\r/g, '').split('\n');
     const result = [];
     const headers = lines[0].split(';');
@@ -138,7 +142,7 @@ export class MessierCsvCatalogService implements ICatalogService {
         for (let j = 0; j < headers.length; j++) {
           const value = currentline[j];
           const prop = properties.find((_prop) => _prop.key === headers[j]);
-          let valueTransform = value;
+          let valueTransform: number | string = value;
           if (prop) {
             if (prop.key === 'ra') {
               valueTransform = this._computeRa(value);
@@ -173,7 +177,7 @@ export class MessierCsvCatalogService implements ICatalogService {
 
   private _fillPositionProperties(
     threeComponentModel: ThreeComponentModel,
-    item: any
+    item: BaseCatalogData
   ): void {
     threeComponentModel.selectedCatalog.properties.forEach((prop) => {
       if (prop.type === 'number' && item[prop.key]) {

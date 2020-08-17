@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { ObjectsService } from '@app/three/objects/objects.sevice';
 
 import { ThreeComponentModel } from '../../three.component.model';
-import { Catalog, ICatalogService } from '../catalog.model';
+import { ICatalogService, BaseCatalogData } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,9 +39,9 @@ export class HygMongodbCatalogService implements ICatalogService {
   // @override
   public findOne$(
     threeComponentModel: ThreeComponentModel,
-    properties: BaseCatalogData
+    prop: BaseCatalogData
   ): Observable<BaseCatalogData> {
-    return this.get$(properties.id, threeComponentModel.selectedCatalog.url);
+    return this.get$(<string>prop.id, threeComponentModel.selectedCatalog.url);
   }
 
   public getAll$(baseUrl: string): Observable<BaseCatalogData[]> {
