@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import { Injectable, SimpleChanges } from '@angular/core';
+import { ThreeComponentModel } from '../three.component.model';
 
 @Injectable({
   providedIn: 'root'

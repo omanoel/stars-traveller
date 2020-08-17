@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
-import { ObjectsService } from '@app/three/objects/objects.sevice';
+import { ObjectsService } from '@app/three/objects/objects.service';
 
 import { ThreeComponentModel } from '../../three.component.model';
 import { ICatalogService, BaseCatalogData } from '../catalog.model';
@@ -32,6 +32,7 @@ export class HygCsvCatalogService implements ICatalogService {
     );
   }
 
+  // @override
   public initialize$(threeComponentModel: ThreeComponentModel): Promise<void> {
     threeComponentModel.average = 'Loading objects...';
     return new Promise((resolve, reject) => {

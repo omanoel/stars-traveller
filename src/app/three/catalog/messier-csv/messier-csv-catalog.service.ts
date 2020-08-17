@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
-import { ObjectsService } from '@app/three/objects/objects.sevice';
+import { ObjectsService } from '@app/three/objects/objects.service';
 
 import { ThreeComponentModel } from '../../three.component.model';
 import {
@@ -42,6 +42,15 @@ export class MessierCsvCatalogService implements ICatalogService {
     return of(
       threeComponentModel.objectsImported.find((s) => s.id === prop.id)
     );
+  }
+
+  // @override
+  public initialize$(threeComponentModel: ThreeComponentModel): Promise<void> {
+    threeComponentModel.average = 'Loading objects...';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return new Promise((resolve, reject) => {
+      // empty
+    });
   }
 
   // @override

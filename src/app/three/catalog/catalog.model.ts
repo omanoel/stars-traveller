@@ -29,6 +29,7 @@ export interface ICatalogService {
     prop: BaseCatalogData
   ) => Observable<BaseCatalogData>;
   search$: (threeComponentModel: ThreeComponentModel) => Observable<void>;
+  initialize$: (threeComponentModel: ThreeComponentModel) => Promise<void>;
 }
 
 export interface BaseCatalogData {

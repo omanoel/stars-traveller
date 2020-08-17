@@ -12,7 +12,7 @@ import { TargetService } from './target/target.service';
 import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
 import { BaseCatalogData } from './catalog/catalog.model';
-import { ObjectsService } from './objects/objects.sevice';
+import { ObjectsService } from './objects/objects.service';
 
 @Injectable({
   providedIn: 'root'

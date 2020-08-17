@@ -3,7 +3,7 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ObjectsService } from '@app/three/objects/objects.sevice';
+import { ObjectsService } from '@app/three/objects/objects.service';
 
 import { ThreeComponentModel } from '../../three.component.model';
 import {
@@ -49,6 +49,15 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
       }),
       catchError(() => of('Error, could not count'))
     );
+  }
+
+  // @override
+  public initialize$(threeComponentModel: ThreeComponentModel): Promise<void> {
+    threeComponentModel.average = 'Loading objects...';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return new Promise((resolve, reject) => {
+      // empty
+    });
   }
 
   // @override
