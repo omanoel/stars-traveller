@@ -11,6 +11,17 @@
           title="{{ 'CATALOGS.FILTERS' | translate }}" />
       </div>
     </div>
+    <div><input type="number" formControlName="nearDetectionFc" id="near-detection" class="near-detection"><label
+        for="near-detection">{{ 'CATALOGS.NEAR_DETECTION' | translate }}</label></div>
+    <div><input id="proper-motion" type="checkbox" class="custom-control-input" formControlName="properMotionFc">
+      <label class="custom-control-label" for="proper-motion">
+        {{ 'CATALOGS.SEE_PROPER_MOTION' | translate }}</label></div>
+    <div [hidden]="!model.showProperMotion"><input type="number" formControlName="dateMaxFc" id="date-max"
+        class="date-max"><label for="date-max">{{ 'CATALOGS.DATE_MAX' | translate }}</label></div>
+    <div [hidden]="!model.showProperMotion"><input type="number" formControlName="dateCurrentFc" id="date-max"
+        class="date-max" min="2000"><label for="date-max">{{ 'CATALOGS.DATE_CURRENT' | translate }}</label></div>
+    <div><a (click)="play()">Play</a></div>
+
   </form>
   <p class="navigate">
     <a (click)="goToPreviousObject()" title="{{ 'CATALOGS.GOTO_PREVIOUS' | translate }}">

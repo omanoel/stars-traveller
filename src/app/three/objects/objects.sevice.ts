@@ -7,13 +7,14 @@ import { ThreeComponentModel } from '../three.component.model';
 import { Collection3d } from './objects.model';
 import { ShadersConstant } from './shaders.constant';
 import { TargetService } from '../target/target.service';
+import { isNil } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ObjectsService {
   //
-  private static readonly NEAR = 20;
+  private static readonly EPOCH = 2000;
   //
   constructor(
     private _shadersConstant: ShadersConstant,
@@ -29,6 +30,9 @@ export class ObjectsService {
       groupOfObjectsHelpers: new THREE.Object3D(),
       groupOfObjectsGlow: new THREE.Object3D(),
       groupOfObjectsPoints: new THREE.Object3D(),
+      groupOfObjectsMovement: new THREE.Object3D(),
+      groupOfObjectsProperMotion: new THREE.Object3D(),
+      geometryMovementGlow: null,
       shaderMaterials: {},
       basicMaterials: {},
       colors: null,
@@ -63,6 +67,8 @@ export class ObjectsService {
       scene.add(collection3d.groupOfObjectsGlow);
       scene.add(collection3d.groupOfObjectsHelpers);
       scene.add(collection3d.groupOfObjects);
+      scene.add(collection3d.groupOfObjectsMovement);
+      scene.add(collection3d.groupOfObjectsProperMotion);
       collection3d.loaded = true;
     }
   }
@@ -82,6 +88,14 @@ export class ObjectsService {
     this._createProximityObjectsAndHelpers(threeComponentModel, nearest);
   }
 
+  public updateMovementObjects(threeComponentModel: ThreeComponentModel): void {
+    if (!threeComponentModel.collection3d.groupOfObjectsMovement) {
+      return;
+    }
+    const nearest = this._getNearest(threeComponentModel);
+    this._updateMovementObjects(threeComponentModel, nearest);
+  }
+
   private _createPoints(
     objectsImported: any,
     collection3d: Collection3d
@@ -93,21 +107,9 @@ export class ObjectsService {
     const sizes = [];
 
     collection3d.nbObjects = objectsImported.length;
-    let maxX = 0;
-    let maxY = 0;
-    let maxZ = 0;
     for (let i = 0; i < collection3d.nbObjects; i++) {
       const record = objectsImported[i];
       vertices.push(record.x, record.y, record.z);
-      if (maxX < record.x) {
-        maxX = record.x;
-      }
-      if (maxY < record.y) {
-        maxY = record.y;
-      }
-      if (maxZ < record.z) {
-        maxZ = record.z;
-      }
       const color = new THREE.Color(
         collection3d.colors[this._getSpectrum(collection3d, record)]
       );
@@ -163,8 +165,7 @@ export class ObjectsService {
         .sub(camera.position)
         .angleTo(pos2.sub(camera.position));
       if (
-        pos.distanceTo(camera.position) <
-          ObjectsService.NEAR * threeComponentModel.scale &&
+        pos.distanceTo(camera.position) < threeComponentModel.near &&
         angle <= (camera.fov * Math.PI) / 180
       ) {
         nears.push(record);
@@ -180,11 +181,29 @@ export class ObjectsService {
     threeComponentModel.collection3d.groupOfObjects.children = [];
     threeComponentModel.collection3d.groupOfObjectsHelpers.children = [];
     threeComponentModel.collection3d.groupOfObjectsGlow.children = [];
+    threeComponentModel.collection3d.groupOfObjectsProperMotion.children = [];
+    if (
+      threeComponentModel.collection3d.geometryMovementGlow &&
+      nearest.length !==
+        threeComponentModel.collection3d.geometryMovementGlow.attributes
+          .position.count
+    ) {
+      threeComponentModel.collection3d.groupOfObjectsMovement.children = [];
+    }
+
+    const vertices = [];
+    const colors = [];
+    const sizes = [];
 
     const materialHelper = new THREE.LineBasicMaterial({
       color: 0xfffff,
       transparent: true,
       opacity: 0.2,
+    });
+    const materialProperMotion = new THREE.LineBasicMaterial({
+      color: 0xcdcd00,
+      transparent: true,
+      opacity: 0.5,
     });
     const geometrySphere = new THREE.SphereBufferGeometry(0.02, 32, 16);
     const geometryPlane = new THREE.PlaneBufferGeometry(0.5, 0.5, 1);
@@ -217,7 +236,9 @@ export class ObjectsService {
           threeComponentModel.collection3d.shaderMaterials
         ).find((k) => k === near.id);
         if (!matKey) {
-          const texture = new THREE.TextureLoader().load('./assets/m1.jpg');
+          const texture = new THREE.TextureLoader().load(
+            './assets/messier/' + near.id + '.jpg'
+          );
           materialTexture = new THREE.MeshBasicMaterial({
             alphaMap: texture,
             map: texture,
@@ -245,7 +266,117 @@ export class ObjectsService {
         new THREE.Vector3(near.x, near.y, near.z),
         materialHelper
       );
+      if (threeComponentModel.showProperMotion) {
+        this._createObjectProperMotion(
+          threeComponentModel.dateMax - ObjectsService.EPOCH,
+          threeComponentModel.collection3d,
+          near,
+          materialProperMotion
+        );
+        let vx = 0,
+          vy = 0,
+          vz = 0;
+        if (!isNil(near.vx)) {
+          vx =
+            (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vx;
+          vy =
+            (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vy;
+          vz =
+            (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vz;
+        }
+        vertices.push(near.x + vx, near.y + vy, near.z + vz);
+        const color = new THREE.Color(
+          threeComponentModel.collection3d.colors[
+            this._getSpectrum(threeComponentModel.collection3d, near)
+          ]
+        );
+        colors.push(color.r, color.g, color.b);
+        sizes.push(1);
+      }
     });
+    if (threeComponentModel.showProperMotion) {
+      const geometryMovementGlow = new THREE.BufferGeometry();
+      geometryMovementGlow.setAttribute(
+        'position',
+        new THREE.Float32BufferAttribute(vertices, 3)
+      );
+      geometryMovementGlow.setAttribute(
+        'color',
+        new THREE.Float32BufferAttribute(colors, 3)
+      );
+      geometryMovementGlow.setAttribute(
+        'size',
+        new THREE.Float32BufferAttribute(sizes, 1)
+      );
+      const materialGlow = this._getShaderMaterialForPoint();
+      threeComponentModel.collection3d.geometryMovementGlow = geometryMovementGlow;
+      threeComponentModel.collection3d.groupOfObjectsMovement.add(
+        new THREE.Points(geometryMovementGlow, materialGlow)
+      );
+    }
+  }
+
+  private _createObjectProperMotion(
+    period: number,
+    collection3d: Collection3d,
+    near: any,
+    material: THREE.Material
+  ): void {
+    if (near.vx && near.vy && near.vz) {
+      const geometryZ = new THREE.Geometry();
+      geometryZ.vertices.push(
+        new THREE.Vector3(near.x, near.y, near.z),
+        new THREE.Vector3(
+          near.x + period * near.vx,
+          near.y + period * near.vy,
+          near.z + period * near.vz
+        )
+      );
+      collection3d.groupOfObjectsProperMotion.add(
+        new THREE.Line(geometryZ, material)
+      );
+    }
+  }
+
+  private _updateMovementObjects(
+    threeComponentModel: ThreeComponentModel,
+    nearest: any[]
+  ): void {
+    // only if show proper motion
+    if (!threeComponentModel.showProperMotion) {
+      return;
+    }
+    const isMessierCatalog = this._isCatalogMessier(
+      threeComponentModel.objectsImported
+    );
+    if (isMessierCatalog) {
+      return;
+    }
+
+    const vertices = threeComponentModel.collection3d.geometryMovementGlow.getAttribute(
+      'position'
+    );
+
+    let i = 0;
+    nearest.forEach((near) => {
+      let vx = 0,
+        vy = 0,
+        vz = 0;
+      if (!isNil(near.vx)) {
+        vx = (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vx;
+        vy = (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vy;
+        vz = (threeComponentModel.dateCurrent - ObjectsService.EPOCH) * near.vz;
+      }
+      vertices[i] = near.x + vx;
+      vertices[i + 1] = near.y + vy;
+      vertices[i + 2] = near.z + vz;
+      i++;
+    });
+    (<THREE.BufferAttribute>(
+      threeComponentModel.collection3d.geometryMovementGlow.getAttribute(
+        'position'
+      )
+    )).needsUpdate = true;
   }
 
   private _createObjectHelper(

@@ -38,7 +38,7 @@ export class IndicatorsComponent implements OnInit {
   public distanceToLastObject(): number {
     if (this.model.lastObjectIntersected) {
       const dist = this.model.camera.position.distanceTo(
-        this.model.lastObjectIntersected.position
+        this.model.lastObjectIntersected.parent.position
       );
       return this.roundValue(dist);
     } else {

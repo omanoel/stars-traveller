@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import * as THREE from 'three';
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Catalog } from '../catalog/catalog.model';
@@ -27,17 +27,26 @@ export class CatalogsComponent implements OnInit {
 
   public catalogsExt: CatalogExt[] = [];
   public catalogsForm: FormGroup;
+  public interval;
 
   constructor(
     public translate: TranslateService,
     private _catalogService: CatalogService,
-    private _targetService: TargetService
+    private _targetService: TargetService,
+    private _cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.catalogsForm = new FormGroup({
       catalogFc: new FormControl(
         '' + this.model.selectedCatalog.id,
+        Validators.required
+      ),
+      nearDetectionFc: new FormControl(this.model.near, Validators.required),
+      properMotionFc: new FormControl(this.model.showProperMotion),
+      dateMaxFc: new FormControl(this.model.dateMax, Validators.required),
+      dateCurrentFc: new FormControl(
+        this.model.dateCurrent,
         Validators.required
       )
     });
@@ -53,6 +62,45 @@ export class CatalogsComponent implements OnInit {
       );
       this.catalogsExt.push(catalogExt);
     });
+    // subscriptions
+    this.catalogsForm
+      .get('nearDetectionFc')
+      .valueChanges.subscribe((value: number) => {
+        this.model.near = +value;
+      });
+    this.catalogsForm
+      .get('dateMaxFc')
+      .valueChanges.subscribe((value: number) => {
+        if (+value < this.model.dateCurrent) {
+          value = this.model.dateCurrent;
+          this.catalogsForm
+            .get('dateMaxFc')
+            .setValue(value, { emitEvent: false });
+        }
+        this.model.dateMax = +value;
+      });
+    this.catalogsForm
+      .get('dateCurrentFc')
+      .valueChanges.subscribe((value: number) => {
+        if (+value < 2000) {
+          value = 2000;
+          this.catalogsForm
+            .get('dateCurrentFc')
+            .setValue(value, { emitEvent: false });
+        }
+        if (+value > this.model.dateMax) {
+          value = this.model.dateMax;
+          this.catalogsForm
+            .get('dateCurrentFc')
+            .setValue(value, { emitEvent: false });
+        }
+        this.model.dateCurrent = +value;
+      });
+    this.catalogsForm
+      .get('properMotionFc')
+      .valueChanges.subscribe((value: boolean) => {
+        this.model.showProperMotion = value;
+      });
     this.catalogsForm.get('catalogFc').valueChanges.subscribe((id: string) => {
       this.model.selectedCatalog = this.model.catalogs.find(
         (c) => c.id === +id
@@ -75,6 +123,21 @@ export class CatalogsComponent implements OnInit {
     this.model.showSearch = !this.model.showSearch;
   }
 
+  public play(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+      return;
+    }
+    this.interval = setInterval(() => {
+      if (this.model.dateCurrent < this.model.dateMax) {
+        this.model.dateCurrent += 100;
+        this.catalogsForm
+          .get('dateCurrentFc')
+          .setValue(this.model.dateCurrent, { emitEvent: false });
+      }
+    }, 100);
+  }
   private _count$(catalog: Catalog): Observable<number> {
     return this._catalogService.getCatalogService(catalog).count$(catalog);
   }

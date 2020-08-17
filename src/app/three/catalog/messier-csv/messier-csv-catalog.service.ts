@@ -126,7 +126,7 @@ export class MessierCsvCatalogService implements ICatalogService {
   }
 
   private _transform(properties: Property[], data: any): any {
-    const lines = data.replace('\r', '').split('\n');
+    const lines = data.replace(/\r/g, '').split('\n');
     const result = [];
     const headers = lines[0].split(';');
 
