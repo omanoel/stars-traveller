@@ -1,5 +1,3 @@
-import { isNil } from 'lodash';
-
 import { Component, Input } from '@angular/core';
 
 import { Catalog, Property, BaseCatalogData } from '../catalog/catalog.model';
@@ -24,7 +22,7 @@ export class TooltipComponent {
       this.model.average === '' &&
       this.model.lastStarIntersected &&
       this.model.lastStarIntersected.userData.starProp &&
-      !isNil(this.model.lastStarIntersected.userData.starProp.pmra)
+      this.model.lastStarIntersected.userData.starProp.pmra != null
     );
   }
 

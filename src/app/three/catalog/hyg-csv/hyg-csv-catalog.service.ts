@@ -1,5 +1,4 @@
 import { Observable, of } from 'rxjs';
-import { isNil } from 'lodash';
 
 import { Injectable } from '@angular/core';
 
@@ -81,10 +80,10 @@ export class HygCsvCatalogService extends BaseCatalogService {
         threeComponentModel.starsImported = threeComponentModel.starsImported.filter(
           (star) => {
             let keep = true;
-            if (!isNil(f[0])) {
+            if (f[0] != null) {
               keep = star[k] < f[0];
             }
-            if (!isNil(f[1])) {
+            if (f[1] != null) {
               keep = star[k] > f[1];
             }
             return keep;

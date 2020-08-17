@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -62,11 +61,11 @@ export class HygMongodbCatalogService extends BaseCatalogService {
     const filtering = {};
     threeComponentModel.filters.forEach((f, k) => {
       let value = '';
-      if (!isNil(f[0])) {
+      if (f[0] != null) {
         value += f[0];
       }
       value += ':';
-      if (!isNil(f[1])) {
+      if (f[1] != null) {
         value += f[1];
       }
       filtering[k] = value;

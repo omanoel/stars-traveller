@@ -245,7 +245,7 @@ export class ThreeComponentService {
     );
     if (intersects.length > 0) {
       if (threeComponentModel.currentIntersected) {
-        threeComponentModel.currentIntersected.material.linewidth = 1;
+        // FIXME threeComponentModel.currentIntersected.customDepthMaterial.linewidth = 1;
         return;
       }
       threeComponentModel.currentIntersected = intersects[0].object;

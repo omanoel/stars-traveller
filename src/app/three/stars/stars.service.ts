@@ -316,10 +316,10 @@ export class StarsService {
   ): THREE.ShaderMaterial {
     return new THREE.ShaderMaterial({
       uniforms: {
-        c: { type: 'f', value: 0.1 },
-        p: { type: 'f', value: 3.0 },
-        glowColor: { type: 'c', value: new THREE.Color(color) },
-        viewVector: { type: 'v3', value: target.clone().sub(camera.position) }
+        c: { value: 0.1 },
+        p: { value: 3.0 },
+        glowColor: { value: new THREE.Color(color) },
+        viewVector: { value: target.clone().sub(camera.position) }
       },
       vertexShader: this._shadersConstant.shaderForSphereAka().vertex,
       fragmentShader: this._shadersConstant.shaderForSphereAka().fragment,

@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 
@@ -64,11 +63,11 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
     let filtering = '?';
     threeComponentModel.filters.forEach((f, k) => {
       let value = k + '=';
-      if (!isNil(f[0])) {
+      if (f[0] != null) {
         value += f[0];
       }
       value += ':';
-      if (!isNil(f[1])) {
+      if (f[1] != null) {
         value += f[1];
       }
       filtering += value + '&';

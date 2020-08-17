@@ -21,9 +21,12 @@ export interface Property {
 }
 
 export interface ICatalogService {
-  count$: () => Observable<number>;
-  load: () => void;
-  findOne: () => Observable<BaseCatalogData>;
+  count$: (catalog: Catalog) => Observable<number>;
+  load: (threeComponentModel: ThreeComponentModel) => void;
+  findOne: (
+    threeComponentModel: ThreeComponentModel,
+    id: string
+  ) => Observable<BaseCatalogData>;
   initialize: (threeComponentModel: ThreeComponentModel) => Promise<void>;
   transform: (data: string) => BaseCatalogData[];
 }

@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -28,9 +27,9 @@ export class SearchComponent implements OnInit {
   ) {}
   //
   public ngOnInit(): void {
-    this.isSelectedCatalogWithSearch = !isNil(
-      this._catalogService.getCatalogService(this.model.selectedCatalog).search
-    );
+    this.isSelectedCatalogWithSearch =
+      this._catalogService.getCatalogService(this.model.selectedCatalog)
+        .search != null;
     this.searchForm = new FormGroup({});
     this._buildRangeForProperties(this.model);
 
@@ -63,7 +62,7 @@ export class SearchComponent implements OnInit {
   private _manageFormProperties(values: unknown): void {
     this.propertiesWithFilter(this.model.selectedCatalog.properties).forEach(
       (prop) => {
-        if (!isNil(values[prop.key]) && values[prop.key]) {
+        if (values[prop.key] != null && values[prop.key]) {
           if (!this.model.filters.has(prop.key)) {
             this.searchForm.get(prop.key + '_1').enable({ emitEvent: false });
             this.searchForm.get(prop.key + '_r1').enable({ emitEvent: false });

@@ -1,17 +1,35 @@
 import * as THREE from 'three';
 
-import { ICatalogService, BaseCatalogData } from './catalog.model';
+import { ICatalogService, BaseCatalogData, Catalog } from './catalog.model';
 import { StarsService } from '../stars/stars.service';
 import { ThreeComponentModel } from '../three.component.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export abstract class BaseCatalogService implements ICatalogService {
   constructor(protected _starsService: StarsService) {
     // Empty
   }
-  public count$: () => Observable<number>;
-  public load: () => void;
-  public findOne: () => Observable<BaseCatalogData>;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public count$(catalog: Catalog): Observable<number> {
+    // To be overridden
+    return of(null);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public load(threeComponentModel: ThreeComponentModel): void {
+    // To be overridden
+  }
+
+  public findOne(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    threeComponentModel: ThreeComponentModel,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    id: string
+  ): Observable<BaseCatalogData> {
+    // To be overridden
+    return of(null);
+  }
 
   public initialize(threeComponentModel: ThreeComponentModel): Promise<void> {
     threeComponentModel.average = 'loading stars...';
