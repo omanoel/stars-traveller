@@ -1,22 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ThreeComponentModel } from '../three.component.model';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-indicators',
   templateUrl: './indicators.component.html',
-  styleUrls: ['./indicators.component.scss'],
+  styleUrls: ['./indicators.component.scss']
 })
 export class IndicatorsComponent implements OnInit {
   //
   @Input() model: ThreeComponentModel;
   public target: THREE.Vector3;
-  public expanded: boolean = true;
+  public expanded = true;
   //
   constructor(public translate: TranslateService) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.target = this.model.trackballControls.controls.target;
   }
 

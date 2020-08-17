@@ -6,9 +6,9 @@ export interface StarsModel {
   groupOfStarsGlow: THREE.Object3D;
   starsPoints: THREE.Object3D;
   loaded: boolean;
-  colors: any;
-  basicMaterials: any;
-  shaderMaterials: any;
+  colors: StarColors;
+  basicMaterials: Map<string, THREE.MeshBasicMaterial>;
+  shaderMaterials: Map<string, THREE.ShaderMaterial>;
 }
 
 export interface StarBase {
@@ -21,4 +21,18 @@ export interface StarBase {
   x: number;
   y: number;
   z: number;
+}
+
+export interface StarColors {
+  Z: number;
+  O: number;
+  B: number;
+  A: number;
+  F: number;
+  G: number;
+  K: number;
+  M: number;
+  L: number;
+  T: number;
+  Y: number;
 }

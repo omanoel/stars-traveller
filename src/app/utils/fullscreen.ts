@@ -1,11 +1,5 @@
-export function requestFullScreen(el) {
-    if (el.requestFullscreen) {
-        el.requestFullscreen();
-    } else if (el.mozRequestFullScreen) {
-        el.mozRequestFullScreen();
-    } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
-    } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-    }
+export function requestFullScreen(el: Element | HTMLElement): void {
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  }
 }

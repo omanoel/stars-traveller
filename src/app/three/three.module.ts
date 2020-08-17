@@ -18,8 +18,8 @@ import { CatalogsComponent } from './catalogs/catalogs.component';
     CatalogsComponent,
     IndicatorsComponent,
     SearchComponent,
-    TooltipComponent,
+    TooltipComponent
   ],
-  exports: [ThreeComponent],
+  exports: [ThreeComponent]
 })
 export class ThreeModule {}

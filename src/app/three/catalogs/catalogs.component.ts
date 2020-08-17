@@ -16,7 +16,7 @@ export interface CatalogExt extends Catalog {
 @Component({
   selector: 'app-catalogs',
   templateUrl: './catalogs.component.html',
-  styleUrls: ['./catalogs.component.scss'],
+  styleUrls: ['./catalogs.component.scss']
 })
 export class CatalogsComponent implements OnInit {
   //
@@ -36,7 +36,7 @@ export class CatalogsComponent implements OnInit {
       catalogFc: new FormControl(
         '' + this.model.selectedCatalog.id,
         Validators.required
-      ),
+      )
     });
     this.model.catalogs.forEach((catalog) => {
       const catalogExt: CatalogExt = { ...catalog, count: 0 };
@@ -44,7 +44,7 @@ export class CatalogsComponent implements OnInit {
         (counter) => {
           catalogExt.count = counter;
         },
-        (error: any) => {
+        () => {
           catalogExt.count = NaN;
         }
       );

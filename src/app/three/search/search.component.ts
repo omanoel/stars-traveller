@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -12,7 +11,7 @@ import { ThreeComponentModel } from '../three.component.model';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
   @Input() model: ThreeComponentModel;
@@ -27,16 +26,16 @@ export class SearchComponent implements OnInit {
     private _catalogService: CatalogService
   ) {}
   //
-  ngOnInit() {
-    this.isSelectedCatalogWithSearch = !isNil(
-      this._catalogService.getCatalogService(this.model.selectedCatalog).search
-    );
+  public ngOnInit(): void {
+    this.isSelectedCatalogWithSearch =
+      this._catalogService.getCatalogService(this.model.selectedCatalog)
+        .search != null;
     this.searchForm = new FormGroup({});
     this._buildRangeForProperties(this.model);
 
     this.searchForm.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((values: any) => {
+      .subscribe((values: unknown) => {
         this._manageFormProperties(values);
       });
   }
@@ -60,10 +59,10 @@ export class SearchComponent implements OnInit {
     this.model.showSearch = false;
   }
 
-  private _manageFormProperties(values: any): void {
+  private _manageFormProperties(values: unknown): void {
     this.propertiesWithFilter(this.model.selectedCatalog.properties).forEach(
       (prop) => {
-        if (!isNil(values[prop.key]) && values[prop.key]) {
+        if (values[prop.key] != null && values[prop.key]) {
           if (!this.model.filters.has(prop.key)) {
             this.searchForm.get(prop.key + '_1').enable({ emitEvent: false });
             this.searchForm.get(prop.key + '_r1').enable({ emitEvent: false });
@@ -71,7 +70,7 @@ export class SearchComponent implements OnInit {
             this.searchForm.get(prop.key + '_r2').enable({ emitEvent: false });
             this.model.filters.set(prop.key, [
               this.searchForm.get(prop.key + '_1').value,
-              this.searchForm.get(prop.key + '_2').value,
+              this.searchForm.get(prop.key + '_2').value
             ]);
             return;
           }

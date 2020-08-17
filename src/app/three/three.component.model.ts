@@ -6,7 +6,7 @@ import { ReferentielModel } from './referentiel/referentiel.model';
 import { StarsModel } from './stars/stars.model';
 import { TargetModel } from './target/target.model';
 import { TrackballControlsModel } from './trackball-controls/trackball-controls.model';
-import { Catalog } from './catalog/catalog.model';
+import { Catalog, BaseCatalogData } from './catalog/catalog.model';
 
 export interface ThreeComponentModel {
   element: ElementRef;
@@ -17,12 +17,12 @@ export interface ThreeComponentModel {
   referentiel: ReferentielModel;
   target: TargetModel;
   starsModel: StarsModel;
-  starsImported: any;
+  starsImported: BaseCatalogData[];
   trackballControls: TrackballControlsModel;
   raycaster: THREE.Raycaster;
   mouse: THREE.Vector2;
   myStarOver: StarOver;
-  currentIntersected: any;
+  currentIntersected: THREE.Object3D;
   lastStarIntersected: THREE.Object3D;
   average: string;
   height: number;

@@ -17,6 +17,6 @@ export class SceneService {
   }
 
   public getGroupOfStars(scene: THREE.Scene): THREE.Object3D {
-    return scene.children.find(obj => obj.name === SceneService.GROUP_NAME);
+    return scene.children.find((obj) => obj.name === SceneService.GROUP_NAME);
   }
 }

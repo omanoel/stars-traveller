@@ -5,11 +5,10 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
-import { Catalog } from '../catalog.model';
-import { isNil } from 'lodash';
+import { BaseCatalogData } from '../catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HygCsvCatalogService extends BaseCatalogService {
   constructor(protected _starsService: StarsService) {
@@ -31,7 +30,7 @@ export class HygCsvCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public count$(catalog: Catalog): Observable<number> {
+  public count$(): Observable<number> {
     return of(119614);
   }
 
@@ -39,12 +38,12 @@ export class HygCsvCatalogService extends BaseCatalogService {
   public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
-  ): Observable<any> {
+  ): Observable<BaseCatalogData> {
     return of(threeComponentModel.starsImported.find((s) => s.id === id));
   }
 
   // @override
-  public transform(data: any): any {
+  public transform(data: string): BaseCatalogData[] {
     const lines = data.split('\n');
     const result = [];
     const headers = lines[0].split(',');
@@ -81,10 +80,10 @@ export class HygCsvCatalogService extends BaseCatalogService {
         threeComponentModel.starsImported = threeComponentModel.starsImported.filter(
           (star) => {
             let keep = true;
-            if (!isNil(f[0])) {
+            if (f[0] != null) {
               keep = star[k] < f[0];
             }
-            if (!isNil(f[1])) {
+            if (f[1] != null) {
               keep = star[k] > f[1];
             }
             return keep;

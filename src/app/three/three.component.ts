@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges
 } from '@angular/core';
 
 import { ThreeComponentModel } from './three.component.model';
@@ -15,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-three',
   templateUrl: './three.component.html',
-  styleUrls: ['./three.component.scss'],
+  styleUrls: ['./three.component.scss']
 })
 export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   private _threeComponentModel: ThreeComponentModel;
@@ -26,10 +27,10 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
 
   clock: THREE.Clock = new THREE.Clock();
 
-  currentIntersected: any;
+  currentIntersected: THREE.Object3D;
 
   renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-    antialias: true,
+    antialias: true
   });
 
   constructor(
@@ -52,7 +53,7 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
     this._threeComponentService.initComponent(this.threeComponentModel);
   }
 
-  public ngOnChanges(changes: any): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this._threeComponentService.onChanges(this.threeComponentModel, changes);
   }
 

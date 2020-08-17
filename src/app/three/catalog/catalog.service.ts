@@ -9,7 +9,7 @@ import { KharchenkoMysqlCatalogService } from './kharchenko-mysql/kharchenko-mys
 import kharchenkoMysql from './kharchenko-mysql/kharchenko-mysql.json';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CatalogService {
   //
@@ -25,7 +25,12 @@ export class CatalogService {
     return [hygcsvLocal, hygMongo, kharchenkoMysql];
   }
 
-  public getCatalogService(catalog: Catalog): any {
+  public getCatalogService(
+    catalog: Catalog
+  ):
+    | HygCsvCatalogService
+    | HygMongodbCatalogService
+    | KharchenkoMysqlCatalogService {
     if (catalog.service === 'HygCsvCatalogService') {
       return this._hygCsvCatalogService;
     } else if (catalog.service === 'HygMongodbCatalogService') {

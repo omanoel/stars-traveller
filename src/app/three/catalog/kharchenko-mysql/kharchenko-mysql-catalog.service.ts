@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 
@@ -8,10 +7,10 @@ import { Injectable } from '@angular/core';
 import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
 import { BaseCatalogService } from '../base-catalog.service';
-import { Catalog } from '../catalog.model';
+import { Catalog, BaseCatalogData, CountOfStars } from '../catalog.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class KharchenkoMysqlCatalogService extends BaseCatalogService {
   //
@@ -44,9 +43,12 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
   public findOne(
     threeComponentModel: ThreeComponentModel,
     id: string
-  ): Observable<any> {
-    return this.get$(id, threeComponentModel.selectedCatalog.url).pipe(
-      map((starImported: any) => {
+  ): Observable<BaseCatalogData> {
+    return <Observable<BaseCatalogData>>this.get$(
+      id,
+      threeComponentModel.selectedCatalog.url
+    ).pipe(
+      map((starImported: BaseCatalogData) => {
         this.fillPositionProperties(threeComponentModel, starImported);
         return starImported;
       }),
@@ -61,11 +63,11 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
     let filtering = '?';
     threeComponentModel.filters.forEach((f, k) => {
       let value = k + '=';
-      if (!isNil(f[0])) {
+      if (f[0] != null) {
         value += f[0];
       }
       value += ':';
-      if (!isNil(f[1])) {
+      if (f[1] != null) {
         value += f[1];
       }
       filtering += value + '&';
@@ -73,18 +75,19 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
     return this._http
       .get(threeComponentModel.selectedCatalog.url + '/count' + filtering)
       .pipe(
-        concatMap((countOfStars: any) => {
-          console.log(countOfStars);
+        concatMap((countOfStars: CountOfStars[]) => {
           const count = +countOfStars[0].total;
           if (count < 50000) {
-            return this._http.get(
-              threeComponentModel.selectedCatalog.url + filtering
+            return <Observable<BaseCatalogData[]>>(
+              this._http.get(
+                threeComponentModel.selectedCatalog.url + filtering
+              )
             );
           } else {
             return of(null);
           }
         }),
-        map((starsImported: any) => {
+        map((starsImported: BaseCatalogData[]) => {
           if (starsImported) {
             threeComponentModel.errorMessage = null;
             threeComponentModel.starsImported = starsImported;
@@ -98,24 +101,24 @@ export class KharchenkoMysqlCatalogService extends BaseCatalogService {
             threeComponentModel.errorMessage = 'COMMON.ERROR_TOO_MANY_STARS';
           }
         }),
-        catchError((err: any) => {
+        catchError(() => {
           threeComponentModel.errorMessage = 'COMMON.CATALOG_NOT_READY';
           return of(null);
         })
       );
   }
 
-  public getAll$(baseUrl: string): Observable<any> {
-    return this._http.get(baseUrl + '/');
+  public getAll$(baseUrl: string): Observable<BaseCatalogData[]> {
+    return <Observable<BaseCatalogData[]>>this._http.get(baseUrl + '/');
   }
 
-  public get$(id: string, baseUrl: string): Observable<any> {
-    return this._http.get(`${baseUrl}/${id}`);
+  public get$(id: string, baseUrl: string): Observable<BaseCatalogData> {
+    return <Observable<BaseCatalogData>>this._http.get(`${baseUrl}/${id}`);
   }
 
   public fillPositionProperties(
     threeComponentModel: ThreeComponentModel,
-    star: any
+    star: BaseCatalogData
   ): void {
     threeComponentModel.selectedCatalog.properties.forEach((prop) => {
       if (prop.type === 'number' && star[prop.key]) {

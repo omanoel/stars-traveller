@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { Injectable } from '@angular/core';
+import { Injectable, SimpleChanges } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +46,10 @@ export class PerspectiveCameraService {
     this._updateAspect(camera, width, height);
   }
 
-  public onChanges(camera: THREE.PerspectiveCamera, changes: any) {
+  public onChanges(
+    camera: THREE.PerspectiveCamera,
+    changes: SimpleChanges
+  ): void {
     const widthChng = changes.width && changes.width.currentValue;
     const heightChng = changes.height && changes.height.currentValue;
 
