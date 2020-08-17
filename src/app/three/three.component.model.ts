@@ -33,7 +33,11 @@ export interface ThreeComponentModel {
   filters: Map<string, number[]>;
   errorMessage: string;
   scale: number;
+  near: number;
   indexOfCurrent: number;
+  dateMax: number;
+  dateCurrent: number;
+  showProperMotion: boolean;
 }
 
 export interface ObjectOver {

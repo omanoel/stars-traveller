@@ -59,7 +59,11 @@ export class ThreeComponentService {
       filters: new Map<string, number[]>(),
       errorMessage: null,
       scale: 1,
-      indexOfCurrent: 0
+      near: 20,
+      indexOfCurrent: 0,
+      dateMax: 10000,
+      dateCurrent: 2000,
+      showProperMotion: false
     };
   }
 
@@ -211,6 +215,10 @@ export class ThreeComponentService {
     //
     if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
       this._objectsService.updateProximityObjects(threeComponentModel);
+    }
+    this._objectsService.updateMovementObjects(threeComponentModel);
+    if (!threeComponentModel.showProperMotion) {
+      threeComponentModel.dateCurrent = 2000;
     }
     //
     this._findIntersection(threeComponentModel);
