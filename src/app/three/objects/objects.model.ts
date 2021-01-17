@@ -1,17 +1,19 @@
-export interface StarsModel {
-  nbStars: number;
-  meshStars: THREE.Mesh[];
-  groupOfStars: THREE.Object3D;
-  groupOfStarsHelpers: THREE.Object3D;
-  groupOfStarsGlow: THREE.Object3D;
-  starsPoints: THREE.Object3D;
+export interface Collection3d {
+  nbObjects: number;
+  groupOfObjects: THREE.Object3D;
+  groupOfObjectsHelpers: THREE.Object3D;
+  groupOfObjectsGlow: THREE.Object3D;
+  groupOfObjectsPoints: THREE.Object3D;
+  groupOfObjectsMovement: THREE.Object3D;
+  groupOfObjectsProperMotion: THREE.Object3D;
+  geometryMovementGlow: THREE.BufferGeometry;
   loaded: boolean;
   colors: StarColors;
   basicMaterials: Map<string, THREE.MeshBasicMaterial>;
   shaderMaterials: Map<string, THREE.ShaderMaterial>;
 }
 
-export interface StarBase {
+export interface ObjectBase {
   id: string;
   ra: number;
   dec: number;

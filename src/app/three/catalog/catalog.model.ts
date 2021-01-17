@@ -8,6 +8,7 @@ export interface Catalog {
   url: string;
   properties: Property[];
   service: string;
+  scale: number;
 }
 
 export interface Property {
@@ -23,12 +24,11 @@ export interface Property {
 export interface ICatalogService {
   count$: (catalog: Catalog) => Observable<number>;
   load: (threeComponentModel: ThreeComponentModel) => void;
-  findOne: (
+  findOne$: (
     threeComponentModel: ThreeComponentModel,
-    id: string
+    prop: BaseCatalogData
   ) => Observable<BaseCatalogData>;
-  initialize: (threeComponentModel: ThreeComponentModel) => Promise<void>;
-  transform: (data: string) => BaseCatalogData[];
+  search$: (threeComponentModel: ThreeComponentModel) => Observable<void>;
 }
 
 export interface BaseCatalogData {
@@ -74,6 +74,7 @@ export interface BaseCatalogData {
   tyc1: string;
   tyc2: string;
   tyc3: string;
+  object_type: boolean;
 }
 
 export interface CountOfStars {

@@ -1,28 +1,26 @@
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ObjectsService } from '@app/three/objects/objects.service';
 
-import { StarsService } from '../../stars/stars.service';
 import { ThreeComponentModel } from '../../three.component.model';
-import { BaseCatalogService } from '../base-catalog.service';
-import { BaseCatalogData } from '../catalog.model';
+import { ICatalogService, BaseCatalogData } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HygMongodbCatalogService extends BaseCatalogService {
+export class HygMongodbCatalogService implements ICatalogService {
   private static readonly defaultFilter = {
     dist: '0:30'
   };
   //
   constructor(
-    protected _starsService: StarsService,
+    protected _objectsService: ObjectsService,
     private _http: HttpClient
   ) {
     // Empty
-    super(_starsService);
   }
 
   // @override
@@ -35,15 +33,24 @@ export class HygMongodbCatalogService extends BaseCatalogService {
     threeComponentModel.errorMessage = null;
     threeComponentModel.filters.clear();
     threeComponentModel.filters.set('dist', [0, 30]);
-    this.search(threeComponentModel).subscribe();
+    this.search$(threeComponentModel).subscribe();
   }
 
   // @override
-  public findOne(
+  public findOne$(
     threeComponentModel: ThreeComponentModel,
-    id: string
+    prop: BaseCatalogData
   ): Observable<BaseCatalogData> {
-    return this.get$(id, threeComponentModel.selectedCatalog.url);
+    return this.get$(<string>prop.id, threeComponentModel.selectedCatalog.url);
+  }
+
+  // @override
+  public initialize$(threeComponentModel: ThreeComponentModel): Promise<void> {
+    threeComponentModel.average = 'Loading objects...';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return new Promise((resolve, reject) => {
+      // empty
+    });
   }
 
   public getAll$(baseUrl: string): Observable<BaseCatalogData[]> {
@@ -55,9 +62,11 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   }
 
   // @override
-  public search(threeComponentModel: ThreeComponentModel): Observable<void> {
+  public search$(threeComponentModel: ThreeComponentModel): Observable<void> {
+    threeComponentModel.indexOfCurrent = 0;
+    threeComponentModel.scale = threeComponentModel.selectedCatalog.scale;
     threeComponentModel.errorMessage = null;
-    threeComponentModel.average = 'Searching stars...';
+    threeComponentModel.average = 'Searching objects...';
     const filtering = {};
     threeComponentModel.filters.forEach((f, k) => {
       let value = '';
@@ -77,14 +86,16 @@ export class HygMongodbCatalogService extends BaseCatalogService {
           JSON.stringify(filtering)
       )
       .pipe(
-        map((starsImported: BaseCatalogData[]) => {
-          threeComponentModel.starsImported = starsImported;
+        map((objectsImported: BaseCatalogData[]) => {
+          threeComponentModel.objectsImported = objectsImported;
           // fill objects
-          threeComponentModel.starsImported.forEach((item: BaseCatalogData) => {
-            this.fillPositionProperties(item);
-          });
+          threeComponentModel.objectsImported.forEach(
+            (item: BaseCatalogData) => {
+              this.fillPositionProperties(item);
+            }
+          );
           // refresh
-          this._starsService.refreshAfterLoadingCatalog(threeComponentModel);
+          this._objectsService.refreshAfterLoadingCatalog(threeComponentModel);
         }),
         catchError(() => {
           threeComponentModel.errorMessage = 'COMMON.CATALOG_NOT_READY';
@@ -96,25 +107,4 @@ export class HygMongodbCatalogService extends BaseCatalogService {
   public fillPositionProperties(star: BaseCatalogData): void {
     star.plx = 1 / star.dist;
   }
-  /*
-  public create(data) {
-    return this._http.post(baseUrl, data);
-  }
-
-  public update(id, data) {
-    return this._http.put(`${baseUrl}/${id}`, data);
-  }
-
-  public delete(id) {
-    return this._http.delete(`${baseUrl}/${id}`);
-  }
-
-  public deleteAll() {
-    return this._http.delete(baseUrl);
-  }
-
-  public findByTitle(title) {
-    return this._http.get(`${baseUrl}?title=${title}`);
-  }
-  */
 }

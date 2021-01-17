@@ -22,7 +22,7 @@ export class CatalogService {
   }
 
   public list(): Catalog[] {
-    return [hygcsvLocal, hygMongo, kharchenkoMysql];
+    return [<Catalog>hygcsvLocal, <Catalog>hygMongo, <Catalog>kharchenkoMysql];
   }
 
   public getCatalogService(

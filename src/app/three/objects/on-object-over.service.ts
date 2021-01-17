@@ -2,33 +2,33 @@ import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
 
-import { StarOver } from '../three.component.model';
+import { ObjectOver } from '../three.component.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OnStarOverService {
+export class OnObjectOverService {
   private static readonly ELLIPSIS_NAME = 'ellipsisName';
 
   previousPosition: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   color = 0xff0000;
 
-  public initialize(scene: THREE.Scene): StarOver {
-    const overObject = new THREE.Object3D();
-    scene.add(overObject);
+  public initialize(scene: THREE.Scene): ObjectOver {
+    const objectToDisplay = new THREE.Object3D();
+    scene.add(objectToDisplay);
     return {
-      starIntersected: null,
-      overObject: overObject
+      objectIntersected: null,
+      objectDisplay: objectToDisplay
     };
   }
 
-  public update(starOver: StarOver): void {
-    if (!starOver.starIntersected) {
-      starOver.overObject.children = [];
+  public update(objectOver: ObjectOver): void {
+    if (!objectOver.objectIntersected) {
+      objectOver.objectDisplay.children = [];
       this.previousPosition = new THREE.Vector3(0, 0, 0);
       return;
     }
-    const myPosition = starOver.starIntersected.position;
+    const myPosition = objectOver.objectIntersected.parent.position;
     if (
       myPosition.x === this.previousPosition.x &&
       myPosition.y === this.previousPosition.y &&
@@ -50,7 +50,7 @@ export class OnStarOverService {
       new THREE.Vector3(myPosition.x, myPosition.y, 0)
     );
     const lineZ = new THREE.Line(geometryZ, material);
-    starOver.overObject.add(lineZ);
+    objectOver.objectDisplay.add(lineZ);
     //  ellipsis
     const radiusXY = Math.sqrt(
       myPosition.x * myPosition.x + myPosition.y * myPosition.y
@@ -70,6 +70,6 @@ export class OnStarOverService {
       curveXY.getPoints(50)
     );
     const ellipseXY = new THREE.Line(geometryXY, material);
-    starOver.overObject.add(ellipseXY);
+    objectOver.objectDisplay.add(ellipseXY);
   }
 }
