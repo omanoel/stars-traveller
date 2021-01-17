@@ -2,312 +2,351 @@
   "id": 1,
   "name": "HYG Catalog (csv)",
   "production": true,
-  "url": "/assets/catalogs/hygdata_v3.csv",
+  "url": "hygdata_v3.csv",
   "service": "HygCsvCatalogService",
   "scale": 1,
-  "properties": [{
-    "key": "id",
-    "type": "string",
-    "tooltip": "HYG.ID",
-    "unit": null,
-    "min": 0,
-    "max": 119614,
-    "filter": false
-  }, {
-    "key": "ra",
-    "type": "number",
-    "tooltip": "HYG.RA",
-    "unit": "h",
-    "min": 0,
-    "max": 24,
-    "filter": true
-  }, {
-    "key": "dec",
-    "type": "number",
-    "tooltip": "HYG.DEC",
-    "unit": "deg",
-    "min": -90,
-    "max": 90,
-    "filter": true
-  }, {
-    "key": "dist",
-    "type": "number",
-    "tooltip": "HYG.DIST",
-    "unit": "pc",
-    "min": 0,
-    "max": 100000,
-    "filter": true
-  }, {
-    "key": "hip",
-    "type": "string",
-    "tooltip": "HYG.HIP",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "hd",
-    "type": "string",
-    "tooltip": "HYG.HD",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "hr",
-    "type": "string",
-    "tooltip": "HYG.HR",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "gl",
-    "type": "string",
-    "tooltip": "HYG.GL",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "bf",
-    "type": "string",
-    "tooltip": "HYG.BF",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "proper",
-    "type": "string",
-    "tooltip": "HYG.PROPER",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "pmra",
-    "type": "number",
-    "tooltip": "HYG.PMRA",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "pmdec",
-    "type": "number",
-    "tooltip": "HYG.PMDEC",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "rv",
-    "type": "number",
-    "tooltip": "HYG.RV",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "mag",
-    "type": "number",
-    "tooltip": "HYG.MAG",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "absmag",
-    "type": "number",
-    "tooltip": "HYG.ABSMAG",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "spect",
-    "type": "string",
-    "tooltip": "HYG.SPECT",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "ci",
-    "type": "string",
-    "tooltip": "HYG.CI",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "x",
-    "type": "number",
-    "tooltip": "HYG.X",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "y",
-    "type": "number",
-    "tooltip": "HYG.Y",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "z",
-    "type": "number",
-    "tooltip": "HYG.Z",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "vx",
-    "type": "number",
-    "tooltip": "HYG.VX",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "vy",
-    "type": "number",
-    "tooltip": "HYG.VY",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "vz",
-    "type": "number",
-    "tooltip": "HYG.VZ",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "rarad",
-    "type": "number",
-    "tooltip": "HYG.RARAD",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "decrad",
-    "type": "number",
-    "tooltip": "HYG.DECRAD",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "pmrarad",
-    "type": "number",
-    "tooltip": "HYG.PMRARAD",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "pmdecrad",
-    "type": "number",
-    "tooltip": "HYG.PMDECRAD",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "bayer",
-    "type": "string",
-    "tooltip": "HYG.BAYER",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "flam",
-    "type": "string",
-    "tooltip": "HYG.FLAM",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "con",
-    "type": "string",
-    "tooltip": "HYG.CON",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "comp",
-    "type": "string",
-    "tooltip": "HYG.COMP",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "comp_primary",
-    "type": "string",
-    "tooltip": "HYG.COMP_PRIMARY",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "base",
-    "type": "string",
-    "tooltip": "HYG.BASE",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "lum",
-    "type": "number",
-    "tooltip": "HYG.LUM",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "var",
-    "type": "string",
-    "tooltip": "HYG.VAR",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "var_min",
-    "type": "string",
-    "tooltip": "HYG.VAR_MIN",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "var_max",
-    "type": "string",
-    "tooltip": "HYG.VAR_MAX",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }, {
-    "key": "tyc",
-    "type": "string",
-    "tooltip": "HYG.TYC",
-    "unit": null,
-    "min": null,
-    "max": null,
-    "filter": false
-  }]
+  "properties": [
+    {
+      "key": "id",
+      "type": "string",
+      "tooltip": "HYG.ID",
+      "unit": null,
+      "min": 0,
+      "max": 119614,
+      "filter": false
+    },
+    {
+      "key": "ra",
+      "type": "number",
+      "tooltip": "HYG.RA",
+      "unit": "h",
+      "min": 0,
+      "max": 24,
+      "filter": true
+    },
+    {
+      "key": "dec",
+      "type": "number",
+      "tooltip": "HYG.DEC",
+      "unit": "deg",
+      "min": -90,
+      "max": 90,
+      "filter": true
+    },
+    {
+      "key": "dist",
+      "type": "number",
+      "tooltip": "HYG.DIST",
+      "unit": "pc",
+      "min": 0,
+      "max": 100000,
+      "filter": true
+    },
+    {
+      "key": "hip",
+      "type": "string",
+      "tooltip": "HYG.HIP",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "hd",
+      "type": "string",
+      "tooltip": "HYG.HD",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "hr",
+      "type": "string",
+      "tooltip": "HYG.HR",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "gl",
+      "type": "string",
+      "tooltip": "HYG.GL",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "bf",
+      "type": "string",
+      "tooltip": "HYG.BF",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "proper",
+      "type": "string",
+      "tooltip": "HYG.PROPER",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "pmra",
+      "type": "number",
+      "tooltip": "HYG.PMRA",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "pmdec",
+      "type": "number",
+      "tooltip": "HYG.PMDEC",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "rv",
+      "type": "number",
+      "tooltip": "HYG.RV",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "mag",
+      "type": "number",
+      "tooltip": "HYG.MAG",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "absmag",
+      "type": "number",
+      "tooltip": "HYG.ABSMAG",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "spect",
+      "type": "string",
+      "tooltip": "HYG.SPECT",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "ci",
+      "type": "string",
+      "tooltip": "HYG.CI",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "x",
+      "type": "number",
+      "tooltip": "HYG.X",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "y",
+      "type": "number",
+      "tooltip": "HYG.Y",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "z",
+      "type": "number",
+      "tooltip": "HYG.Z",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "vx",
+      "type": "number",
+      "tooltip": "HYG.VX",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "vy",
+      "type": "number",
+      "tooltip": "HYG.VY",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "vz",
+      "type": "number",
+      "tooltip": "HYG.VZ",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "rarad",
+      "type": "number",
+      "tooltip": "HYG.RARAD",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "decrad",
+      "type": "number",
+      "tooltip": "HYG.DECRAD",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "pmrarad",
+      "type": "number",
+      "tooltip": "HYG.PMRARAD",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "pmdecrad",
+      "type": "number",
+      "tooltip": "HYG.PMDECRAD",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "bayer",
+      "type": "string",
+      "tooltip": "HYG.BAYER",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "flam",
+      "type": "string",
+      "tooltip": "HYG.FLAM",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "con",
+      "type": "string",
+      "tooltip": "HYG.CON",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "comp",
+      "type": "string",
+      "tooltip": "HYG.COMP",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "comp_primary",
+      "type": "string",
+      "tooltip": "HYG.COMP_PRIMARY",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "base",
+      "type": "string",
+      "tooltip": "HYG.BASE",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "lum",
+      "type": "number",
+      "tooltip": "HYG.LUM",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "var",
+      "type": "string",
+      "tooltip": "HYG.VAR",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "var_min",
+      "type": "string",
+      "tooltip": "HYG.VAR_MIN",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "var_max",
+      "type": "string",
+      "tooltip": "HYG.VAR_MAX",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    },
+    {
+      "key": "tyc",
+      "type": "string",
+      "tooltip": "HYG.TYC",
+      "unit": null,
+      "min": null,
+      "max": null,
+      "filter": false
+    }
+  ]
 }
