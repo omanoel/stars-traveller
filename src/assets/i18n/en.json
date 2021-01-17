@@ -100,11 +100,11 @@
     "TYC": "The star's ID in the Tycho catalog, if known."
   },
   "KHARCHENKO": {
-    "ID": "The database primary key",
+    "ID": "The database primary key.",
     "RA": "The star's right ascension, for epoch and equinox 2000.0",
     "DEC": "The star's declination ascension, for epoch and equinox 2000.0",
-    "PLX": "The star's trigonometric parallax in parsecs",
-    "DIST": "The star's distance in parsecs",
+    "PLX": "The star's trigonometric parallax in milliarcseconds.",
+    "DIST": "The star's distance in parsecs.",
     "HIP": "The star's ID in the Hipparcos catalog, if known.",
     "HD": "The star's ID in the Henry Draper catalog, if known.",
     "DM": "The star's DM number, if known.",

@@ -13,6 +13,7 @@ import { ThreeComponentModel } from './three.component.model';
 import { TrackballControlsService } from './trackball-controls/trackball-controls.service';
 import { BaseCatalogData } from './catalog/catalog.model';
 import { ObjectsService } from './objects/objects.service';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,11 @@ export class ThreeComponentService {
 
   public initComponent(threeComponentModel: ThreeComponentModel): void {
     // get catalogs
-    threeComponentModel.catalogs = this._catalogService.list();
+    threeComponentModel.catalogs = this._catalogService
+      .list()
+      .filter((c) =>
+        environment.production ? c.production === environment.production : true
+      );
     //
     threeComponentModel.camera = this._perspectiveCameraService.initialize(
       threeComponentModel.width,
