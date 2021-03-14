@@ -329,14 +329,17 @@ export class ObjectsService {
     material: THREE.Material
   ): void {
     if (near.vx && near.vy && near.vz) {
-      const geometryZ = new THREE.Geometry();
-      geometryZ.vertices.push(
-        new THREE.Vector3(near.x, near.y, near.z),
-        new THREE.Vector3(
-          near.x + period * near.vx,
-          near.y + period * near.vy,
-          near.z + period * near.vz
-        )
+      const geometryZ = new THREE.BufferGeometry();
+      const positions = new Float32Array(2 * 3); // 3 vertices per point
+      positions[0] = near.x;
+      positions[1] = near.y;
+      positions[2] = near.z;
+      positions[3] = near.x + period * near.vx;
+      positions[4] = near.y + period * near.vy;
+      positions[5] = near.z + period * near.vz;
+      geometryZ.setAttribute(
+        'position',
+        new THREE.BufferAttribute(positions, 3)
       );
       collection3d.groupOfObjectsProperMotion.add(
         new THREE.Line(geometryZ, material)
@@ -390,11 +393,15 @@ export class ObjectsService {
     myPosition: THREE.Vector3,
     material: THREE.Material
   ) {
-    const geometryZ = new THREE.Geometry();
-    geometryZ.vertices.push(
-      new THREE.Vector3(myPosition.x, myPosition.y, myPosition.z),
-      new THREE.Vector3(myPosition.x, myPosition.y, 0)
-    );
+    const geometryZ = new THREE.BufferGeometry();
+    const positions = new Float32Array(2 * 3); // 3 vertices per point
+    positions[0] = myPosition.x;
+    positions[1] = myPosition.y;
+    positions[2] = myPosition.z;
+    positions[3] = myPosition.x;
+    positions[4] = myPosition.y;
+    positions[5] = 0;
+    geometryZ.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     collection3d.groupOfObjectsHelpers.add(new THREE.Line(geometryZ, material));
   }
 

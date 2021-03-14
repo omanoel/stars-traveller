@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import * as THREE from 'three';
-import { TrackballControls } from 'three-trackballcontrols-ts';
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
 import { Injectable } from '@angular/core';
 

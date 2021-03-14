@@ -88,19 +88,15 @@ export class ReferentielService {
     angle: number,
     distance: number
   ): void {
-    const geometryX = new THREE.Geometry();
-    geometryX.vertices.push(
-      new THREE.Vector3(
-        -distance * Math.cos(angle),
-        -distance * Math.sin(angle),
-        0
-      ),
-      new THREE.Vector3(
-        distance * Math.cos(angle),
-        distance * Math.sin(angle),
-        0
-      )
-    );
+    const geometryX = new THREE.BufferGeometry();
+    const positions = new Float32Array(2 * 3); // 3 vertices per point
+    positions[0] = -distance * Math.cos(angle);
+    positions[1] = -distance * Math.sin(angle);
+    positions[2] = 0;
+    positions[3] = distance * Math.cos(angle);
+    positions[4] = distance * Math.sin(angle);
+    positions[5] = 0;
+    geometryX.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     objects.push(new THREE.Line(geometryX, material));
   }
 
@@ -124,7 +120,9 @@ export class ReferentielService {
       );
 
       // const path = new THREE.Path(curve.getPoints(50));
-      const geometry = new THREE.Geometry().setFromPoints(curve.getPoints(50));
+      const geometry = new THREE.BufferGeometry().setFromPoints(
+        curve.getPoints(50)
+      );
       const material = new THREE.LineBasicMaterial({
         color: color,
         transparent: true,

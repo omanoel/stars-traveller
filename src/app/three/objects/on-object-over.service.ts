@@ -44,11 +44,15 @@ export class OnObjectOverService {
     });
 
     // Z axis
-    const geometryZ = new THREE.Geometry();
-    geometryZ.vertices.push(
-      new THREE.Vector3(myPosition.x, myPosition.y, myPosition.z),
-      new THREE.Vector3(myPosition.x, myPosition.y, 0)
-    );
+    const geometryZ = new THREE.BufferGeometry();
+    const positions = new Float32Array(2 * 3); // 3 vertices per point
+    positions[0] = myPosition.x;
+    positions[1] = myPosition.y;
+    positions[2] = myPosition.z;
+    positions[3] = myPosition.x;
+    positions[4] = myPosition.y;
+    positions[5] = 0;
+    geometryZ.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const lineZ = new THREE.Line(geometryZ, material);
     objectOver.objectDisplay.add(lineZ);
     //  ellipsis
@@ -66,7 +70,7 @@ export class OnObjectOverService {
       0 // aRotation
     );
     // const pathXY = new THREE.Path(curveXY.getPoints(50));
-    const geometryXY = new THREE.Geometry().setFromPoints(
+    const geometryXY = new THREE.BufferGeometry().setFromPoints(
       curveXY.getPoints(50)
     );
     const ellipseXY = new THREE.Line(geometryXY, material);

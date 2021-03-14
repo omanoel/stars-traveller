@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { TrackballControls } from 'three-trackballcontrols-ts';
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
 export interface TrackballControlsModel {
   controls: TrackballControls;
