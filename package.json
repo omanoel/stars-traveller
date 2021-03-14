@@ -4,16 +4,14 @@
   "description": "A simple stars traveller",
   "license": "MIT",
   "contributors": [
-    "Man_ol <manoloexpo2@yahoo.fr>"
+    "Man_ol <manoel.olivier@gmail.com>"
   ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "e2e": "ng e2e",
     "compodoc": "npx compodoc -p src/tsconfig.app.json"
   },
   "private": true,
