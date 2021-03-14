@@ -62,6 +62,7 @@ export class HygCsvCatalogService implements ICatalogService {
   public load(threeComponentModel: ThreeComponentModel): void {
     threeComponentModel.indexOfCurrent = 0;
     threeComponentModel.errorMessage = null;
+    threeComponentModel.filters.clear();
     this.initialize$(threeComponentModel).then(() => {
       // fill objects
       threeComponentModel.objectsImported.forEach((item) => {

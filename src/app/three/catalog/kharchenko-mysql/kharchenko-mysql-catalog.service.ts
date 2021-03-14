@@ -62,8 +62,8 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
 
   // @override
   public load(threeComponentModel: ThreeComponentModel): void {
-    threeComponentModel.filters.clear();
     threeComponentModel.errorMessage = null;
+    threeComponentModel.filters.clear();
     threeComponentModel.filters.set('bmag', [-1429, 7000]);
     this.search$(threeComponentModel).subscribe();
   }
