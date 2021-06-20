@@ -249,9 +249,8 @@ export class ObjectsService {
             transparent: true,
             side: THREE.DoubleSide
           });
-          threeComponentModel.collection3d.shaderMaterials[
-            near.id
-          ] = materialTexture;
+          threeComponentModel.collection3d.shaderMaterials[near.id] =
+            materialTexture;
         } else {
           materialTexture =
             threeComponentModel.collection3d.shaderMaterials[matKey];
@@ -362,9 +361,10 @@ export class ObjectsService {
       return;
     }
 
-    const vertices = threeComponentModel.collection3d.geometryMovementGlow.getAttribute(
-      'position'
-    );
+    const vertices =
+      threeComponentModel.collection3d.geometryMovementGlow.getAttribute(
+        'position'
+      );
 
     let i = 0;
     nearest.forEach((near) => {

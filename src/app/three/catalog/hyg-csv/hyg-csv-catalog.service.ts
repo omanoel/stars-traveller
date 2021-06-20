@@ -84,8 +84,8 @@ export class HygCsvCatalogService implements ICatalogService {
         item.plx = 1 / item.dist;
       });
       threeComponentModel.filters.forEach((f, k) => {
-        threeComponentModel.objectsImported = threeComponentModel.objectsImported.filter(
-          (item) => {
+        threeComponentModel.objectsImported =
+          threeComponentModel.objectsImported.filter((item) => {
             let keep = true;
             if (f[0] != null) {
               keep = item[k] >= f[0];
@@ -97,8 +97,7 @@ export class HygCsvCatalogService implements ICatalogService {
             }
 
             return keep;
-          }
-        );
+          });
       });
       // refresh
       this._objectsService.refreshAfterLoadingCatalog(threeComponentModel);

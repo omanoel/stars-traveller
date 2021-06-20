@@ -117,11 +117,12 @@ export class TargetService {
       threeComponentModel.target.targetOnClick,
       threeComponentModel.trackballControls.controls.target
     );
-    const newPositionForTarget = threeComponentModel.trackballControls.controls.target
-      .clone()
-      .add(
-        displacementForTarget.divideScalar(threeComponentModel.target.stepper)
-      );
+    const newPositionForTarget =
+      threeComponentModel.trackballControls.controls.target
+        .clone()
+        .add(
+          displacementForTarget.divideScalar(threeComponentModel.target.stepper)
+        );
     threeComponentModel.trackballControls.controls.target.copy(
       newPositionForTarget
     );
