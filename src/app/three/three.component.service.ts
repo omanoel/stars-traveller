@@ -90,7 +90,8 @@ export class ThreeComponentService {
     //
     threeComponentModel.scene = this._sceneService.initialize();
     //
-    threeComponentModel.trackballControls = this._trackballControlsService.initialize();
+    threeComponentModel.trackballControls =
+      this._trackballControlsService.initialize();
     //
     threeComponentModel.raycaster = this._raycasterService.initialize();
     //
@@ -275,7 +276,8 @@ export class ThreeComponentService {
         )
         .subscribe((properties: BaseCatalogData) => {
           threeComponentModel.lastObjectIntersected = intersects[0].object;
-          threeComponentModel.lastObjectIntersected.userData.properties = properties;
+          threeComponentModel.lastObjectIntersected.userData.properties =
+            properties;
         });
       threeComponentModel.lastObjectIntersected = intersects[0].object;
     } else {
