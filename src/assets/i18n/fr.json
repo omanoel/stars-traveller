@@ -11,6 +11,15 @@
     "COLLAPSE": "Réduire ce panneau",
     "EXPAND": "Agrandrir ce panneau"
   },
+  "MENU": {
+    "ABOUT": "A propos...",
+    "HELP": "Aide sur la nvigation dans la vue 3D",
+    "INDICATORS": "Indication de navigation",
+    "CATALOGS": "Catalogues",
+    "HOME": "Stars traveller v 1.1.0",
+    "LANGUAGE": "Changer de langue",
+    "TOOLTIP": "Détails"
+  },
   "CATALOGS": {
     "FILTERS": "Afficher modifier les filtres",
     "GOTO_NEXT": "Voir l'objet suivant",

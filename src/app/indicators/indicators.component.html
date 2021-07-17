@@ -1,0 +1,20 @@
+<div class="indicators" *ngIf="model.average === '' && model.objectsImported">
+  <div class="expanded">
+    <p>
+      {{ 'INDICATOR.DISTANCE_TO_HELPER' | translate }}:
+      {{ distanceToTarget() }} parsecs
+    </p>
+    <p>
+      {{ 'INDICATOR.DISTANCE_TO_LAST_OBJECT' | translate }}:
+      {{ distanceToLastObject() }} parsecs
+    </p>
+    <p>
+      {{ 'INDICATOR.HELPER_COORDS' | translate }} x:
+      {{ roundValue(target.x) }} / y: {{ roundValue(target.y) }} / z:
+      {{ roundValue(target.z) }}
+    </p>
+    <p class="count">
+      {{ model.objectsImported.length }} {{ 'INDICATOR.OBJECTS' | translate }}
+    </p>
+  </div>
+</div>

@@ -1,29 +1,33 @@
 import * as THREE from 'three';
 
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges
 } from '@angular/core';
 
-import { ThreeComponentModel } from './three.component.model';
-import { ThreeComponentService } from './three.component.service';
+import { ThreeComponentModel } from './three-component.model';
+import { ThreeComponentService } from './three-component.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MainModel } from '@app/app.model';
 
 @Component({
   selector: 'app-three',
   templateUrl: './three.component.html',
-  styleUrls: ['./three.component.scss']
+  styleUrls: ['./three.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   private _threeComponentModel: ThreeComponentModel;
+  @Input() options: MainModel;
 
   initDist: number;
   mouseDown = false;
-  isHelpDisplayed = false;
 
   clock: THREE.Clock = new THREE.Clock();
 
@@ -43,35 +47,28 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnInit(): void {
     this._threeComponentModel = this._threeComponentService.initModel(
-      this._element
+      this._element,
+      this.options
     );
     this._threeComponentService.resetWidthHeight(
-      this.threeComponentModel,
+      this._threeComponentModel,
       window.innerWidth,
       window.innerHeight
     );
-    this._threeComponentService.initComponent(this.threeComponentModel);
+    this._threeComponentService.initComponent(this._threeComponentModel);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this._threeComponentService.onChanges(this.threeComponentModel, changes);
+    this._threeComponentService.onChanges(this._threeComponentModel, changes);
   }
 
   public ngOnDestroy(): void {
-    if (this.threeComponentModel.frameId != null) {
-      cancelAnimationFrame(this.threeComponentModel.frameId);
+    if (this._threeComponentModel.frameId != null) {
+      cancelAnimationFrame(this._threeComponentModel.frameId);
     }
-  }
-
-  public displayHelp(status: boolean): void {
-    this.isHelpDisplayed = status;
   }
 
   public get threeComponentModel(): ThreeComponentModel {
     return this._threeComponentModel;
-  }
-
-  public set threeComponentModel(model: ThreeComponentModel) {
-    this._threeComponentModel = model;
   }
 }

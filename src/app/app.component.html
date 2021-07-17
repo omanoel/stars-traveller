@@ -1,10 +1,32 @@
-<app-three></app-three>
-<div class="language">
-  <label>
-    {{ 'HOME.SELECT' | translate }}
-    <select #langSelect (change)="translate.use(langSelect.value)">
-      <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">
-        {{ lang }}</option>
-    </select>
-  </label>
+<app-three [options]="mainModel"></app-three>
+
+<div class="loader" *ngIf="mainModel.average != ''">
+  <div class="loading">
+    <p>{{ 'COMMON.LOADING_OBJECTS' | translate }}</p>
+    <p class="error" *ngIf="mainModel.errorMessage">
+      {{ mainModel.errorMessage | translate }}
+    </p>
+  </div>
+  <img
+    class="rotate"
+    src="./assets/textures/lensflare0_alpha.png"
+    *ngIf="!mainModel.errorMessage"
+  />
 </div>
+<app-catalogs
+  [model]="mainModel"
+  *ngIf="mainModel.menuOptions.displayCatalogs"
+></app-catalogs>
+<app-search [model]="mainModel" *ngIf="mainModel.showSearch"></app-search>
+<app-tooltip
+  [model]="mainModel"
+  *ngIf="mainModel.menuOptions.displayTooltip"
+></app-tooltip>
+<app-indicators
+  [model]="mainModel"
+  *ngIf="mainModel.menuOptions.displayIndicators"
+></app-indicators>
+<app-menu [options]="mainModel.menuOptions"></app-menu>
+<app-language *ngIf="mainModel.menuOptions.displayLanguage"></app-language>
+<app-about *ngIf="mainModel.menuOptions.displayAbout"></app-about>
+<app-help *ngIf="mainModel.menuOptions.displayHelp"></app-help>
