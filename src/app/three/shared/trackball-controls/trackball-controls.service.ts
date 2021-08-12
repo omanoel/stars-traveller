@@ -4,8 +4,8 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 
 import { Injectable } from '@angular/core';
 
-import { TrackballControlsModel } from './trackball-controls.model';
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
+import { TrackballControlsModel } from './trackball-controls.model';
 
 @Injectable({ providedIn: 'root' })
 export class TrackballControlsService {

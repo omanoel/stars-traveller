@@ -2,9 +2,9 @@ import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
 
-import { ReferentielModel } from './referentiel.model';
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
 import { SceneService } from '../scene/scene.service';
+import { ReferentielModel } from './referentiel.model';
 
 @Injectable({
   providedIn: 'root'

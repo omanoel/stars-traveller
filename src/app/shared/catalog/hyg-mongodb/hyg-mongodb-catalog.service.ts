@@ -3,10 +3,10 @@ import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MainModel } from '@app/app.model';
 import { ObjectsService } from '@app/three/shared/objects/objects.service';
 
-import { ICatalogService, BaseCatalogData } from '../catalog.model';
-import { MainModel } from '@app/app.model';
+import { BaseCatalogData, ICatalogService } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root'

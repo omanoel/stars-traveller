@@ -48,6 +48,13 @@
     right: 0px;
     top: 0px;
   }
+
+  ui-loader {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+  }
 }
 
 .loader {

@@ -1,20 +1,14 @@
 import * as THREE from 'three';
 
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges
+    ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
+    SimpleChanges
 } from '@angular/core';
+import { MainModel } from '@app/app.model';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ThreeComponentModel } from './three-component.model';
 import { ThreeComponentService } from './three-component.service';
-import { TranslateService } from '@ngx-translate/core';
-import { MainModel } from '@app/app.model';
 
 @Component({
   selector: 'app-three',

@@ -2,11 +2,11 @@ import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
-import { ObjectsService } from '@app/three/shared/objects/objects.service';
-
-import { ICatalogService, BaseCatalogData } from '../catalog.model';
-import { environment } from '@env/environment';
 import { MainModel } from '@app/app.model';
+import { ObjectsService } from '@app/three/shared/objects/objects.service';
+import { environment } from '@env/environment';
+
+import { BaseCatalogData, ICatalogService } from '../catalog.model';
 
 @Injectable({
   providedIn: 'root'

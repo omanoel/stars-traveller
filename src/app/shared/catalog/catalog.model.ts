@@ -1,5 +1,6 @@
-import { MainModel } from '@app/app.model';
 import { Observable } from 'rxjs';
+
+import { MainModel } from '@app/app.model';
 
 export interface Catalog {
   id: number;

@@ -1,11 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  Input
-} from '@angular/core';
-import { TargetService } from '../shared/target/target.service';
+import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
 
+import { TargetService } from '../shared/target/target.service';
 import { ThreeComponentModel } from '../three-component.model';
 import { ThreeComponentService } from '../three-component.service';
 

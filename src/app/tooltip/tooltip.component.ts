@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MainModel } from '@app/app.model';
 
-import {
-  Catalog,
-  Property,
-  BaseCatalogData
-} from '../shared/catalog/catalog.model';
+import { BaseCatalogData, Catalog, Property } from '../shared/catalog/catalog.model';
 import { InTheSkyService } from '../shared/external/in-the-sky.service';
 
 @Component({

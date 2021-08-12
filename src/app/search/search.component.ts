@@ -2,11 +2,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MainModel } from '@app/app.model';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Catalog, Property } from '../shared/catalog/catalog.model';
 import { CatalogService } from '../shared/catalog/catalog.service';
-import { MainModel } from '@app/app.model';
 
 @Component({
   selector: 'app-search',

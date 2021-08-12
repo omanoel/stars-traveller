@@ -2,20 +2,20 @@ import { Observable } from 'rxjs';
 import * as THREE from 'three';
 
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
+  OnInit
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MainModel } from '@app/app.model';
+import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Catalog } from '../shared/catalog/catalog.model';
 import { CatalogService } from '../shared/catalog/catalog.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { environment } from '@env/environment';
 import { TargetService } from '../three/shared/target/target.service';
-import { MainModel } from '@app/app.model';
 
 export interface CatalogExt extends Catalog {
   count: number;

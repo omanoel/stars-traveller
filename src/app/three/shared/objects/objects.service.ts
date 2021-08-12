@@ -1,20 +1,16 @@
 import * as THREE from 'three';
 
 import { Injectable } from '@angular/core';
-
-import { SceneService } from '../scene/scene.service';
-import { ThreeComponentModel } from '../../three-component.model';
-import {
-  Collection3d,
-  commonMaterialHelper,
-  commonMaterialProperMotion
-} from './objects.model';
-import { ShadersConstant } from './shaders.constant';
-import { TargetService } from '../target/target.service';
-import { BaseCatalogData } from '../../../shared/catalog/catalog.model';
 import { MainModel } from '@app/app.model';
+
+import { BaseCatalogData } from '../../../shared/catalog/catalog.model';
+import { ThreeComponentModel } from '../../three-component.model';
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
+import { SceneService } from '../scene/scene.service';
+import { TargetService } from '../target/target.service';
 import { TrackballControlsService } from '../trackball-controls/trackball-controls.service';
+import { Collection3d, commonMaterialHelper, commonMaterialProperMotion } from './objects.model';
+import { ShadersConstant } from './shaders.constant';
 
 @Injectable({
   providedIn: 'root'

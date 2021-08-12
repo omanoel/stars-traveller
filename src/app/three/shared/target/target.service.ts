@@ -3,10 +3,10 @@ import * as THREE from 'three';
 import { Injectable } from '@angular/core';
 import { ThreeComponentModel } from '@app/three/three-component.model';
 
-import { TargetModel } from './target.model';
-import { TrackballControlsService } from '../trackball-controls/trackball-controls.service';
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
 import { SceneService } from '../scene/scene.service';
+import { TrackballControlsService } from '../trackball-controls/trackball-controls.service';
+import { TargetModel } from './target.model';
 
 @Injectable({
   providedIn: 'root'

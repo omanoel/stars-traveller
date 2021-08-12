@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MapComponent } from './map/map.component';
 import { ThreeComponent } from './three.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],

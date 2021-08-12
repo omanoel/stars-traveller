@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,12 +8,12 @@ import {
 } from '@angular/core';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+
 import en from '../assets/i18n/en.json';
 import fr from '../assets/i18n/fr.json';
 import { MainModel } from './app.model';
-import { CatalogService } from './shared/catalog/catalog.service';
 import { MenuComponentOptions } from './menu/menu.component.model';
+import { CatalogService } from './shared/catalog/catalog.service';
 
 @Component({
   selector: 'app-root',

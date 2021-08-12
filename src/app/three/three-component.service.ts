@@ -1,17 +1,17 @@
 import * as THREE from 'three';
 
 import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
+import { MainModel } from '@app/app.model';
 
+import { ObjectsService } from './shared/objects/objects.service';
 import { OnObjectOverService } from './shared/objects/on-object-over.service';
 import { PerspectiveCameraService } from './shared/perspective-camera/perspective-camera.service';
 import { RaycasterService } from './shared/raycaster/raycaster.service';
 import { ReferentielService } from './shared/referentiel/referentiel.service';
 import { SceneService } from './shared/scene/scene.service';
 import { TargetService } from './shared/target/target.service';
-import { ThreeComponentModel } from './three-component.model';
 import { TrackballControlsService } from './shared/trackball-controls/trackball-controls.service';
-import { ObjectsService } from './shared/objects/objects.service';
-import { MainModel } from '@app/app.model';
+import { ThreeComponentModel } from './three-component.model';
 
 @Injectable({
   providedIn: 'root'

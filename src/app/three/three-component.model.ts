@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 
 import { ElementRef } from '@angular/core';
+import { MainModel } from '@app/app.model';
 
 import { Collection3d } from './shared/objects/objects.model';
-import { MainModel } from '@app/app.model';
 
 export interface ThreeComponentModel {
   element: ElementRef;

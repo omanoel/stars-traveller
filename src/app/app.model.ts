@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
-import { BaseCatalogData, Catalog } from './shared/catalog/catalog.model';
+
 import { MenuComponentOptions } from './menu/menu.component.model';
+import { BaseCatalogData, Catalog } from './shared/catalog/catalog.model';
 
 export interface MainModel {
   average: string;

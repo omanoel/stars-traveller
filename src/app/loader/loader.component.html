@@ -1,0 +1,13 @@
+<div class="loader" *ngIf="mainModel.average != ''">
+  <div class="loading">
+    <p>{{ 'COMMON.LOADING_OBJECTS' | translate }}</p>
+    <p class="error" *ngIf="mainModel.errorMessage">
+      {{ mainModel.errorMessage | translate }}
+    </p>
+  </div>
+  <img
+    class="rotate"
+    src="./assets/textures/lensflare0_alpha.png"
+    *ngIf="!mainModel.errorMessage"
+  />
+</div>

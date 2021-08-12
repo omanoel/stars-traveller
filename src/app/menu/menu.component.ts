@@ -1,10 +1,6 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { MenuComponentOptions } from './menu.component.model';
 
 @Component({
