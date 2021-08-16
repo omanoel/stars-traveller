@@ -1,8 +1,13 @@
 import * as THREE from 'three';
 
 import {
-    ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
-    SimpleChanges
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges
 } from '@angular/core';
 import { MainModel } from '@app/app.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,8 +18,7 @@ import { ThreeComponentService } from './three-component.service';
 @Component({
   selector: 'app-three',
   templateUrl: './three.component.html',
-  styleUrls: ['./three.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./three.component.scss']
 })
 export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   private _threeComponentModel: ThreeComponentModel;

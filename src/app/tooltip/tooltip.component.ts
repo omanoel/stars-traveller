@@ -1,21 +1,28 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MainModel } from '@app/app.model';
 
-import { BaseCatalogData, Catalog, Property } from '../shared/catalog/catalog.model';
+import {
+  BaseCatalogData,
+  Catalog,
+  Property
+} from '../shared/catalog/catalog.model';
 import { InTheSkyService } from '../shared/external/in-the-sky.service';
 
 @Component({
   selector: 'app-tooltip',
   templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./tooltip.component.scss']
 })
-export class TooltipComponent {
+export class TooltipComponent implements OnInit {
   //
   @Input() model: MainModel;
   public selectedCatalog: Catalog;
 
   constructor(private _inTheSkyService: InTheSkyService) {}
+
+  public ngOnInit(): void {
+    // Empty
+  }
 
   /**
    *

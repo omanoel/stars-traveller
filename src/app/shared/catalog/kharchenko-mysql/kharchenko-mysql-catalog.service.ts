@@ -6,7 +6,12 @@ import { Injectable } from '@angular/core';
 import { MainModel } from '@app/app.model';
 import { ObjectsService } from '@app/three/shared/objects/objects.service';
 
-import { BaseCatalogData, Catalog, CountOfStars, ICatalogService } from '../catalog.model';
+import {
+  BaseCatalogData,
+  Catalog,
+  CountOfStars,
+  ICatalogService
+} from '../catalog.model';
 
 @Injectable({
   providedIn: 'root'

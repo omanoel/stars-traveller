@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MainModel } from '@app/app.model';
 import { PerspectiveCameraService } from '@app/three/shared/perspective-camera/perspective-camera.service';
 import { TrackballControlsService } from '@app/three/shared/trackball-controls/trackball-controls.service';
@@ -14,10 +9,9 @@ import { LoaderService } from '@ui-components/loader';
   selector: 'app-indicators',
   templateUrl: './indicators.component.html',
   styleUrls: ['./indicators.component.scss'],
-  providers: [LoaderService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [LoaderService]
 })
-export class IndicatorsComponent implements OnInit {
+export class IndicatorsComponent implements OnInit, OnDestroy {
   //
   @Input() model: MainModel;
   public target: THREE.Vector3;
@@ -30,6 +24,10 @@ export class IndicatorsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.target = this._trackballControlsService.model.controls.target;
+  }
+
+  public ngOnDestroy(): void {
+    this.model.needRefreshSubject.unsubscribe();
   }
 
   public roundValue(val: number): number {

@@ -1,13 +1,7 @@
 import { Observable } from 'rxjs';
 import * as THREE from 'three';
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MainModel } from '@app/app.model';
 import { environment } from '@env/environment';
@@ -24,8 +18,7 @@ export interface CatalogExt extends Catalog {
 @Component({
   selector: 'app-catalogs',
   templateUrl: './catalogs.component.html',
-  styleUrls: ['./catalogs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./catalogs.component.scss']
 })
 export class CatalogsComponent implements OnInit {
   //
@@ -39,8 +32,7 @@ export class CatalogsComponent implements OnInit {
   constructor(
     public translate: TranslateService,
     private _catalogService: CatalogService,
-    private _targetService: TargetService,
-    private _cdr: ChangeDetectorRef
+    private _targetService: TargetService
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +61,7 @@ export class CatalogsComponent implements OnInit {
       .valueChanges.subscribe((value: boolean) => {
         this.model.showProperMotion = value;
         this.model.changeOnShowProperMotion = true;
+        this.model.needRefreshSubject.next();
       });
     this.catalogsForm.get('catalogFc').valueChanges.subscribe((id: string) => {
       this.model.selectedCatalog = this.model.catalogs.find(
@@ -124,6 +117,7 @@ export class CatalogsComponent implements OnInit {
       objImported.z
     );
     this._targetService.setObjectsOnClick(position);
+    this.model.needRefreshSubject.next();
   }
 
   public goToNextObject(): void {
@@ -139,6 +133,7 @@ export class CatalogsComponent implements OnInit {
       objImported.z
     );
     this._targetService.setObjectsOnClick(position);
+    this.model.needRefreshSubject.next();
   }
 
   public getCurrentId(): string {

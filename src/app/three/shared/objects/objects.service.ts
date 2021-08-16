@@ -9,7 +9,11 @@ import { PerspectiveCameraService } from '../perspective-camera/perspective-came
 import { SceneService } from '../scene/scene.service';
 import { TargetService } from '../target/target.service';
 import { TrackballControlsService } from '../trackball-controls/trackball-controls.service';
-import { Collection3d, commonMaterialHelper, commonMaterialProperMotion } from './objects.model';
+import {
+  Collection3d,
+  commonMaterialHelper,
+  commonMaterialProperMotion
+} from './objects.model';
 import { ShadersConstant } from './shaders.constant';
 
 @Injectable({
@@ -59,6 +63,7 @@ export class ObjectsService {
     const first = mainModel.objectsImported[0];
     const position = new THREE.Vector3(first.x, first.y, first.z);
     this._targetService.setObjectsOnClick(position);
+    mainModel.needRefreshSubject.next();
   }
 
   public addObjectsInScene(): void {
@@ -78,6 +83,11 @@ export class ObjectsService {
   public updateClosestObjects(threeComponentModel: ThreeComponentModel): void {
     if (!this._model.groupOfClosestObjects) {
       return;
+    }
+    if (threeComponentModel.mainModel.showProperMotion) {
+      commonMaterialProperMotion.opacity = 0.5;
+    } else {
+      commonMaterialProperMotion.opacity = 0;
     }
     // this._updateShaderMaterials();
     const nearest = this._getClosestObjectsInFrustum(
@@ -329,7 +339,7 @@ export class ObjectsService {
         commonMaterialHelper
       )
     );
-    if (showProperMotion) {
+    if (near.vx && near.vy && near.vz) {
       sphere.add(
         this._createClosestObjectProperMotion(
           dateMax - ObjectsService.EPOCH,
@@ -346,12 +356,8 @@ export class ObjectsService {
   ): THREE.Line {
     const geometryZ = new THREE.BufferGeometry();
     const positions = new Float32Array(2 * 3); // 3 vertices per point
-    positions[0] = 0;
-    positions[1] = 0;
-    positions[2] = -myPosition.z;
-    positions[3] = 0;
-    positions[4] = 0;
-    positions[5] = 0;
+    positions.set([0, 0, -myPosition.z]);
+    positions.set([0, 0, 0], 3);
     geometryZ.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     return new THREE.Line(geometryZ, material);
   }
@@ -361,21 +367,16 @@ export class ObjectsService {
     near: BaseCatalogData,
     material: THREE.Material
   ): THREE.Line {
-    if (near.vx && near.vy && near.vz) {
-      const geometryZ = new THREE.BufferGeometry();
-      const positions = new Float32Array(2 * 3); // 3 vertices per point
-      positions[0] = 0;
-      positions[1] = 0;
-      positions[2] = 0;
-      positions[3] = period * near.vx;
-      positions[4] = period * near.vy;
-      positions[5] = period * near.vz;
-      geometryZ.setAttribute(
-        'position',
-        new THREE.BufferAttribute(positions, 3)
-      );
-      return new THREE.Line(geometryZ, material);
-    }
+    const geometryZ = new THREE.BufferGeometry();
+    const positions = new Float32Array(2 * 3); // 3 vertices per point
+    positions[0] = 0;
+    positions[1] = 0;
+    positions[2] = 0;
+    positions[3] = period * near.vx;
+    positions[4] = period * near.vy;
+    positions[5] = period * near.vz;
+    geometryZ.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return new THREE.Line(geometryZ, material);
   }
 
   private _getSpectrum(near: BaseCatalogData): string {

@@ -22,7 +22,7 @@ export class OnObjectOverService {
     };
   }
 
-  public update(objectOver: ObjectOver): void {
+  public update(objectOver: ObjectOver, target: THREE.Vector3): void {
     if (!objectOver.objectIntersected) {
       objectOver.objectDisplay.children = [];
       this.previousPosition = new THREE.Vector3(0, 0, 0);
@@ -45,13 +45,10 @@ export class OnObjectOverService {
 
     // Z axis
     const geometryZ = new THREE.BufferGeometry();
-    const positions = new Float32Array(2 * 3); // 3 vertices per point
-    positions[0] = myPosition.x;
-    positions[1] = myPosition.y;
-    positions[2] = myPosition.z;
-    positions[3] = myPosition.x;
-    positions[4] = myPosition.y;
-    positions[5] = 0;
+    const positions = new Float32Array(3 * 3); // 3 vertices per point
+    positions.set([myPosition.x, myPosition.y, 0]);
+    positions.set([myPosition.x, myPosition.y, myPosition.z], 3);
+    positions.set([target.x, target.y, target.z], 6);
     geometryZ.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const lineZ = new THREE.Line(geometryZ, material);
     objectOver.objectDisplay.add(lineZ);

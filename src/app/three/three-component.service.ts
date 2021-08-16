@@ -107,6 +107,7 @@ export class ThreeComponentService {
       this._targetService.setObjectsOnClick(
         threeComponentModel.mainModel.currentIntersected.parent.position
       );
+      threeComponentModel.mainModel.needRefreshSubject.next();
     }
   }
 
@@ -169,7 +170,10 @@ export class ThreeComponentService {
     //
     this._findIntersection(threeComponentModel);
     //
-    this._onObjectOverService.update(threeComponentModel.myObjectOver);
+    this._onObjectOverService.update(
+      threeComponentModel.myObjectOver,
+      this._targetService.model.axesHelper.position
+    );
     //
     threeComponentModel.renderer.render(
       this._sceneService.model,
@@ -202,6 +206,7 @@ export class ThreeComponentService {
         threeComponentModel.mainModel.currentIntersected;
       threeComponentModel.mainModel.lastObjectProperties =
         threeComponentModel.mainModel.currentIntersected.userData.properties;
+      threeComponentModel.mainModel.needRefreshSubject.next();
     } else {
       if (threeComponentModel.mainModel.currentIntersected) {
         threeComponentModel.myObjectOver.objectIntersected = undefined;

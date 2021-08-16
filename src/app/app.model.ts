@@ -22,4 +22,5 @@ export interface MainModel {
   catalogReadySubject: Subject<boolean>;
   currentIntersected: THREE.Object3D;
   menuOptions: MenuComponentOptions;
+  needRefreshSubject: Subject<void>;
 }

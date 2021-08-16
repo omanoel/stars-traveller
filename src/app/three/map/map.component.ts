@@ -1,14 +1,20 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
+import { Vector3 } from 'three';
+import { PerspectiveCameraService } from '../shared/perspective-camera/perspective-camera.service';
 
 import { TargetService } from '../shared/target/target.service';
 import { ThreeComponentModel } from '../three-component.model';
 import { ThreeComponentService } from '../three-component.service';
 
+export enum KEY_CODE {
+  RIGHT_ARROW = 'ArrowRight',
+  LEFT_ARROW = 'ArrowLeft'
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./map.component.scss']
 })
 export class MapComponent {
   private _mouseDown = false;
@@ -16,7 +22,8 @@ export class MapComponent {
 
   constructor(
     private _threeComponentService: ThreeComponentService,
-    private _targetService: TargetService
+    private _targetService: TargetService,
+    private _persectiveCameraService: PerspectiveCameraService
   ) {}
 
   @HostListener('window:resize')
@@ -26,6 +33,31 @@ export class MapComponent {
       window.innerWidth,
       window.innerHeight
     );
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyup(event: KeyboardEvent): void {
+    const rotationalAxis = new Vector3(
+      this._persectiveCameraService.camera.position.x -
+        this._targetService.model.axesHelper.position.x,
+      this._persectiveCameraService.camera.position.y -
+        this._targetService.model.axesHelper.position.y,
+      this._persectiveCameraService.camera.position.z -
+        this._targetService.model.axesHelper.position.z
+    ).normalize();
+    if (event.code === '' + KEY_CODE.RIGHT_ARROW) {
+      this._persectiveCameraService.camera.up.applyAxisAngle(
+        rotationalAxis,
+        -Math.PI / 24
+      );
+    }
+
+    if (event.code === '' + KEY_CODE.LEFT_ARROW) {
+      this._persectiveCameraService.camera.up.applyAxisAngle(
+        rotationalAxis,
+        Math.PI / 24
+      );
+    }
   }
 
   @HostListener('mousemove', ['$event'])

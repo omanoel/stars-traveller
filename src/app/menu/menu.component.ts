@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { MenuComponentOptions } from './menu.component.model';
@@ -6,8 +11,7 @@ import { MenuComponentOptions } from './menu.component.model';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
   @Input() options: MenuComponentOptions;

@@ -1,11 +1,6 @@
 import { Subject } from 'rxjs';
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -18,8 +13,7 @@ import { CatalogService } from './shared/catalog/catalog.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   //
@@ -28,8 +22,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
-    private _catalogService: CatalogService,
-    private _changeDetectorRef: ChangeDetectorRef
+    private _catalogService: CatalogService
   ) {
     translate.setTranslation('en', en);
     translate.setTranslation('fr', fr);
@@ -39,7 +32,7 @@ export class AppComponent implements OnInit {
     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this._mainModel = {
       average: '',
       catalogs: [],
@@ -65,7 +58,8 @@ export class AppComponent implements OnInit {
         displayIndicators: false,
         displayLanguage: false,
         displayTooltip: false
-      }
+      },
+      needRefreshSubject: new Subject()
     };
     this.initComponent();
   }
@@ -94,7 +88,7 @@ export class AppComponent implements OnInit {
       .then(() => {
         this._mainModel.average = '';
         this._mainModel.catalogReadySubject.next(true);
-        this._changeDetectorRef.detectChanges();
+        this._mainModel.needRefreshSubject.next();
       });
   }
 }
