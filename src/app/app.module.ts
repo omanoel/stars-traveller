@@ -1,34 +1,40 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
+import { LoaderModule } from '@ui-components/loader';
 
+import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
-
+import { CatalogsComponent } from './catalogs/catalogs.component';
+import { HelpComponent } from './help/help.component';
+import { IndicatorsComponent } from './indicators/indicators.component';
+import { LanguageComponent } from './language/language.component';
+import { MenuComponent } from './menu/menu.component';
+import { SearchComponent } from './search/search.component';
 import { ThreeModule } from './three/three.module';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { environment } from '@env/environment';
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(httpClient, environment.assetsPath);
-}
+import { TooltipComponent } from './tooltip/tooltip.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    CatalogsComponent,
+    IndicatorsComponent,
+    SearchComponent,
+    TooltipComponent,
+    MenuComponent,
+    LanguageComponent,
+    AboutComponent,
+    HelpComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
+    TranslateModule.forRoot(),
     ThreeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoaderModule
   ],
   providers: [],
   bootstrap: [AppComponent],

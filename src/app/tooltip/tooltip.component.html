@@ -1,0 +1,13 @@
+<div class="tooltip">
+  <div *ngIf="model.lastObjectProperties" class="properties">
+    <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
+      <span class="key" title="{{ prop.tooltip | translate }}">{{
+        prop.key
+      }}</span
+      >:
+      <span class="value">
+        {{ getValue(model.lastObjectProperties, prop) }}
+      </span>
+    </p>
+  </div>
+</div>
