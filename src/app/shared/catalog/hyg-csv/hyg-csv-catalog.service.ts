@@ -1,12 +1,11 @@
-import { Observable, of } from 'rxjs';
-import * as THREE from 'three';
-
+import { from, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { MainModel } from '@app/app.model';
 import { ObjectsService } from '@app/three/shared/objects/objects.service';
 import { environment } from '@env/environment';
 
 import { BaseCatalogData, ICatalogService } from '../catalog.model';
+import { FileLoader } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +32,7 @@ export class HygCsvCatalogService implements ICatalogService {
   public initialize$(mainModel: MainModel): Promise<void> {
     mainModel.average = 'Loading objects...';
     return new Promise((resolve, reject) => {
-      new THREE.FileLoader().load(
+      new FileLoader().load(
         // resource URL
         environment.catalogCsvPath + mainModel.selectedCatalog.url,
 
@@ -76,30 +75,33 @@ export class HygCsvCatalogService implements ICatalogService {
     mainModel.scale = mainModel.selectedCatalog.scale;
     mainModel.errorMessage = null;
     mainModel.average = 'Searching objects...';
-    this.initialize$(mainModel).then(() => {
-      // fill objects
-      mainModel.objectsImported.forEach((item) => {
-        item.plx = 1 / item.dist;
-      });
-      mainModel.filters.forEach((f, k) => {
-        mainModel.objectsImported = mainModel.objectsImported.filter((item) => {
-          let keep = true;
-          if (f[0] != null) {
-            keep = item[k] >= f[0];
-            if (keep && f[1] != null) {
-              keep = item[k] <= f[1];
-            }
-          } else if (f[1] != null) {
-            keep = item[k] <= f[1];
-          }
-
-          return keep;
+    return from(
+      this.initialize$(mainModel).then(() => {
+        // fill objects
+        mainModel.objectsImported.forEach((item) => {
+          item.plx = 1 / item.dist;
         });
-      });
-      // refresh
-      this._objectsService.refreshAfterLoadingCatalog(mainModel);
-    });
-    return of(null);
+        mainModel.filters.forEach((f, k) => {
+          mainModel.objectsImported = mainModel.objectsImported.filter(
+            (item) => {
+              let keep = true;
+              if (f[0] != null) {
+                keep = item[k] >= f[0];
+                if (keep && f[1] != null) {
+                  keep = item[k] <= f[1];
+                }
+              } else if (f[1] != null) {
+                keep = item[k] <= f[1];
+              }
+
+              return keep;
+            }
+          );
+        });
+        // refresh
+        this._objectsService.refreshAfterLoadingCatalog(mainModel);
+      })
+    );
   }
 
   private _transform(data: string): BaseCatalogData[] {

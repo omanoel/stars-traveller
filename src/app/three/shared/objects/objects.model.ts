@@ -1,19 +1,24 @@
-import * as THREE from 'three';
+import {
+  BufferGeometry,
+  LineBasicMaterial,
+  MeshBasicMaterial,
+  Object3D,
+  ShaderMaterial
+} from 'three';
 
 export interface Collection3d {
   nbObjects: number;
-  groupOfClosestObjects: THREE.Object3D;
-  groupOfClosestObjectsHelpers: THREE.Object3D;
-  groupOfClosestObjectsProperMotion: THREE.Object3D;
-  groupOfObjectsGlow: THREE.Object3D;
+  groupOfClosestObjects: Object3D;
+  groupOfClosestObjectsHelpers: Object3D;
+  groupOfClosestObjectsProperMotion: Object3D;
   // all objects as points
-  groupOfObjectsPoints: THREE.Object3D;
-  groupOfObjectsMovement: THREE.Object3D;
-  geometryMovementGlow: THREE.BufferGeometry;
+  groupOfObjectsPoints: Object3D;
+  groupOfObjectsMovement: Object3D;
+  geometryMovementGlow: BufferGeometry;
   loaded: boolean;
   colors: StarColors;
-  basicMaterials: Map<string, THREE.MeshBasicMaterial>;
-  shaderMaterials: Map<string, THREE.ShaderMaterial>;
+  basicMaterials: Map<string, MeshBasicMaterial>;
+  shaderMaterials: Map<string, ShaderMaterial>;
 }
 
 export interface ObjectBase {
@@ -43,13 +48,13 @@ export interface StarColors {
 }
 
 // common material helper
-export const commonMaterialHelper = new THREE.LineBasicMaterial({
+export const commonMaterialHelper = new LineBasicMaterial({
   color: 0xfffff,
   transparent: true,
   opacity: 0.2
 });
 // common material ProperMotion
-export const commonMaterialProperMotion = new THREE.LineBasicMaterial({
+export const commonMaterialProperMotion = new LineBasicMaterial({
   color: 0xcdcd00,
   transparent: true,
   opacity: 0.5

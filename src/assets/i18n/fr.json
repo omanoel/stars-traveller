@@ -16,17 +16,19 @@
     "HELP": "Aide sur la nvigation dans la vue 3D",
     "INDICATORS": "Indication de navigation",
     "CATALOGS": "Catalogues",
-    "HOME": "Stars traveller v 2.0.0",
+    "HOME": "Stars traveller version 2.1.0",
     "LANGUAGE": "Changer de langue",
     "TOOLTIP": "Détails"
   },
   "CATALOGS": {
+    "CLOSEST": "Objet le plus proche",
     "FILTERS": "Afficher modifier les filtres",
-    "GOTO_NEXT": "Voir l'objet suivant",
-    "GOTO_PREVIOUS": "Voir l'objet précédent",
+    "GOTO_CLOSEST": "Aller vers l'objet le plus proche",
+    "GOTO_NEXT": "Aller vers l'objet suivant",
+    "GOTO_PREVIOUS": "Aller vers l'objet précédent",
     "NEXT": "Objet suivant >>",
     "PREVIOUS": "<< Objet précédent",
-    "NEAR_DETECTION": "Distance max des objets proches (en pc)",
+    "NEAR_DETECTION": "voir uniquement les objets proches",
     "SEE_PROPER_MOTION": "Voir le mouvement propre",
     "DATE_MAX": "Date max.",
     "DATE_CURRENT": "Date courante (2000 par défaut)"

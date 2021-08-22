@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
       filters: new Map<string, number[]>(),
       errorMessage: undefined,
       scale: 1,
-      near: 20,
+      near: false,
       indexOfCurrent: 0,
       dateMax: 10000,
       dateCurrent: 2000,
@@ -58,8 +58,7 @@ export class AppComponent implements OnInit {
         displayIndicators: false,
         displayLanguage: false,
         displayTooltip: false
-      },
-      needRefreshSubject: new Subject()
+      }
     };
     this.initComponent();
   }
@@ -88,7 +87,6 @@ export class AppComponent implements OnInit {
       .then(() => {
         this._mainModel.average = '';
         this._mainModel.catalogReadySubject.next(true);
-        this._mainModel.needRefreshSubject.next();
       });
   }
 }

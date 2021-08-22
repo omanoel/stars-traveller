@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 import {
   Component,
   ElementRef,
@@ -11,6 +9,7 @@ import {
 } from '@angular/core';
 import { MainModel } from '@app/app.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Clock, Object3D, WebGLRenderer } from 'three';
 
 import { ThreeComponentModel } from './three-component.model';
 import { ThreeComponentService } from './three-component.service';
@@ -27,11 +26,11 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   initDist: number;
   mouseDown = false;
 
-  clock: THREE.Clock = new THREE.Clock();
+  clock: Clock = new Clock();
 
-  currentIntersected: THREE.Object3D;
+  currentIntersected: Object3D;
 
-  renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
+  renderer: WebGLRenderer = new WebGLRenderer({
     antialias: true
   });
 

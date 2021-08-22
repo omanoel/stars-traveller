@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
 import { MainModel } from '@app/app.model';
 
@@ -12,6 +10,7 @@ import { SceneService } from './shared/scene/scene.service';
 import { TargetService } from './shared/target/target.service';
 import { TrackballControlsService } from './shared/trackball-controls/trackball-controls.service';
 import { ThreeComponentModel } from './three-component.model';
+import { Vector2, Vector3, WebGLRenderer } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -34,13 +33,13 @@ export class ThreeComponentService {
     mainModel: MainModel
   ): ThreeComponentModel {
     return {
-      renderer: new THREE.WebGLRenderer({
+      renderer: new WebGLRenderer({
         antialias: true
       }),
       frameId: null,
       element: element,
       collection3d: null,
-      mouse: new THREE.Vector2(),
+      mouse: new Vector2(),
       myObjectOver: null,
       height: null,
       width: null,
@@ -74,7 +73,7 @@ export class ThreeComponentService {
 
     this._perspectiveCameraService.camera.position.y = 1;
     this._perspectiveCameraService.camera.position.z = 1;
-    //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
+    //this.fog =  new FogExp2( 0xffffff, 0.015 );
     this._sceneService.model.add(this._perspectiveCameraService.camera);
     //
     this._targetService.create(
@@ -84,10 +83,14 @@ export class ThreeComponentService {
     threeComponentModel.myObjectOver = this._onObjectOverService.initialize(
       this._sceneService.model
     );
+    this._objectsService.initialize();
     threeComponentModel.mainModel.catalogReadySubject.subscribe((isReady) => {
       if (isReady) {
         this._afterInitCatalog(threeComponentModel);
       }
+    });
+    this._trackballControlsService.model.target$.subscribe(() => {
+      this._objectsService.refreshShaders();
     });
   }
 
@@ -104,10 +107,9 @@ export class ThreeComponentService {
 
   public gotoTarget(threeComponentModel: ThreeComponentModel): void {
     if (threeComponentModel.mainModel.currentIntersected) {
-      this._targetService.setObjectsOnClick(
+      this._targetService.goToThisPosition(
         threeComponentModel.mainModel.currentIntersected.parent.position
       );
-      threeComponentModel.mainModel.needRefreshSubject.next();
     }
   }
 
@@ -151,14 +153,12 @@ export class ThreeComponentService {
       this._render(threeComponentModel);
     });
     //
-    this._targetService.refreshObjectsOnClick(threeComponentModel);
+    this._targetService.update();
     //
     //
     this._trackballControlsService.updateControls();
     //
     this._referentielService.update();
-    //
-    this._targetService.updateAxesHelper();
     //
     //if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
     this._objectsService.updateClosestObjects(threeComponentModel);
@@ -206,7 +206,6 @@ export class ThreeComponentService {
         threeComponentModel.mainModel.currentIntersected;
       threeComponentModel.mainModel.lastObjectProperties =
         threeComponentModel.mainModel.currentIntersected.userData.properties;
-      threeComponentModel.mainModel.needRefreshSubject.next();
     } else {
       if (threeComponentModel.mainModel.currentIntersected) {
         threeComponentModel.myObjectOver.objectIntersected = undefined;
@@ -216,7 +215,7 @@ export class ThreeComponentService {
   }
 
   private _afterInitCatalog(threeComponentModel: ThreeComponentModel): void {
-    this._objectsService.initialize(
+    this._objectsService.createObjectsAsPoints(
       threeComponentModel.mainModel.objectsImported
     );
     this._objectsService.addObjectsInScene();

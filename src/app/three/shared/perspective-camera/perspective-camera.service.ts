@@ -1,6 +1,5 @@
-import * as THREE from 'three';
-
 import { Injectable, SimpleChanges } from '@angular/core';
+import { PerspectiveCamera, Vector3 } from 'three';
 
 import { ThreeComponentModel } from '../../three-component.model';
 
@@ -14,9 +13,9 @@ export class PerspectiveCameraService {
   private static readonly FAR = 1e12;
   private static readonly DEFAULT_ASPECT = 1;
 
-  public previousPositionOfCamera: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  public previousPositionOfCamera: Vector3 = new Vector3(0, 0, 0);
   public alreadyChecked: boolean;
-  public camera: THREE.PerspectiveCamera;
+  public camera: PerspectiveCamera;
 
   constructor() {
     // Empty
@@ -27,7 +26,7 @@ export class PerspectiveCameraService {
     height: number,
     positions: number[] = [1, 1, 1]
   ): void {
-    this.camera = new THREE.PerspectiveCamera(
+    this.camera = new PerspectiveCamera(
       PerspectiveCameraService.VIEW_ANGLE,
       PerspectiveCameraService.DEFAULT_ASPECT,
       PerspectiveCameraService.NEAR,
@@ -36,7 +35,7 @@ export class PerspectiveCameraService {
     this.camera.translateX(positions[0]);
     this.camera.translateY(positions[1]);
     this.camera.translateZ(positions[2]);
-    this.camera.up = new THREE.Vector3(0, 0, 1);
+    this.camera.up = new Vector3(0, 0, 1);
     this._updateAspect(width, height);
   }
 

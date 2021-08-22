@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import * as THREE from 'three';
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -31,8 +30,7 @@ export class CatalogsComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
-    private _catalogService: CatalogService,
-    private _targetService: TargetService
+    private _catalogService: CatalogService
   ) {}
 
   ngOnInit(): void {
@@ -40,8 +38,7 @@ export class CatalogsComponent implements OnInit {
       catalogFc: new FormControl(
         '' + this.model.selectedCatalog.id,
         Validators.required
-      ),
-      properMotionFc: new FormControl(this.model.showProperMotion)
+      )
     });
     this.model.catalogs.forEach((catalog) => {
       const catalogExt: CatalogExt = { ...catalog, count: 0 };
@@ -56,13 +53,6 @@ export class CatalogsComponent implements OnInit {
       this.catalogsExt.push(catalogExt);
     });
     // subscriptions
-    this.catalogsForm
-      .get('properMotionFc')
-      .valueChanges.subscribe((value: boolean) => {
-        this.model.showProperMotion = value;
-        this.model.changeOnShowProperMotion = true;
-        this.model.needRefreshSubject.next();
-      });
     this.catalogsForm.get('catalogFc').valueChanges.subscribe((id: string) => {
       this.model.selectedCatalog = this.model.catalogs.find(
         (c) => c.id === +id
@@ -102,38 +92,6 @@ export class CatalogsComponent implements OnInit {
   }
   private _count$(catalog: Catalog): Observable<number> {
     return this._catalogService.getCatalogService(catalog).count$(catalog);
-  }
-
-  public goToPreviousObject(): void {
-    if (this.model.indexOfCurrent === 0) {
-      this.model.indexOfCurrent = this.model.objectsImported.length - 1;
-    } else {
-      this.model.indexOfCurrent -= 1;
-    }
-    const objImported = this.model.objectsImported[this.model.indexOfCurrent];
-    const position = new THREE.Vector3(
-      objImported.x,
-      objImported.y,
-      objImported.z
-    );
-    this._targetService.setObjectsOnClick(position);
-    this.model.needRefreshSubject.next();
-  }
-
-  public goToNextObject(): void {
-    if (this.model.indexOfCurrent === this.model.objectsImported.length - 1) {
-      this.model.indexOfCurrent = 0;
-    } else {
-      this.model.indexOfCurrent += 1;
-    }
-    const objImported = this.model.objectsImported[this.model.indexOfCurrent];
-    const position = new THREE.Vector3(
-      objImported.x,
-      objImported.y,
-      objImported.z
-    );
-    this._targetService.setObjectsOnClick(position);
-    this.model.needRefreshSubject.next();
   }
 
   public getCurrentId(): string {
