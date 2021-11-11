@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
       closeToTarget: false,
       closeToTarget$: new Subject(),
       indexOfCurrent: 0,
-      dateMax: 10000,
+      dateMax: 2000,
       dateCurrent: 2000,
       showProperMotion: false,
       changeOnShowProperMotion: false,

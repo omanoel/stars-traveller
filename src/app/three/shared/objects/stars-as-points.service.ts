@@ -31,7 +31,8 @@ export class StarsAsPointsService {
   // ========================================================================
   public createOrUpdate(
     model: Collection3d,
-    objectsImported: BaseCatalogData[]
+    objectsImported: BaseCatalogData[],
+    deltaTimeInYear = 0
   ): void {
     const vertices = [];
     const colors = [];
@@ -39,7 +40,11 @@ export class StarsAsPointsService {
 
     for (let i = 0; i < objectsImported.length; i++) {
       const record = objectsImported[i];
-      vertices.push(record.x, record.y, record.z);
+      vertices.push(
+        record.x + record.vx * deltaTimeInYear,
+        record.y + record.vy * deltaTimeInYear,
+        record.z + record.vz * deltaTimeInYear
+      );
       const color = new Color(model.colors[this._getSpectrum(model, record)]);
       colors.push(color.r, color.g, color.b);
       sizes.push(1);
@@ -66,8 +71,8 @@ export class StarsAsPointsService {
       lightPoints.name = StarsAsPointsService.LIGHT_POINTS;
       model.groupOfObjectsPoints.add(lightPoints);
     } else {
-      (<any>lightPoints).geometry.attributes['position'].needsUpdate = true;
-      (<any>lightPoints).geometry.attributes['position'] =
+      (<Points>lightPoints).geometry.attributes['position'].needsUpdate = true;
+      (<Points>lightPoints).geometry.attributes['position'] =
         new Float32BufferAttribute(vertices, 3);
     }
 
@@ -92,15 +97,15 @@ export class StarsAsPointsService {
       glowPoints.name = StarsAsPointsService.GLOW_POINTS;
       model.groupOfObjectsPoints.add(glowPoints);
     } else {
-      (<any>glowPoints).geometry.attributes['position'] =
+      (<Points>glowPoints).geometry.attributes['position'] =
         new Float32BufferAttribute(vertices, 3);
-      (<any>glowPoints).geometry.attributes['position'].needsUpdate = true;
-      (<any>glowPoints).geometry.attributes['color'] =
+      (<Points>glowPoints).geometry.attributes['position'].needsUpdate = true;
+      (<Points>glowPoints).geometry.attributes['color'] =
         new Float32BufferAttribute(colors, 3);
-      (<any>glowPoints).geometry.attributes['color'].needsUpdate = true;
-      (<any>glowPoints).geometry.attributes['size'] =
+      (<Points>glowPoints).geometry.attributes['color'].needsUpdate = true;
+      (<Points>glowPoints).geometry.attributes['size'] =
         new Float32BufferAttribute(sizes, 1);
-      (<any>glowPoints).geometry.attributes['size'].needsUpdate = true;
+      (<Points>glowPoints).geometry.attributes['size'].needsUpdate = true;
     }
   }
 

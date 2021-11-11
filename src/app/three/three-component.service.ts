@@ -42,8 +42,9 @@ export class ThreeComponentService {
       myObjectOver: null,
       height: null,
       width: null,
-      changeOnShowProperMotion: false,
-      mainModel: mainModel
+      mainModel: mainModel,
+      dateTimeStartLoop: 0,
+      alreadyReset: false
     };
   }
 
@@ -87,9 +88,6 @@ export class ThreeComponentService {
       if (isReady) {
         this._afterInitCatalog(threeComponentModel);
       }
-    });
-    this._trackballControlsService.model.target$.subscribe(() => {
-      this._objectsService.refreshShaders();
     });
     threeComponentModel.mainModel.closeToTarget$.subscribe(
       (isCloseToTarget) => {
@@ -165,7 +163,33 @@ export class ThreeComponentService {
   private _render(threeComponentModel: ThreeComponentModel): void {
     threeComponentModel.frameId = requestAnimationFrame(() => {
       this._render(threeComponentModel);
+      if (threeComponentModel.dateTimeStartLoop === 0) {
+        threeComponentModel.dateTimeStartLoop = new Date().getTime();
+      }
     });
+    const deltaDateTime =
+      new Date().getTime() - threeComponentModel.dateTimeStartLoop;
+    if (threeComponentModel.mainModel.changeOnShowProperMotion) {
+      threeComponentModel.alreadyReset = false;
+      threeComponentModel.mainModel.dateMax += 100;
+      if (deltaDateTime > 1000) {
+        this._objectsService.createStarsAsPoints(
+          threeComponentModel.mainModel.objectsFiltered,
+          threeComponentModel.mainModel.dateMax -
+            threeComponentModel.mainModel.dateCurrent
+        );
+        threeComponentModel.dateTimeStartLoop = 0;
+      }
+    } else {
+      threeComponentModel.mainModel.dateMax =
+        threeComponentModel.mainModel.dateCurrent;
+      if (!threeComponentModel.alreadyReset) {
+        this._objectsService.createStarsAsPoints(
+          threeComponentModel.mainModel.objectsFiltered
+        );
+        threeComponentModel.alreadyReset = true;
+      }
+    }
     //
     this._targetService.update();
     //
@@ -174,10 +198,8 @@ export class ThreeComponentService {
     //
     this._referentielService.update();
     //
-    //if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
     this._objectsService.createOrUpdateStarsCloseCamera(threeComponentModel);
-    //}
-    // this._objectsService.updateMovementObjects(threeComponentModel);
+    //
     if (!threeComponentModel.mainModel.showProperMotion) {
       threeComponentModel.mainModel.dateCurrent = 2000;
     }
@@ -229,11 +251,12 @@ export class ThreeComponentService {
   }
 
   private _afterInitCatalog(threeComponentModel: ThreeComponentModel): void {
+    threeComponentModel.mainModel.objectsFiltered =
+      threeComponentModel.mainModel.objectsImported;
     this._objectsService.createStarsAsPoints(
       threeComponentModel.mainModel.objectsImported
     );
     this._objectsService.addObjectsInScene();
-    // this._objectsService.updateProximityObjects(threeComponentModel);
     this._animate(threeComponentModel);
   }
 }

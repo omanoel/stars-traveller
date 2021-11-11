@@ -31,7 +31,8 @@
     "NEAR_DETECTION": "Voir uniquement les objets proches",
     "SEE_PROPER_MOTION": "Voir le mouvement propre",
     "DATE_MAX": "Date max.",
-    "DATE_CURRENT": "Date courante (2000 par défaut)"
+    "DATE_CURRENT": "Date courante (2000 par défaut)",
+    "TIME_RUNNING": "Faire écouler le temps..."
   },
   "HOME": {
     "SELECT": "Changer de langue"

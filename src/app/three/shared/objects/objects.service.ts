@@ -1,21 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MainModel } from '@app/app.model';
-import {
-  AdditiveBlending,
-  BufferGeometry,
-  MeshBasicMaterial,
-  Object3D,
-  Points,
-  ShaderMaterial,
-  TextureLoader,
-  Vector3
-} from 'three';
+import { MeshBasicMaterial, Object3D, Vector3 } from 'three';
 import { BaseCatalogData } from '../../../shared/catalog/catalog.model';
 import { ThreeComponentModel } from '../../three-component.model';
 import { SceneService } from '../scene/scene.service';
 import { TargetService } from '../target/target.service';
 import { Collection3d } from './objects.model';
-import { ShadersConstant } from './shaders.constant';
 import { StarsAsPointsService } from './stars-as-points.service';
 import { StarsCloseCameraService } from './stars-close-camera.service';
 import { StarsCloseTargetService } from './stars-close-target.service';
@@ -25,12 +15,9 @@ import { StarsCloseTargetService } from './stars-close-target.service';
 })
 export class ObjectsService {
   //
-  private static readonly NEAR_GLOW_POINTS = 'NEAR_GLOW_POINTS';
-
   private _model: Collection3d;
   //
   constructor(
-    private _shadersConstant: ShadersConstant,
     private _targetService: TargetService,
     private _sceneService: SceneService,
     private _starsAsPointsService: StarsAsPointsService,
@@ -101,39 +88,15 @@ export class ObjectsService {
     return this._starsCloseTargetService.filter(threeComponentModel.mainModel);
   }
 
-  public createStarsAsPoints(objectsImported: BaseCatalogData[]): void {
-    this._starsAsPointsService.createOrUpdate(this._model, objectsImported);
-  }
-
-  public refreshShaders(): void {
-    const alreadyGlowPoints = this._model.groupOfClosestObjects.children.find(
-      (c) => c.name === ObjectsService.NEAR_GLOW_POINTS
+  public createStarsAsPoints(
+    objectsImported: BaseCatalogData[],
+    deltaTimeInYear = 0
+  ): void {
+    this._starsAsPointsService.createOrUpdate(
+      this._model,
+      objectsImported,
+      deltaTimeInYear
     );
-    if (alreadyGlowPoints) {
-      this._model.groupOfClosestObjects.remove(alreadyGlowPoints);
-      const geometryGlow = new BufferGeometry();
-      geometryGlow.setAttribute(
-        'position',
-        (<any>alreadyGlowPoints).geometry.getAttribute('position')
-      );
-      geometryGlow.setAttribute(
-        'color',
-        (<any>alreadyGlowPoints).geometry.getAttribute('color')
-      );
-      geometryGlow.setAttribute(
-        'size',
-        (<any>alreadyGlowPoints).geometry.getAttribute('size')
-      );
-      const materialGlow = this._getShaderMaterialForPoint();
-      const glowPoints = new Points(geometryGlow, materialGlow);
-      glowPoints.name = ObjectsService.NEAR_GLOW_POINTS;
-      glowPoints.userData = {
-        properties: {
-          id: -1
-        }
-      };
-      this._model.groupOfClosestObjects.add(glowPoints);
-    }
   }
 
   /**
@@ -159,23 +122,6 @@ export class ObjectsService {
         transparent: true,
         opacity: 0.1
       });
-    });
-  }
-
-  private _getShaderMaterialForPoint(): ShaderMaterial {
-    return new ShaderMaterial({
-      uniforms: {
-        pointTexture: {
-          value: new TextureLoader().load('assets/textures/star_alpha.png')
-        },
-        magnitude: { value: 1.0 }
-      },
-      vertexShader: this._shadersConstant.shaderForPoints().vertex,
-      fragmentShader: this._shadersConstant.shaderForPoints().fragment,
-      blending: AdditiveBlending,
-      depthTest: false,
-      transparent: true,
-      vertexColors: true
     });
   }
 }

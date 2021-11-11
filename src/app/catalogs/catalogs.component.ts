@@ -1,14 +1,11 @@
-import { Observable } from 'rxjs';
-
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MainModel } from '@app/app.model';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-
+import { Observable } from 'rxjs';
 import { Catalog } from '../shared/catalog/catalog.model';
 import { CatalogService } from '../shared/catalog/catalog.service';
-import { TargetService } from '../three/shared/target/target.service';
 
 export interface CatalogExt extends Catalog {
   count: number;

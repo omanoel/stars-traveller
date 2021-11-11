@@ -13,8 +13,9 @@ export interface ThreeComponentModel {
   myObjectOver: ObjectOver;
   height: number;
   width: number;
-  changeOnShowProperMotion: boolean;
   mainModel: MainModel;
+  dateTimeStartLoop: number;
+  alreadyReset: boolean;
 }
 
 export interface ObjectOver {

@@ -19,7 +19,6 @@ import {
   Vector3
 } from 'three';
 import { BaseCatalogData } from '../../../shared/catalog/catalog.model';
-import { ThreeComponentModel } from '../../three-component.model';
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
 import {
   Collection3d,
@@ -33,9 +32,10 @@ import { ShadersConstant } from './shaders.constant';
 })
 export class StarsCloseCameraService {
   //
+  private readonly EPOCH_MAX = 10000;
   private readonly EPOCH = 2000;
   private readonly CLOSEST_DISTANCE = 20;
-  private readonly NEAR_GLOW_POINTS = 'NEAR_GLOW_POINTS';
+  private readonly CLOSE_CAMERA_POINTS = 'CLOSE_CAMERA_POINTS';
   private readonly ATTRIBUTE_POSITION = 'position';
   private readonly ATTRIBUTE_COLOR = 'color';
   private readonly ATTRIBUTE_SIZE = 'size';
@@ -58,7 +58,7 @@ export class StarsCloseCameraService {
       commonMaterialProperMotion.opacity = 0;
     }
     mainModel.objectsNearest = this._getClosestObjectsInFrustum(mainModel);
-    this._updateClosestObjectsAndHelpers(model, mainModel);
+    this._createOrUpdateClosestObjectsAndHelpers(model, mainModel);
   }
 
   private _getClosestObjectsInFrustum(mainModel: MainModel): BaseCatalogData[] {
@@ -84,7 +84,7 @@ export class StarsCloseCameraService {
     return nears;
   }
 
-  private _updateClosestObjectsAndHelpers(
+  private _createOrUpdateClosestObjectsAndHelpers(
     model: Collection3d,
     mainModel: MainModel
   ): void {
@@ -97,19 +97,9 @@ export class StarsCloseCameraService {
     const vertices = [];
     const colors = [];
     const sizes = [];
-    /*
-    if (mainModel.near) {
-      nearest.forEach((record) => {
-        vertices.push(record.x, record.y, record.z);
-        const color = new Color(this._model.colors[this._getSpectrum(record)]);
-        colors.push(color.r, color.g, color.b);
-        sizes.push(1);
-      });
-    }
-    */
     // remove all previous glow points
     const alreadyGlowPoints = model.groupOfClosestObjects.children.find(
-      (c) => c.name === this.NEAR_GLOW_POINTS
+      (c) => c.name === this.CLOSE_CAMERA_POINTS
     );
     if (!alreadyGlowPoints) {
       const geometryGlow = new BufferGeometry();
@@ -127,7 +117,7 @@ export class StarsCloseCameraService {
       );
       const materialGlow = this._getShaderMaterialForPoint();
       const glowPoints = new Points(geometryGlow, materialGlow);
-      glowPoints.name = this.NEAR_GLOW_POINTS;
+      glowPoints.name = this.CLOSE_CAMERA_POINTS;
       glowPoints.userData = {
         properties: {
           id: -1
@@ -135,7 +125,7 @@ export class StarsCloseCameraService {
       };
       model.groupOfClosestObjects.add(glowPoints);
     } else {
-      const geometryGlowPoints = (<any>alreadyGlowPoints).geometry;
+      const geometryGlowPoints = (<Points>alreadyGlowPoints).geometry;
       if (needsUpdate) {
         geometryGlowPoints.setAttribute(
           this.ATTRIBUTE_POSITION,
@@ -149,9 +139,6 @@ export class StarsCloseCameraService {
           this.ATTRIBUTE_SIZE,
           new Float32BufferAttribute(sizes, 1)
         );
-        geometryGlowPoints.verticesNeedUpdate = true;
-      } else {
-        geometryGlowPoints.verticesNeedUpdate = false;
       }
     }
     // remove not in frustum closest objects
@@ -159,7 +146,7 @@ export class StarsCloseCameraService {
       model.groupOfClosestObjects.children.filter(
         (c) =>
           nearestIds.includes(c.userData.properties.id) ||
-          c.name === this.NEAR_GLOW_POINTS
+          c.name === this.CLOSE_CAMERA_POINTS
       );
 
     // add not existing closest objects
@@ -172,9 +159,7 @@ export class StarsCloseCameraService {
         const closest = this._createClosestObjectSphereAndHelper(
           model,
           near,
-          geometrySphere,
-          mainModel.showProperMotion,
-          mainModel.dateMax
+          geometrySphere
         );
         model.groupOfClosestObjects.add(closest);
       }
@@ -184,9 +169,7 @@ export class StarsCloseCameraService {
   private _createClosestObjectSphereAndHelper(
     model: Collection3d,
     near: BaseCatalogData,
-    geometrySphere: SphereBufferGeometry,
-    showProperMotion: boolean,
-    dateMax: number
+    geometrySphere: SphereBufferGeometry
   ): Object3D {
     const sphere = new Object3D();
     sphere.userData.properties = near;
@@ -207,7 +190,7 @@ export class StarsCloseCameraService {
     if (near.vx && near.vy && near.vz) {
       sphere.add(
         this._createClosestObjectProperMotion(
-          dateMax - this.EPOCH,
+          this.EPOCH_MAX - this.EPOCH,
           near,
           commonMaterialProperMotion
         )

@@ -31,7 +31,8 @@
     "NEAR_DETECTION": "See only closest objects",
     "SEE_PROPER_MOTION": "Show proper motion",
     "DATE_MAX": "Max. date",
-    "DATE_CURRENT": "Current date (2000 by default)"
+    "DATE_CURRENT": "Current date (2000 by default)",
+    "TIME_RUNNING": "Time running..."
   },
   "HOME": {
     "SELECT": "Change language"
