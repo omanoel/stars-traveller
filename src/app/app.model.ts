@@ -8,12 +8,15 @@ export interface MainModel {
   average: string;
   catalogs: Catalog[];
   objectsImported: BaseCatalogData[];
+  objectsFiltered: BaseCatalogData[];
+  objectsNearest: BaseCatalogData[];
   selectedCatalog: Catalog;
   showSearch: boolean;
   filters: Map<string, number[]>;
   errorMessage: string;
   scale: number;
-  near: boolean;
+  closeToTarget: boolean;
+  closeToTarget$: Subject<boolean>;
   indexOfCurrent: number;
   dateMax: number;
   dateCurrent: number;

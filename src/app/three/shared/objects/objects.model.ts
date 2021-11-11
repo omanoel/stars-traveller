@@ -7,7 +7,6 @@ import {
 } from 'three';
 
 export interface Collection3d {
-  nbObjects: number;
   groupOfClosestObjects: Object3D;
   groupOfClosestObjectsHelpers: Object3D;
   groupOfClosestObjectsProperMotion: Object3D;

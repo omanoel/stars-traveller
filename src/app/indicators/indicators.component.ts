@@ -6,7 +6,6 @@ import { TargetService } from '@app/three/shared/target/target.service';
 import { TrackballControlsService } from '@app/three/shared/trackball-controls/trackball-controls.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@ui-components/loader';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Vector3 } from 'three';
 
 @Component({
@@ -44,7 +43,7 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
     this.indicatorsForm
       .get('nearDetectionFc')
       .valueChanges.subscribe((value: boolean) => {
-        this.model.near = value;
+        this.model.closeToTarget$.next(value);
       });
   }
 

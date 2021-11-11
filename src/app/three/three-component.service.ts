@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
 import { MainModel } from '@app/app.model';
-
+import { Vector2, WebGLRenderer } from 'three';
 import { ObjectsService } from './shared/objects/objects.service';
 import { OnObjectOverService } from './shared/objects/on-object-over.service';
 import { PerspectiveCameraService } from './shared/perspective-camera/perspective-camera.service';
@@ -10,7 +10,6 @@ import { SceneService } from './shared/scene/scene.service';
 import { TargetService } from './shared/target/target.service';
 import { TrackballControlsService } from './shared/trackball-controls/trackball-controls.service';
 import { ThreeComponentModel } from './three-component.model';
-import { Vector2, Vector3, WebGLRenderer } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +91,21 @@ export class ThreeComponentService {
     this._trackballControlsService.model.target$.subscribe(() => {
       this._objectsService.refreshShaders();
     });
+    threeComponentModel.mainModel.closeToTarget$.subscribe(
+      (isCloseToTarget) => {
+        threeComponentModel.mainModel.closeToTarget = isCloseToTarget;
+        if (isCloseToTarget) {
+          threeComponentModel.mainModel.objectsFiltered =
+            this._objectsService.filterStarsCloseTarget(threeComponentModel);
+        } else {
+          threeComponentModel.mainModel.objectsFiltered =
+            threeComponentModel.mainModel.objectsImported;
+        }
+        this._objectsService.createStarsAsPoints(
+          threeComponentModel.mainModel.objectsFiltered
+        );
+      }
+    );
   }
 
   public resetWidthHeight(
@@ -161,7 +175,7 @@ export class ThreeComponentService {
     this._referentielService.update();
     //
     //if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
-    this._objectsService.updateClosestObjects(threeComponentModel);
+    this._objectsService.createOrUpdateStarsCloseCamera(threeComponentModel);
     //}
     // this._objectsService.updateMovementObjects(threeComponentModel);
     if (!threeComponentModel.mainModel.showProperMotion) {
@@ -215,7 +229,7 @@ export class ThreeComponentService {
   }
 
   private _afterInitCatalog(threeComponentModel: ThreeComponentModel): void {
-    this._objectsService.createObjectsAsPoints(
+    this._objectsService.createStarsAsPoints(
       threeComponentModel.mainModel.objectsImported
     );
     this._objectsService.addObjectsInScene();
