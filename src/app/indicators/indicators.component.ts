@@ -31,10 +31,7 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
     this.target = this._trackballControlsService.model.controls.target;
     this.indicatorsForm = new FormGroup({
       properMotionFc: new FormControl(this.model.showProperMotion),
-      nearDetectionFc: new FormControl(0),
-      changeOnShowProperMotionFc: new FormControl(
-        this.model.changeOnShowProperMotion
-      )
+      nearDetectionFc: new FormControl(0)
     });
     // subscriptions
     this.indicatorsForm
@@ -46,11 +43,6 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
       .get('nearDetectionFc')
       .valueChanges.subscribe((value: boolean) => {
         this.model.closeToTarget$.next(value);
-      });
-    this.indicatorsForm
-      .get('changeOnShowProperMotionFc')
-      .valueChanges.subscribe((value: boolean) => {
-        this.model.changeOnShowProperMotion = value;
       });
   }
 

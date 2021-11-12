@@ -15,6 +15,7 @@ import { MenuComponent } from './menu/menu.component';
 import { SearchComponent } from './search/search.component';
 import { ThreeModule } from './three/three.module';
 import { TooltipComponent } from './tooltip/tooltip.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TooltipComponent } from './tooltip/tooltip.component';
     MenuComponent,
     LanguageComponent,
     AboutComponent,
-    HelpComponent
+    HelpComponent,
+    TimelineComponent
   ],
   imports: [
     BrowserModule,

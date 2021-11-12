@@ -57,8 +57,12 @@ export class StarsCloseCameraService {
     } else {
       commonMaterialProperMotion.opacity = 0;
     }
-    mainModel.objectsNearest = this._getClosestObjectsInFrustum(mainModel);
-    this._createOrUpdateClosestObjectsAndHelpers(model, mainModel);
+    if (mainModel.timeline.deltaEpoch === 0) {
+      mainModel.objectsNearest = this._getClosestObjectsInFrustum(mainModel);
+      this._createOrUpdateClosestObjectsAndHelpers(model, mainModel);
+    } else {
+      model.groupOfClosestObjects.children = [];
+    }
   }
 
   private _getClosestObjectsInFrustum(mainModel: MainModel): BaseCatalogData[] {

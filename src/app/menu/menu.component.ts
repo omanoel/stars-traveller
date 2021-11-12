@@ -51,6 +51,10 @@ export class MenuComponent implements OnInit {
     this.options.displayTooltip = !this.options.displayTooltip;
   }
 
+  public toggleTimeLine(): void {
+    this.options.displayTimeLine = !this.options.displayTimeLine;
+  }
+
   public toggleIndicators(): void {
     this.options.displayIndicators = !this.options.displayIndicators;
   }

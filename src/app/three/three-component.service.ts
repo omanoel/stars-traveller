@@ -145,47 +145,43 @@ export class ThreeComponentService {
   }
 
   private _animate(threeComponentModel: ThreeComponentModel): void {
-    /*
-    requestAnimationFrame(() => this.animate(threeComponentModel));
-    this.render(threeComponentModel);
-    */
-    this._ngZone.runOutsideAngular(() => {
-      if (document.readyState !== 'loading') {
-        this._render(threeComponentModel);
-      } else {
-        window.addEventListener('DOMContentLoaded', () => {
-          this._render(threeComponentModel);
-        });
-      }
-    });
-  }
-
-  private _render(threeComponentModel: ThreeComponentModel): void {
-    threeComponentModel.frameId = requestAnimationFrame(() => {
-      this._render(threeComponentModel);
+    requestAnimationFrame(() => {
+      this._animate(threeComponentModel);
       if (threeComponentModel.dateTimeStartLoop === 0) {
         threeComponentModel.dateTimeStartLoop = new Date().getTime();
       }
     });
+    this._render(threeComponentModel);
+  }
+
+  private _render(threeComponentModel: ThreeComponentModel): void {
     const deltaDateTime =
       new Date().getTime() - threeComponentModel.dateTimeStartLoop;
-    if (threeComponentModel.mainModel.changeOnShowProperMotion) {
+    if (threeComponentModel.mainModel.timeline.displayAnimation) {
       threeComponentModel.alreadyReset = false;
-      threeComponentModel.mainModel.dateMax += 100;
-      if (deltaDateTime > 1000) {
+      threeComponentModel.mainModel.timeline.deltaEpoch +=
+        threeComponentModel.mainModel.timeline.deltaSpeedEpoch * 100;
+      if (deltaDateTime > 40) {
+        threeComponentModel.mainModel.timeline.deltaEpoch$.next(
+          threeComponentModel.mainModel.timeline.deltaEpoch
+        );
         this._objectsService.createStarsAsPoints(
           threeComponentModel.mainModel.objectsFiltered,
-          threeComponentModel.mainModel.dateMax -
-            threeComponentModel.mainModel.dateCurrent
+          threeComponentModel.mainModel.timeline.deltaEpoch
         );
         threeComponentModel.dateTimeStartLoop = 0;
       }
     } else {
-      threeComponentModel.mainModel.dateMax =
-        threeComponentModel.mainModel.dateCurrent;
-      if (!threeComponentModel.alreadyReset) {
+      if (
+        !threeComponentModel.alreadyReset &&
+        threeComponentModel.mainModel.timeline.deltaEpoch === 0
+      ) {
+        threeComponentModel.mainModel.timeline.deltaEpoch$.next(
+          threeComponentModel.mainModel.timeline.deltaEpoch
+        );
         this._objectsService.createStarsAsPoints(
-          threeComponentModel.mainModel.objectsFiltered
+          threeComponentModel.mainModel.objectsFiltered,
+          threeComponentModel.mainModel.timeline.deltaEpoch
         );
         threeComponentModel.alreadyReset = true;
       }
@@ -199,10 +195,6 @@ export class ThreeComponentService {
     this._referentielService.update();
     //
     this._objectsService.createOrUpdateStarsCloseCamera(threeComponentModel);
-    //
-    if (!threeComponentModel.mainModel.showProperMotion) {
-      threeComponentModel.mainModel.dateCurrent = 2000;
-    }
     //
     this._findIntersection(threeComponentModel);
     //

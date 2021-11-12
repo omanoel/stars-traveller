@@ -1,0 +1,33 @@
+<p>{{ 'TIMELINE.CURRENT_EPOCH' | translate }}: {{ currentEpoch }}</p>
+<form [formGroup]="timelineForm">
+  <input
+    type="range"
+    min="0"
+    max="50000"
+    [formControl]="timelineForm.get(DELTA_EPOCH_FC)"
+    step="100"
+  />
+</form>
+<p class="actions">
+  <a (click)="stop()" title="{{ 'TIMELINE.STOP' | translate }}"
+    ><i class="bi bi-stop-btn"></i></a
+  >&nbsp;
+  <a
+    *ngIf="!model.displayAnimation"
+    (click)="play()"
+    title="{{ 'TIMELINE.PLAY' | translate }}"
+    ><i class="bi bi-play-btn"></i
+  ></a>
+  <a
+    *ngIf="model.displayAnimation"
+    (click)="pause()"
+    title="{{ 'TIMELINE.PAUSE' | translate }}"
+    ><i class="bi bi-pause-btn"></i></a
+  >&nbsp;
+  <a (click)="slower()" title="{{ 'TIMELINE.SLOWER' | translate }}"
+    ><i class="bi bi-skip-backward-btn"></i></a
+  >&nbsp;
+  <a (click)="faster()" title="{{ 'TIMELINE.FASTER' | translate }}"
+    ><i class="bi bi-skip-forward-btn"></i
+  ></a>
+</p>

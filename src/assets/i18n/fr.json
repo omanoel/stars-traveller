@@ -18,6 +18,7 @@
     "CATALOGS": "Catalogues",
     "HOME": "Stars traveller version 2.1.0",
     "LANGUAGE": "Changer de langue",
+    "TIMELINE": "Echelle de temps",
     "TOOLTIP": "Détails"
   },
   "CATALOGS": {
@@ -64,6 +65,14 @@
     "PARAM_hd": "Identifiant HD",
     "PARAM_pmra": "Mouvement selon l'ascension droite RA*cos(DE) (0.01mas/an)",
     "PARAM_pmdec": "Mouvement selon la déclinaison (0.01mas/an)"
+  },
+  "TIMELINE": {
+    "CURRENT_EPOCH": "EPOCH courante",
+    "FASTER": "Accélérer le temps",
+    "PAUSE": "Pause",
+    "PLAY": "Lecture",
+    "SLOWER": "Ralentir le temps",
+    "STOP": "Arrêt"
   },
   "NAVIGATE": {
     "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",

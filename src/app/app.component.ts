@@ -47,8 +47,6 @@ export class AppComponent implements OnInit {
       closeToTarget: false,
       closeToTarget$: new Subject(),
       indexOfCurrent: 0,
-      dateMax: 2000,
-      dateCurrent: 2000,
       showProperMotion: false,
       changeOnShowProperMotion: false,
       lastObjectProperties: undefined,
@@ -60,7 +58,15 @@ export class AppComponent implements OnInit {
         displayHelp: false,
         displayIndicators: false,
         displayLanguage: false,
-        displayTooltip: false
+        displayTooltip: false,
+        displayTimeLine: false
+      },
+      timeline: {
+        startEpoch: 2000,
+        deltaEpoch: 0,
+        deltaSpeedEpoch: 1,
+        displayAnimation: false,
+        deltaEpoch$: new Subject()
       }
     };
     this.initComponent();

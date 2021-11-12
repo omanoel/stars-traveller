@@ -72,21 +72,6 @@ export class CatalogsComponent implements OnInit {
     this.model.showSearch = !this.model.showSearch;
   }
 
-  public play(): void {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-      return;
-    }
-    this.interval = setInterval(() => {
-      if (this.model.dateCurrent < this.model.dateMax) {
-        this.model.dateCurrent += 100;
-        this.catalogsForm
-          .get('dateCurrentFc')
-          .setValue(this.model.dateCurrent, { emitEvent: false });
-      }
-    }, 100);
-  }
   private _count$(catalog: Catalog): Observable<number> {
     return this._catalogService.getCatalogService(catalog).count$(catalog);
   }

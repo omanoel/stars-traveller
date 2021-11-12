@@ -3,6 +3,7 @@ import { Object3D } from 'three';
 
 import { MenuComponentOptions } from './menu/menu.component.model';
 import { BaseCatalogData, Catalog } from './shared/catalog/catalog.model';
+import { TimelineModel } from './timeline/timeline.model';
 
 export interface MainModel {
   average: string;
@@ -18,12 +19,11 @@ export interface MainModel {
   closeToTarget: boolean;
   closeToTarget$: Subject<boolean>;
   indexOfCurrent: number;
-  dateMax: number;
-  dateCurrent: number;
   showProperMotion: boolean;
   lastObjectProperties: BaseCatalogData;
   changeOnShowProperMotion: boolean;
   catalogReadySubject: Subject<boolean>;
   currentIntersected: Object3D;
   menuOptions: MenuComponentOptions;
+  timeline: TimelineModel;
 }
