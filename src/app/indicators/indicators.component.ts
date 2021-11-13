@@ -31,7 +31,7 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
     this.target = this._trackballControlsService.model.controls.target;
     this.indicatorsForm = new FormGroup({
       properMotionFc: new FormControl(this.model.showProperMotion),
-      nearDetectionFc: new FormControl(0)
+      nearDetectionFc: new FormControl(this.model.closeToTarget)
     });
     // subscriptions
     this.indicatorsForm
@@ -78,22 +78,27 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
 
   public goToPreviousObject(): void {
     if (this.model.indexOfCurrent === 0) {
-      this.model.indexOfCurrent = this.model.objectsImported.length - 1;
+      this.model.indexOfCurrent = this.model.objectsFiltered.length - 1;
     } else {
       this.model.indexOfCurrent -= 1;
     }
-    const objImported = this.model.objectsImported[this.model.indexOfCurrent];
-    const position = new Vector3(objImported.x, objImported.y, objImported.z);
+    const objectFiltered =
+      this.model.objectsFiltered[this.model.indexOfCurrent];
+    const position = new Vector3(
+      objectFiltered.x,
+      objectFiltered.y,
+      objectFiltered.z
+    );
     this._targetService.goToThisPosition(position);
   }
 
   public goToNextObject(): void {
-    if (this.model.indexOfCurrent === this.model.objectsImported.length - 1) {
+    if (this.model.indexOfCurrent === this.model.objectsFiltered.length - 1) {
       this.model.indexOfCurrent = 0;
     } else {
       this.model.indexOfCurrent += 1;
     }
-    const objImported = this.model.objectsImported[this.model.indexOfCurrent];
+    const objImported = this.model.objectsFiltered[this.model.indexOfCurrent];
     const position = new Vector3(objImported.x, objImported.y, objImported.z);
     this._targetService.goToThisPosition(position);
   }
@@ -102,11 +107,11 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
     const targetPosition = this._targetService.model.axesHelper.position;
     let minimalDistance = Infinity;
     let newPosition: Vector3;
-    this.model.objectsImported.forEach((objectImported, indexOfCurrent) => {
+    this.model.objectsFiltered.forEach((objectFiltered, indexOfCurrent) => {
       const tempPosition = new Vector3(
-        objectImported.x,
-        objectImported.y,
-        objectImported.z
+        objectFiltered.x,
+        objectFiltered.y,
+        objectFiltered.z
       );
       if (
         minimalDistance > tempPosition.distanceTo(targetPosition) &&

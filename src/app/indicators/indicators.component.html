@@ -1,7 +1,7 @@
-<div class="indicators" *ngIf="model.average === '' && model.objectsImported">
+<div class="indicators" *ngIf="model.average === '' && model.objectsFiltered">
   <div class="indicator">
     <p class="count">
-      {{ model.objectsImported.length }}
+      {{ model.objectsFiltered.length }}
       {{ 'INDICATOR.OBJECTS' | translate }}
     </p>
     <p class="navigate">
