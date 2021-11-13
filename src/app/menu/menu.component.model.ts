@@ -5,4 +5,5 @@ export interface MenuComponentOptions {
   displayIndicators: boolean;
   displayLanguage: boolean;
   displayTooltip: boolean;
+  displayTimeLine: boolean;
 }

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { MenuComponentOptions } from './menu.component.model';
@@ -29,6 +24,7 @@ export class MenuComponent implements OnInit {
     this.options.displayHelp = false;
     this.options.displayIndicators = false;
     this.options.displayTooltip = false;
+    this.options.displayTimeLine = false;
   }
 
   public toggleHelp(): void {
@@ -50,10 +46,16 @@ export class MenuComponent implements OnInit {
     this.options.displayLanguage = false;
     this.options.displayHelp = false;
     this.options.displayCatalogs = !this.options.displayCatalogs;
+    this.options.displayTimeLine = false;
   }
 
   public toggleTooltip(): void {
     this.options.displayTooltip = !this.options.displayTooltip;
+  }
+
+  public toggleTimeLine(): void {
+    this.options.displayCatalogs = false;
+    this.options.displayTimeLine = !this.options.displayTimeLine;
   }
 
   public toggleIndicators(): void {

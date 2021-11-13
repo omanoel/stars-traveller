@@ -1,24 +1,24 @@
-import * as THREE from 'three';
-
 import { ElementRef } from '@angular/core';
 import { MainModel } from '@app/app.model';
+import { Object3D, Vector2, WebGLRenderer } from 'three';
 
 import { Collection3d } from './shared/objects/objects.model';
 
 export interface ThreeComponentModel {
   element: ElementRef;
-  renderer: THREE.WebGLRenderer;
+  renderer: WebGLRenderer;
   frameId: number;
   collection3d: Collection3d;
-  mouse: THREE.Vector2;
+  mouse: Vector2;
   myObjectOver: ObjectOver;
   height: number;
   width: number;
-  changeOnShowProperMotion: boolean;
   mainModel: MainModel;
+  dateTimeStartLoop: number;
+  alreadyReset: boolean;
 }
 
 export interface ObjectOver {
-  objectIntersected: THREE.Object3D;
-  objectDisplay: THREE.Object3D;
+  objectIntersected: Object3D;
+  objectDisplay: Object3D;
 }

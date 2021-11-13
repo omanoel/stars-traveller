@@ -1,4 +1,4 @@
-# Stars Traveller
+# Stars Traveller v2.1.0
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
@@ -11,3 +11,14 @@ Run `ng serve` or `npm run start` for a dev server. Navigate to `http://localhos
 Run `ng build` or `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 A demo is accessible at http://manoloexpo.free.fr/__experimentations/stars-traveller/index.html
+
+## Latest evolutions
+
+### V2.1.0
+
+- Add a timeline
+- Represent proper motion by a line from 2 000 (EPOCH) to 10 000
+- Filter stars around the target of the camera
+- Display stars motion
+
+### V2.0.0

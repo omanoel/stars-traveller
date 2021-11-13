@@ -1,8 +1,6 @@
-import * as THREE from 'three';
-
 import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
 import { MainModel } from '@app/app.model';
-
+import { Vector2, WebGLRenderer } from 'three';
 import { ObjectsService } from './shared/objects/objects.service';
 import { OnObjectOverService } from './shared/objects/on-object-over.service';
 import { PerspectiveCameraService } from './shared/perspective-camera/perspective-camera.service';
@@ -34,18 +32,19 @@ export class ThreeComponentService {
     mainModel: MainModel
   ): ThreeComponentModel {
     return {
-      renderer: new THREE.WebGLRenderer({
+      renderer: new WebGLRenderer({
         antialias: true
       }),
       frameId: null,
       element: element,
       collection3d: null,
-      mouse: new THREE.Vector2(),
+      mouse: new Vector2(),
       myObjectOver: null,
       height: null,
       width: null,
-      changeOnShowProperMotion: false,
-      mainModel: mainModel
+      mainModel: mainModel,
+      dateTimeStartLoop: 0,
+      alreadyReset: false
     };
   }
 
@@ -74,7 +73,7 @@ export class ThreeComponentService {
 
     this._perspectiveCameraService.camera.position.y = 1;
     this._perspectiveCameraService.camera.position.z = 1;
-    //this.fog =  new THREE.FogExp2( 0xffffff, 0.015 );
+    //this.fog =  new FogExp2( 0xffffff, 0.015 );
     this._sceneService.model.add(this._perspectiveCameraService.camera);
     //
     this._targetService.create(
@@ -84,11 +83,27 @@ export class ThreeComponentService {
     threeComponentModel.myObjectOver = this._onObjectOverService.initialize(
       this._sceneService.model
     );
+    this._objectsService.initialize();
     threeComponentModel.mainModel.catalogReadySubject.subscribe((isReady) => {
       if (isReady) {
         this._afterInitCatalog(threeComponentModel);
       }
     });
+    threeComponentModel.mainModel.closeToTarget$.subscribe(
+      (isCloseToTarget) => {
+        threeComponentModel.mainModel.closeToTarget = isCloseToTarget;
+        if (isCloseToTarget) {
+          threeComponentModel.mainModel.objectsFiltered =
+            this._objectsService.filterStarsCloseTarget(threeComponentModel);
+        } else {
+          threeComponentModel.mainModel.objectsFiltered =
+            threeComponentModel.mainModel.objectsImported;
+        }
+        this._objectsService.createStarsAsPoints(
+          threeComponentModel.mainModel.objectsFiltered
+        );
+      }
+    );
   }
 
   public resetWidthHeight(
@@ -104,10 +119,9 @@ export class ThreeComponentService {
 
   public gotoTarget(threeComponentModel: ThreeComponentModel): void {
     if (threeComponentModel.mainModel.currentIntersected) {
-      this._targetService.setObjectsOnClick(
+      this._targetService.goToThisPosition(
         threeComponentModel.mainModel.currentIntersected.parent.position
       );
-      threeComponentModel.mainModel.needRefreshSubject.next();
     }
   }
 
@@ -131,42 +145,56 @@ export class ThreeComponentService {
   }
 
   private _animate(threeComponentModel: ThreeComponentModel): void {
-    /*
-    requestAnimationFrame(() => this.animate(threeComponentModel));
-    this.render(threeComponentModel);
-    */
-    this._ngZone.runOutsideAngular(() => {
-      if (document.readyState !== 'loading') {
-        this._render(threeComponentModel);
-      } else {
-        window.addEventListener('DOMContentLoaded', () => {
-          this._render(threeComponentModel);
-        });
+    requestAnimationFrame(() => {
+      this._animate(threeComponentModel);
+      if (threeComponentModel.dateTimeStartLoop === 0) {
+        threeComponentModel.dateTimeStartLoop = new Date().getTime();
       }
     });
+    this._render(threeComponentModel);
   }
 
   private _render(threeComponentModel: ThreeComponentModel): void {
-    threeComponentModel.frameId = requestAnimationFrame(() => {
-      this._render(threeComponentModel);
-    });
+    const deltaDateTime =
+      new Date().getTime() - threeComponentModel.dateTimeStartLoop;
+    if (threeComponentModel.mainModel.timeline.displayAnimation) {
+      threeComponentModel.alreadyReset = false;
+      threeComponentModel.mainModel.timeline.deltaEpoch +=
+        threeComponentModel.mainModel.timeline.deltaSpeedEpoch * 100;
+      if (deltaDateTime > 40) {
+        threeComponentModel.mainModel.timeline.deltaEpoch$.next(
+          threeComponentModel.mainModel.timeline.deltaEpoch
+        );
+        this._objectsService.createStarsAsPoints(
+          threeComponentModel.mainModel.objectsFiltered,
+          threeComponentModel.mainModel.timeline.deltaEpoch
+        );
+        threeComponentModel.dateTimeStartLoop = 0;
+      }
+    } else {
+      if (
+        !threeComponentModel.alreadyReset &&
+        threeComponentModel.mainModel.timeline.deltaEpoch === 0
+      ) {
+        threeComponentModel.mainModel.timeline.deltaEpoch$.next(
+          threeComponentModel.mainModel.timeline.deltaEpoch
+        );
+        this._objectsService.createStarsAsPoints(
+          threeComponentModel.mainModel.objectsFiltered,
+          threeComponentModel.mainModel.timeline.deltaEpoch
+        );
+        threeComponentModel.alreadyReset = true;
+      }
+    }
     //
-    this._targetService.refreshObjectsOnClick(threeComponentModel);
+    this._targetService.update();
     //
     //
     this._trackballControlsService.updateControls();
     //
     this._referentielService.update();
     //
-    this._targetService.updateAxesHelper();
-    //
-    //if (!this._perspectiveCameraService.isMoving(threeComponentModel)) {
-    this._objectsService.updateClosestObjects(threeComponentModel);
-    //}
-    // this._objectsService.updateMovementObjects(threeComponentModel);
-    if (!threeComponentModel.mainModel.showProperMotion) {
-      threeComponentModel.mainModel.dateCurrent = 2000;
-    }
+    this._objectsService.createOrUpdateStarsCloseCamera(threeComponentModel);
     //
     this._findIntersection(threeComponentModel);
     //
@@ -206,7 +234,6 @@ export class ThreeComponentService {
         threeComponentModel.mainModel.currentIntersected;
       threeComponentModel.mainModel.lastObjectProperties =
         threeComponentModel.mainModel.currentIntersected.userData.properties;
-      threeComponentModel.mainModel.needRefreshSubject.next();
     } else {
       if (threeComponentModel.mainModel.currentIntersected) {
         threeComponentModel.myObjectOver.objectIntersected = undefined;
@@ -216,11 +243,12 @@ export class ThreeComponentService {
   }
 
   private _afterInitCatalog(threeComponentModel: ThreeComponentModel): void {
-    this._objectsService.initialize(
+    threeComponentModel.mainModel.objectsFiltered =
+      threeComponentModel.mainModel.objectsImported;
+    this._objectsService.createStarsAsPoints(
       threeComponentModel.mainModel.objectsImported
     );
     this._objectsService.addObjectsInScene();
-    // this._objectsService.updateProximityObjects(threeComponentModel);
     this._animate(threeComponentModel);
   }
 }

@@ -1,20 +1,61 @@
-<div class="indicators" *ngIf="model.average === '' && model.objectsImported">
-  <div class="expanded">
-    <p>
-      {{ 'INDICATOR.DISTANCE_TO_HELPER' | translate }}:
-      {{ distanceToTarget() }} parsecs
-    </p>
-    <p>
-      {{ 'INDICATOR.DISTANCE_TO_LAST_OBJECT' | translate }}:
-      {{ distanceToLastObject() }} parsecs
-    </p>
-    <p>
-      {{ 'INDICATOR.HELPER_COORDS' | translate }} x:
-      {{ roundValue(target.x) }} / y: {{ roundValue(target.y) }} / z:
-      {{ roundValue(target.z) }}
-    </p>
+<div class="indicators" *ngIf="model.average === '' && model.objectsFiltered">
+  <div class="indicator">
     <p class="count">
-      {{ model.objectsImported.length }} {{ 'INDICATOR.OBJECTS' | translate }}
+      {{ model.objectsFiltered.length }}
+      {{ 'INDICATOR.OBJECTS' | translate }}
     </p>
+    <p class="navigate">
+      <a
+        (click)="goToPreviousObject()"
+        title="{{ 'CATALOGS.GOTO_PREVIOUS' | translate }}"
+      >
+        {{ 'CATALOGS.PREVIOUS' | translate }}</a
+      >&nbsp;&nbsp;
+      <a
+        (click)="goToClosestObject()"
+        title="{{ 'CATALOGS.GOTO_CLOSEST' | translate }}"
+        >{{ 'CATALOGS.CLOSEST' | translate }} </a
+      >&nbsp;&nbsp;
+      <a
+        (click)="goToNextObject()"
+        title="{{ 'CATALOGS.GOTO_NEXT' | translate }}"
+        >{{ 'CATALOGS.NEXT' | translate }}
+      </a>
+    </p>
+  </div>
+  <div class="indicator">
+    {{ 'INDICATOR.DISTANCE_TO_HELPER' | translate }}:
+    {{ distanceToTarget() }} parsecs<br />
+    {{ 'INDICATOR.DISTANCE_TO_LAST_OBJECT' | translate }}:
+    {{ distanceToLastObject() }} parsecs<br />
+    {{ 'INDICATOR.HELPER_COORDS' | translate }} x: {{ roundValue(target.x) }} /
+    y: {{ roundValue(target.y) }} / z:
+    {{ roundValue(target.z) }}
+  </div>
+  <div class="indicator">
+    <form [formGroup]="indicatorsForm">
+      <div>
+        <input
+          id="proper-motion"
+          type="checkbox"
+          class="custom-control-input"
+          formControlName="properMotionFc"
+        />
+        <label class="custom-control-label" for="proper-motion">
+          {{ 'CATALOGS.SEE_PROPER_MOTION' | translate }}</label
+        >
+      </div>
+      <div>
+        <input
+          id="near-detection"
+          type="checkbox"
+          class="custom-control-input"
+          formControlName="nearDetectionFc"
+        />
+        <label class="custom-control-label" for="near-detection">
+          {{ 'CATALOGS.NEAR_DETECTION' | translate }}</label
+        >
+      </div>
+    </form>
   </div>
 </div>

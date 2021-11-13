@@ -16,20 +16,24 @@
     "HELP": "Aide sur la nvigation dans la vue 3D",
     "INDICATORS": "Indication de navigation",
     "CATALOGS": "Catalogues",
-    "HOME": "Stars traveller v 2.0.0",
+    "HOME": "Stars traveller version 2.1.0",
     "LANGUAGE": "Changer de langue",
+    "TIMELINE": "Echelle de temps",
     "TOOLTIP": "Détails"
   },
   "CATALOGS": {
+    "CLOSEST": "Objet le plus proche",
     "FILTERS": "Afficher modifier les filtres",
-    "GOTO_NEXT": "Voir l'objet suivant",
-    "GOTO_PREVIOUS": "Voir l'objet précédent",
+    "GOTO_CLOSEST": "Aller vers l'objet le plus proche",
+    "GOTO_NEXT": "Aller vers l'objet suivant",
+    "GOTO_PREVIOUS": "Aller vers l'objet précédent",
     "NEXT": "Objet suivant >>",
     "PREVIOUS": "<< Objet précédent",
-    "NEAR_DETECTION": "Distance max des objets proches (en pc)",
+    "NEAR_DETECTION": "Voir uniquement les objets proches",
     "SEE_PROPER_MOTION": "Voir le mouvement propre",
     "DATE_MAX": "Date max.",
-    "DATE_CURRENT": "Date courante (2000 par défaut)"
+    "DATE_CURRENT": "Date courante (2000 par défaut)",
+    "TIME_RUNNING": "Faire écouler le temps..."
   },
   "HOME": {
     "SELECT": "Changer de langue"
@@ -61,6 +65,14 @@
     "PARAM_hd": "Identifiant HD",
     "PARAM_pmra": "Mouvement selon l'ascension droite RA*cos(DE) (0.01mas/an)",
     "PARAM_pmdec": "Mouvement selon la déclinaison (0.01mas/an)"
+  },
+  "TIMELINE": {
+    "CURRENT_EPOCH": "EPOCH courante",
+    "FASTER": "Accélérer le temps",
+    "PAUSE": "Pause",
+    "PLAY": "Lecture",
+    "SLOWER": "Ralentir le temps",
+    "STOP": "Arrêt"
   },
   "NAVIGATE": {
     "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",

@@ -1,29 +1,53 @@
 :host {
-  width: 50%;
   padding: 5px;
-}
-
-.indicators {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.6);
   min-height: 20px;
+}
 
-  .expanded {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-  }
+.indicators {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
 
-  p {
+  .indicator {
     flex: 1;
     text-align: center;
     min-width: 200px;
-    padding: 0;
 
-    &.count {
-      font-size: 14px;
+    p {
+      padding: 0;
+
+      &.count {
+        font-size: 14px;
+        line-height: 18px;
+      }
+
+      &.navigate {
+        a {
+          cursor: pointer;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          padding: 3px;
+
+          &:hover {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.3);
+          }
+        }
+      }
+    }
+
+    .custom-control-label {
+      font-size: 12px;
+      cursor: pointer;
+      margin-right: 24px;
+    }
+
+    .custom-control-input[type='number'] {
+      width: 36px;
     }
   }
 }

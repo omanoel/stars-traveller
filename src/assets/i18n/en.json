@@ -16,20 +16,24 @@
     "HELP": "Help on how to navigate in 3D view",
     "INDICATORS": "Navigation parameters",
     "CATALOGS": "Catalogs",
-    "HOME": "Stars traveller v 2.0.0",
+    "HOME": "Stars traveller version 2.1.0",
     "LANGUAGE": "Change language",
+    "TIMELINE": "Timeline",
     "TOOLTIP": "Star details"
   },
   "CATALOGS": {
+    "CLOSEST": "Closest object",
     "FILTERS": "Show / modify filters",
-    "GOTO_NEXT": "See next object",
-    "GOTO_PREVIOUS": "See previous object",
+    "GOTO_CLOSEST": "Go to closest approach",
+    "GOTO_NEXT": "Go to next object",
+    "GOTO_PREVIOUS": "Go to previous object",
     "NEXT": "Next object >>",
     "PREVIOUS": "<< Previous object",
-    "NEAR_DETECTION": "Distance max for near objects (in pc)",
+    "NEAR_DETECTION": "See only closest objects",
     "SEE_PROPER_MOTION": "Show proper motion",
     "DATE_MAX": "Max. date",
-    "DATE_CURRENT": "Current date (2000 by default)"
+    "DATE_CURRENT": "Current date (2000 by default)",
+    "TIME_RUNNING": "Time running..."
   },
   "HOME": {
     "SELECT": "Change language"
@@ -61,6 +65,14 @@
     "PARAM_hd": "HD number",
     "PARAM_pmra": "Proper Motion in RA*cos(DE) (0.01mas/yr)",
     "PARAM_pmdec": "Proper Motion in Declination (0.01mas/yr)"
+  },
+  "TIMELINE": {
+    "CURRENT_EPOCH": "Current EPOCH",
+    "FASTER": "Go faster",
+    "PAUSE": "Pause",
+    "PLAY": "Play",
+    "SLOWER": "Go slower",
+    "STOP": "Stop"
   },
   "NAVIGATE": {
     "ROTATE": "Left mouse click and drag for rotation around the target",

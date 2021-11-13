@@ -1,6 +1,12 @@
-import * as THREE from 'three';
-
 import { Injectable } from '@angular/core';
+import {
+  BufferAttribute,
+  BufferGeometry,
+  EllipseCurve,
+  Line,
+  LineBasicMaterial,
+  Vector3
+} from 'three';
 
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
 import { SceneService } from '../scene/scene.service';
@@ -29,7 +35,7 @@ export class ReferentielService {
   public initialize(): void {
     const color = 0xffffff;
     const distance = this._perspectiveCameraService.camera.position.distanceTo(
-      new THREE.Vector3(0, 0, 0)
+      new Vector3(0, 0, 0)
     );
     this._model = {
       distReference: distance,
@@ -39,7 +45,7 @@ export class ReferentielService {
 
   public update(): void {
     const dist = this._perspectiveCameraService.camera.position.distanceTo(
-      new THREE.Vector3(0, 0, 0)
+      new Vector3(0, 0, 0)
     );
     if (dist > this._model.distReference * (ReferentielService.FACTOR - 1)) {
       this._model.distReference = dist;
@@ -61,24 +67,24 @@ export class ReferentielService {
     }
   }
 
-  private _buildObjects(color: number, distance: number): THREE.Line[] {
-    const objects: THREE.Line[] = [];
+  private _buildObjects(color: number, distance: number): Line[] {
+    const objects: Line[] = [];
     this._buildLinesXY(objects, color, distance);
     this._buildEllipsesOnXY(objects, color, distance);
     return objects;
   }
 
   private _buildLinesXY(
-    objects: THREE.Line[],
+    objects: Line[],
     color: number,
     distance: number
   ): void {
-    const materialMajor = new THREE.LineBasicMaterial({
+    const materialMajor = new LineBasicMaterial({
       color: color,
       transparent: true,
       opacity: 0.2
     });
-    const materialMinor = new THREE.LineBasicMaterial({
+    const materialMinor = new LineBasicMaterial({
       color: color,
       transparent: true,
       opacity: 0.1
@@ -91,12 +97,12 @@ export class ReferentielService {
   }
 
   private _buildLine(
-    objects: THREE.Line[],
-    material: THREE.LineBasicMaterial,
+    objects: Line[],
+    material: LineBasicMaterial,
     angle: number,
     distance: number
   ): void {
-    const geometryX = new THREE.BufferGeometry();
+    const geometryX = new BufferGeometry();
     const positions = new Float32Array(2 * 3); // 3 vertices per point
     positions[0] = -distance * Math.cos(angle);
     positions[1] = -distance * Math.sin(angle);
@@ -104,19 +110,19 @@ export class ReferentielService {
     positions[3] = distance * Math.cos(angle);
     positions[4] = distance * Math.sin(angle);
     positions[5] = 0;
-    geometryX.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    objects.push(new THREE.Line(geometryX, material));
+    geometryX.setAttribute('position', new BufferAttribute(positions, 3));
+    objects.push(new Line(geometryX, material));
   }
 
   private _buildEllipsesOnXY(
-    objects: THREE.Line[],
+    objects: Line[],
     color: number,
     distance: number
   ): void {
     for (let i = 1; i < ReferentielService.COUNT; i++) {
       const radius =
         (distance * i * ReferentielService.FACTOR) / ReferentielService.COUNT;
-      const curve = new THREE.EllipseCurve(
+      const curve = new EllipseCurve(
         0,
         0, // ax, aY
         radius,
@@ -127,18 +133,16 @@ export class ReferentielService {
         0 // aRotation
       );
 
-      // const path = new THREE.Path(curve.getPoints(50));
-      const geometry = new THREE.BufferGeometry().setFromPoints(
-        curve.getPoints(50)
-      );
-      const material = new THREE.LineBasicMaterial({
+      // const path = new Path(curve.getPoints(50));
+      const geometry = new BufferGeometry().setFromPoints(curve.getPoints(50));
+      const material = new LineBasicMaterial({
         color: color,
         transparent: true,
         opacity: 0.3 / i
       });
 
       // Create the final object to add to the scene
-      objects.push(new THREE.Line(geometry, material));
+      objects.push(new Line(geometry, material));
     }
   }
 }

@@ -29,3 +29,7 @@
 <app-language *ngIf="mainModel.menuOptions.displayLanguage"></app-language>
 <app-about *ngIf="mainModel.menuOptions.displayAbout"></app-about>
 <app-help *ngIf="mainModel.menuOptions.displayHelp"></app-help>
+<app-timeline
+  [model]="mainModel.timeline"
+  *ngIf="mainModel.menuOptions.displayTimeLine"
+></app-timeline>

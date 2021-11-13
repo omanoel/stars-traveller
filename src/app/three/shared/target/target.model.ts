@@ -1,7 +1,9 @@
+import { AxesHelper, Vector3 } from 'three';
+
 export interface TargetModel {
-  axesHelper: THREE.AxesHelper;
-  ratio: number;
-  targetOnClick: THREE.Vector3;
-  cameraOnClick: THREE.Vector3;
+  axesHelper: AxesHelper;
+  distanceCameraTarget: number;
+  targetOnClick: Vector3;
+  cameraOnClick: Vector3;
   stepper: number;
 }

@@ -1,11 +1,11 @@
 import { Subject } from 'rxjs';
-import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
 import { Injectable } from '@angular/core';
 
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
 import { TrackballControlsModel } from './trackball-controls.model';
+import { Vector3 } from 'three';
 
 @Injectable({ providedIn: 'root' })
 export class TrackballControlsService {
@@ -18,7 +18,7 @@ export class TrackballControlsService {
       controls: null,
       enabled: true,
       eventControls: null,
-      target$: new Subject<THREE.Vector3>()
+      target$: new Subject<Vector3>()
     };
   }
 
@@ -34,7 +34,7 @@ export class TrackballControlsService {
     this._model.controls.enabled = this._model.enabled;
     this._model.controls.addEventListener('end', () => {
       // this._starsService.updateProximityStars(threeComponentModel);
-      this._model.target$.next(this._model.controls.target);
+      // this._model.target$.next(this._model.controls.target);
     });
   }
 

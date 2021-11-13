@@ -13,7 +13,8 @@
   app-indicators {
     position: absolute;
     bottom: 5px;
-    left: 25%;
+    left: 5%;
+    width: 90%;
   }
 
   app-menu {
@@ -47,6 +48,13 @@
     position: absolute;
     right: 0px;
     top: 0px;
+  }
+
+  app-timeline {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    width: 50%;
   }
 
   ui-loader {

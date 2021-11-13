@@ -37,15 +37,16 @@ export class AppComponent implements OnInit {
       average: '',
       catalogs: [],
       objectsImported: [],
+      objectsFiltered: [],
+      objectsNearest: [],
       selectedCatalog: undefined,
       showSearch: false,
       filters: new Map<string, number[]>(),
       errorMessage: undefined,
       scale: 1,
-      near: 20,
+      closeToTarget: false,
+      closeToTarget$: new Subject(),
       indexOfCurrent: 0,
-      dateMax: 10000,
-      dateCurrent: 2000,
       showProperMotion: false,
       changeOnShowProperMotion: false,
       lastObjectProperties: undefined,
@@ -57,9 +58,16 @@ export class AppComponent implements OnInit {
         displayHelp: false,
         displayIndicators: false,
         displayLanguage: false,
-        displayTooltip: false
+        displayTooltip: false,
+        displayTimeLine: false
       },
-      needRefreshSubject: new Subject()
+      timeline: {
+        startEpoch: 2000,
+        deltaEpoch: 0,
+        deltaSpeedEpoch: 1,
+        displayAnimation: false,
+        deltaEpoch$: new Subject()
+      }
     };
     this.initComponent();
   }
@@ -88,7 +96,6 @@ export class AppComponent implements OnInit {
       .then(() => {
         this._mainModel.average = '';
         this._mainModel.catalogReadySubject.next(true);
-        this._mainModel.needRefreshSubject.next();
       });
   }
 }

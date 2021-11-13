@@ -1,4 +1,6 @@
+import { Line } from 'three';
+
 export interface ReferentielModel {
-  objects: THREE.Line[];
+  objects: Line[];
   distReference: number;
 }
