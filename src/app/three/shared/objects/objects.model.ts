@@ -58,3 +58,8 @@ export const commonMaterialProperMotion = new LineBasicMaterial({
   transparent: true,
   opacity: 0.5
 });
+
+export const ATTRIBUTE_POSITION = 'position';
+export const ATTRIBUTE_COLOR = 'color';
+export const ATTRIBUTE_SIZE = 'size';
+export const ATTRIBUTE_ABSMAG = 'absmag';

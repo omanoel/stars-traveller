@@ -246,7 +246,7 @@ export class ThreeComponentService {
     threeComponentModel.mainModel.objectsFiltered =
       threeComponentModel.mainModel.objectsImported;
     this._objectsService.createStarsAsPoints(
-      threeComponentModel.mainModel.objectsImported
+      threeComponentModel.mainModel.objectsFiltered
     );
     this._objectsService.addObjectsInScene();
     this._animate(threeComponentModel);

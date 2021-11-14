@@ -89,12 +89,12 @@ export class ObjectsService {
   }
 
   public createStarsAsPoints(
-    objectsImported: BaseCatalogData[],
+    objectsFiltered: BaseCatalogData[],
     deltaTimeInYear = 0
   ): void {
     this._starsAsPointsService.createOrUpdate(
       this._model,
-      objectsImported,
+      objectsFiltered,
       deltaTimeInYear
     );
   }

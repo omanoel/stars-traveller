@@ -45,8 +45,11 @@ export class ShadersConstant {
   shaderForPoints(): ShaderModel {
     const vertexShader = `
     attribute float size;
+    attribute float absmag;
     varying vec3 vColor;
+    varying float fAbsmag;
     void main() {
+      fAbsmag = absmag;
       vColor = color;
       vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
       gl_PointSize =  size * 500.0 / -mvPosition.z;
@@ -55,10 +58,10 @@ export class ShadersConstant {
 
     const fragmentShader = `
     uniform sampler2D pointTexture;
-    uniform float magnitude;
+    varying float fAbsmag;
     varying vec3 vColor;
     void main() {
-      gl_FragColor = vec4( vColor, magnitude );
+      gl_FragColor = vec4( vColor, fAbsmag );
       gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
     }`;
     return {

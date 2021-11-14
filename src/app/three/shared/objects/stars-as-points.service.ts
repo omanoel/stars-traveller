@@ -10,7 +10,13 @@ import {
   TextureLoader
 } from 'three';
 import { BaseCatalogData } from '../../../shared/catalog/catalog.model';
-import { Collection3d } from './objects.model';
+import {
+  ATTRIBUTE_ABSMAG,
+  ATTRIBUTE_COLOR,
+  ATTRIBUTE_POSITION,
+  ATTRIBUTE_SIZE,
+  Collection3d
+} from './objects.model';
 import { ShadersConstant } from './shaders.constant';
 
 @Injectable({
@@ -31,15 +37,16 @@ export class StarsAsPointsService {
   // ========================================================================
   public createOrUpdate(
     model: Collection3d,
-    objectsImported: BaseCatalogData[],
+    objectsFiltered: BaseCatalogData[],
     deltaTimeInYear = 0
   ): void {
     const vertices = [];
     const colors = [];
     const sizes = [];
+    const absmags = [];
 
-    for (let i = 0; i < objectsImported.length; i++) {
-      const record = objectsImported[i];
+    for (let i = 0; i < objectsFiltered.length; i++) {
+      const record = objectsFiltered[i];
       vertices.push(
         record.x + record.vx * deltaTimeInYear,
         record.y + record.vy * deltaTimeInYear,
@@ -47,13 +54,15 @@ export class StarsAsPointsService {
       );
       const color = new Color(model.colors[this._getSpectrum(model, record)]);
       colors.push(color.r, color.g, color.b);
-      sizes.push(1);
+      const mag = this._computeMagnitude(record.absmag);
+      sizes.push(mag);
+      absmags.push(mag);
     }
 
     // Light points
     const geometryLight = new BufferGeometry();
     geometryLight.setAttribute(
-      'position',
+      ATTRIBUTE_POSITION,
       new Float32BufferAttribute(vertices, 3)
     );
     const materialLight = new PointsMaterial({
@@ -71,22 +80,35 @@ export class StarsAsPointsService {
       lightPoints.name = StarsAsPointsService.LIGHT_POINTS;
       model.groupOfObjectsPoints.add(lightPoints);
     } else {
-      (<Points>lightPoints).geometry.attributes['position'].needsUpdate = true;
-      (<Points>lightPoints).geometry.attributes['position'] =
+      (<Points>lightPoints).geometry.attributes[
+        ATTRIBUTE_POSITION
+      ].needsUpdate = true;
+      (<Points>lightPoints).geometry.attributes[ATTRIBUTE_POSITION] =
         new Float32BufferAttribute(vertices, 3);
     }
 
     // Glow points (for stars catalog only)
     const geometryGlow = new BufferGeometry();
     geometryGlow.setAttribute(
-      'position',
+      ATTRIBUTE_POSITION,
       new Float32BufferAttribute(vertices, 3)
     );
-    geometryGlow.attributes['position'].needsUpdate = true;
-    geometryGlow.setAttribute('color', new Float32BufferAttribute(colors, 3));
-    geometryGlow.attributes['color'].needsUpdate = true;
-    geometryGlow.setAttribute('size', new Float32BufferAttribute(sizes, 1));
-    geometryGlow.attributes['size'].needsUpdate = true;
+    geometryGlow.attributes[ATTRIBUTE_POSITION].needsUpdate = true;
+    geometryGlow.setAttribute(
+      ATTRIBUTE_COLOR,
+      new Float32BufferAttribute(colors, 3)
+    );
+    geometryGlow.attributes[ATTRIBUTE_COLOR].needsUpdate = true;
+    geometryGlow.setAttribute(
+      ATTRIBUTE_SIZE,
+      new Float32BufferAttribute(sizes, 1)
+    );
+    geometryGlow.attributes[ATTRIBUTE_SIZE].needsUpdate = true;
+    geometryGlow.setAttribute(
+      ATTRIBUTE_ABSMAG,
+      new Float32BufferAttribute(absmags, 1)
+    );
+    geometryGlow.attributes[ATTRIBUTE_ABSMAG].needsUpdate = true;
     const materialGlow = this._getShaderMaterialForPoint();
 
     let glowPoints = model.groupOfObjectsPoints.children.find(
@@ -97,15 +119,15 @@ export class StarsAsPointsService {
       glowPoints.name = StarsAsPointsService.GLOW_POINTS;
       model.groupOfObjectsPoints.add(glowPoints);
     } else {
-      (<Points>glowPoints).geometry.attributes['position'] =
-        new Float32BufferAttribute(vertices, 3);
-      (<Points>glowPoints).geometry.attributes['position'].needsUpdate = true;
-      (<Points>glowPoints).geometry.attributes['color'] =
-        new Float32BufferAttribute(colors, 3);
-      (<Points>glowPoints).geometry.attributes['color'].needsUpdate = true;
-      (<Points>glowPoints).geometry.attributes['size'] =
-        new Float32BufferAttribute(sizes, 1);
-      (<Points>glowPoints).geometry.attributes['size'].needsUpdate = true;
+      const attributes = (<Points>glowPoints).geometry.attributes;
+      attributes[ATTRIBUTE_POSITION] = new Float32BufferAttribute(vertices, 3);
+      attributes[ATTRIBUTE_POSITION].needsUpdate = true;
+      attributes[ATTRIBUTE_COLOR] = new Float32BufferAttribute(colors, 3);
+      attributes[ATTRIBUTE_COLOR].needsUpdate = true;
+      attributes[ATTRIBUTE_SIZE] = new Float32BufferAttribute(sizes, 1);
+      attributes[ATTRIBUTE_SIZE].needsUpdate = true;
+      attributes[ATTRIBUTE_ABSMAG] = new Float32BufferAttribute(absmags, 1);
+      attributes[ATTRIBUTE_ABSMAG].needsUpdate = true;
     }
   }
 
@@ -125,8 +147,7 @@ export class StarsAsPointsService {
       uniforms: {
         pointTexture: {
           value: new TextureLoader().load('assets/textures/star_alpha.png')
-        },
-        magnitude: { value: 1.0 }
+        }
       },
       vertexShader: this._shadersConstant.shaderForPoints().vertex,
       fragmentShader: this._shadersConstant.shaderForPoints().fragment,
@@ -135,5 +156,17 @@ export class StarsAsPointsService {
       transparent: true,
       vertexColors: true
     });
+  }
+
+  private _computeMagnitude(absmag: number): number {
+    const minMagnitude = 0.1;
+    const maxMagnitude = 3;
+    const minAbsMag = -10;
+    const maxAbsMag = 20;
+    const magnitude =
+      minMagnitude +
+      ((maxMagnitude - minMagnitude) * (maxAbsMag - absmag)) /
+        (maxAbsMag - minAbsMag);
+    return magnitude;
   }
 }
