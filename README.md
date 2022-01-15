@@ -1,6 +1,4 @@
-# Stars Traveller v2.1.0
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
+# Stars Traveller v2.2.0
 
 The goal of this web application is to simulate a traveller in a space ship, which wants to navigate between stars. It's in 3D view, and the stars are extracted from the HYG catalog (among 110 000 stars)
 
@@ -13,6 +11,12 @@ Run `ng build` or `npm run build` to build the project. The build artifacts will
 A demo is accessible at http://manoloexpo.free.fr/__experimentations/stars-traveller/index.html
 
 ## Latest evolutions
+
+### V2.2.0
+
+- Display luminosiy with absolute magnitude
+- Angular v13 and latest versions for libraries
+- Check if WebGL is available
 
 ### V2.1.0
 

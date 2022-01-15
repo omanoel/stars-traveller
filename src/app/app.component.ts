@@ -1,6 +1,8 @@
 import { Subject } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { WEBGL } from 'three/examples/jsm/WebGL';
+
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -18,10 +20,12 @@ import { CatalogService } from './shared/catalog/catalog.service';
 export class AppComponent implements OnInit {
   //
   private _mainModel: MainModel;
-  isHelpDisplayed = false;
+  private _isWebGLAvailable = true;
+  public isHelpDisplayed = false;
 
   constructor(
     public translate: TranslateService,
+    private _element: ElementRef,
     private _catalogService: CatalogService
   ) {
     translate.setTranslation('en', en);
@@ -32,7 +36,13 @@ export class AppComponent implements OnInit {
     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
+    if (!WEBGL.isWebGLAvailable()) {
+      this._isWebGLAvailable = false;
+      const warning = WEBGL.getWebGLErrorMessage();
+      this._element.nativeElement.appendChild(warning);
+      return;
+    }
     this._mainModel = {
       average: '',
       catalogs: [],
@@ -72,12 +82,16 @@ export class AppComponent implements OnInit {
     this.initComponent();
   }
 
-  get mainModel(): MainModel {
+  public get mainModel(): MainModel {
     return this._mainModel;
   }
 
-  get menuOptions(): MenuComponentOptions {
+  public get menuOptions(): MenuComponentOptions {
     return this._mainModel.menuOptions;
+  }
+
+  public get isWebGLAvailable(): boolean {
+    return this._isWebGLAvailable;
   }
 
   public initComponent(): void {
