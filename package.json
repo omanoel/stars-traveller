@@ -27,6 +27,8 @@
     "@ngx-translate/http-loader": "7.0.0",
     "@ui-components/loader": "file:libs/ui-components-loader-13.0.1.tgz",
     "core-js": "3.20.3",
+    "echarts": "5.2.2",
+    "ngx-echarts": "8.0.1",
     "rxjs": "7.5.2",
     "three": "0.136.0",
     "tslib": "2.3.1",
