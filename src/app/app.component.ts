@@ -11,6 +11,7 @@ import fr from '../assets/i18n/fr.json';
 import { MainModel } from './app.model';
 import { MenuComponentOptions } from './menu/menu.component.model';
 import { CatalogService } from './shared/catalog/catalog.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit {
   constructor(
     public translate: TranslateService,
     private _element: ElementRef,
-    private _catalogService: CatalogService
+    private _catalogService: CatalogService,
+    private _deviceService: DeviceDetectorService
   ) {
     translate.setTranslation('en', en);
     translate.setTranslation('fr', fr);
@@ -43,6 +45,7 @@ export class AppComponent implements OnInit {
       this._element.nativeElement.appendChild(warning);
       return;
     }
+
     this._mainModel = {
       average: '',
       catalogs: [],
@@ -69,7 +72,10 @@ export class AppComponent implements OnInit {
         displayIndicators: false,
         displayLanguage: false,
         displayTooltip: false,
-        displayTimeLine: false
+        displayTimeLine: false,
+        isMobile: this._deviceService.isMobile(),
+        isTablet: this._deviceService.isTablet(),
+        isDesktopDevice: this._deviceService.isDesktop()
       },
       timeline: {
         startEpoch: 2000,

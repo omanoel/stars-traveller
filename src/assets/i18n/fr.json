@@ -5,8 +5,8 @@
     "GOTO_CLOSEST": "Aller vers l'objet le plus proche",
     "GOTO_NEXT": "Aller vers l'objet suivant",
     "GOTO_PREVIOUS": "Aller vers l'objet précédent",
-    "NEXT": "Objet suivant >>",
-    "PREVIOUS": "<< Objet précédent",
+    "NEXT": ">>",
+    "PREVIOUS": "<<",
     "NEAR_DETECTION": "Voir uniquement les objets proches",
     "SEE_PROPER_MOTION": "Voir le mouvement propre",
     "DATE_MAX": "Date max.",
@@ -25,6 +25,12 @@
     "COLLAPSE": "Réduire ce panneau",
     "EXPAND": "Agrandrir ce panneau"
   },
+  "HELP": {
+    "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
+    "TRANSLATE": "Clic droit souris plus déplacement pour effectuer un déplacement du curseur",
+    "ZOOM": "Molette souris pour zoomer / dézoomer",
+    "GOTO": "Clic gauche souris sur un objet pour le visualiser de près"
+  },
   "HOME": {
     "SELECT": "Changer de langue"
   },
@@ -35,23 +41,17 @@
     "HELPER_COORDS": "Coord. du curseur"
   },
   "LANGUAGE": {
-    "TITLE": "Langue"
+    "LABEL": "Changer de langue"
   },
   "MENU": {
     "ABOUT": "A propos...",
-    "HELP": "Aide sur la nvigation dans la vue 3D",
+    "HELP": "Aide à la navigation",
     "INDICATORS": "Indication de navigation",
     "CATALOGS": "Catalogues",
     "HOME": "Stars traveller version 2.2.0",
-    "LANGUAGE": "Changer de langue",
+    "LANGUAGE": "Langue",
     "TIMELINE": "Echelle de temps",
-    "TOOLTIP": "Détails"
-  },
-  "NAVIGATE": {
-    "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
-    "TRANSLATE": "Clic droit souris plus déplacement pour effectuer un déplacement du curseur",
-    "ZOOM": "Molette souris pour zoomer / dézoomer",
-    "GOTO": "Clic gauche souris sur un objet pour le visualiser de près"
+    "TOOLTIP": "Détails de l'étoile"
   },
   "SEARCH": {
     "CHOOSE_CATALOG": "Choisir un catalogue",

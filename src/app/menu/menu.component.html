@@ -4,37 +4,37 @@
       ><i class="bi bi-stars"></i
     ></a>
   </li>
-  <li>
+  <li [ngClass]="{ active: options.displayCatalogs }">
     <a (click)="toggleCatalogs()" title="{{ 'MENU.CATALOGS' | translate }}"
       ><i class="bi bi-book"></i
     ></a>
   </li>
-  <li>
-    <a (click)="toggleTooltip()" title="{{ 'MENU.TOOLTIP' | translate }}"
-      ><i class="bi bi-file-text"></i
-    ></a>
-  </li>
-  <li>
+  <li [ngClass]="{ active: options.displayIndicators }">
     <a (click)="toggleIndicators()" title="{{ 'MENU.INDICATORS' | translate }}"
       ><i class="bi bi-compass"></i
     ></a>
   </li>
-  <li>
+  <li [ngClass]="{ active: options.displayTimeLine }">
     <a (click)="toggleTimeLine()" title="{{ 'MENU.TIMELINE' | translate }}"
       ><i class="bi bi-calendar-range"></i
     ></a>
   </li>
-  <li>
-    <a (click)="toggleHelp()" title="{{ 'MENU.HELP' | translate }}"
-      ><i class="bi bi-lightbulb"></i
+  <li [ngClass]="{ active: options.displayTooltip }">
+    <a (click)="toggleTooltip()" title="{{ 'MENU.TOOLTIP' | translate }}"
+      ><i class="bi bi-file-text"></i
     ></a>
   </li>
-  <li>
+  <li [ngClass]="{ active: options.displayLanguage }">
     <a (click)="toggleLanguage()" title="{{ 'MENU.LANGUAGE' | translate }}"
       ><i class="bi bi-flag"></i
     ></a>
   </li>
-  <li>
+  <li [ngClass]="{ active: options.displayHelp }">
+    <a (click)="toggleHelp()" title="{{ 'MENU.HELP' | translate }}"
+      ><i class="bi bi-lightbulb"></i
+    ></a>
+  </li>
+  <li [ngClass]="{ active: options.displayAbout }">
     <a (click)="toggleAbout()" title="{{ 'MENU.ABOUT' | translate }}"
       ><i class="bi bi-info-circle"></i
     ></a>
