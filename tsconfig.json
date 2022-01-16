@@ -27,8 +27,8 @@
       "@env/*": [
         "src/environments/*"
       ],
-      "@ui-components/loader/*": [
-        "../libraries/ngx-repository/projects/loader/src/lib/*"
+      "@ngx-repository/ui-components/*": [
+        "../libraries/ngx-repository/projects/ui-components/src/lib/*"
       ]
     }
   }

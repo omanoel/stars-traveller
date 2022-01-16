@@ -15,7 +15,9 @@ import {
   ATTRIBUTE_COLOR,
   ATTRIBUTE_POSITION,
   ATTRIBUTE_SIZE,
-  Collection3d
+  Collection3d,
+  ColorIndex,
+  starColorFromColorIndex
 } from './objects.model';
 import { ShadersConstant } from './shaders.constant';
 
@@ -53,6 +55,9 @@ export class StarsAsPointsService {
         record.z + record.vz * deltaTimeInYear
       );
       const color = new Color(model.colors[this._getSpectrum(model, record)]);
+      // const color = new Color(
+      //   starColorFromColorIndex[this._getColorIndex(record)]
+      // );
       colors.push(color.r, color.g, color.b);
       const mag = this._computeMagnitude(record.absmag);
       sizes.push(mag);
@@ -142,6 +147,28 @@ export class StarsAsPointsService {
     return spectrum;
   }
 
+  private _getColorIndex(near: BaseCatalogData): ColorIndex {
+    let colorIndex = ColorIndex.G0V;
+    if (!isNaN(Number(near.ci))) {
+      if (Number(near.ci) < -0.3) {
+        colorIndex = ColorIndex.O5V;
+      } else if (Number(near.ci) < -0.02) {
+        colorIndex = ColorIndex.B0V;
+      } else if (Number(near.ci) < 0.3) {
+        colorIndex = ColorIndex.A0V;
+      } else if (Number(near.ci) < 0.58) {
+        colorIndex = ColorIndex.F0V;
+      } else if (Number(near.ci) < 0.81) {
+        colorIndex = ColorIndex.G0V;
+      } else if (Number(near.ci) < 1.4) {
+        colorIndex = ColorIndex.K0V;
+      } else {
+        colorIndex = ColorIndex.M0V;
+      }
+    }
+    return colorIndex;
+  }
+
   private _getShaderMaterialForPoint(): ShaderMaterial {
     return new ShaderMaterial({
       uniforms: {
@@ -161,8 +188,14 @@ export class StarsAsPointsService {
   private _computeMagnitude(absmag: number): number {
     const minMagnitude = 0.1;
     const maxMagnitude = 3;
-    const minAbsMag = -10;
+    const minAbsMag = -17;
     const maxAbsMag = 20;
+    if (absmag > maxAbsMag) {
+      return minMagnitude;
+    }
+    if (absmag < minAbsMag) {
+      return maxMagnitude;
+    }
     const magnitude =
       minMagnitude +
       ((maxMagnitude - minMagnitude) * (maxAbsMag - absmag)) /

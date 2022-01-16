@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import url(../node_modules/normalize.css/normalize.css);
+
+@import url(./assets/bootstrap-icons.css);
+
+@import './assets/theme.scss';
+
 body {
   padding: 0;
   margin: 0;

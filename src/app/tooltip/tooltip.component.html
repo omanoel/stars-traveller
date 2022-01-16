@@ -1,4 +1,21 @@
 <div class="tooltip">
+  <h1 class="title">{{ 'TOOLTIP.TITLE' | translate }}</h1>
+  <div *ngIf="model.lastObjectProperties" class="content">
+    <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
+      <span class="key" title="{{ prop.tooltip | translate }}">{{
+        prop.key
+      }}</span
+      >:
+      <span class="value">
+        {{ getValue(model.lastObjectProperties, prop) }}
+      </span>
+    </p>
+  </div>
+  <div class="footer"></div>
+</div>
+
+<!--ui-pop-in-projection>
+  <span title>{{ 'TOOLTIP.TITLE' | translate }}</span>
   <div *ngIf="model.lastObjectProperties" class="properties">
     <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
       <span class="key" title="{{ prop.tooltip | translate }}">{{
@@ -10,4 +27,5 @@
       </span>
     </p>
   </div>
-</div>
+  <div class="bottom"></div>
+</ui-pop-in-projection-->
