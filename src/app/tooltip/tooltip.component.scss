@@ -1,7 +1,3 @@
-:host {
-  height: 50%;
-}
-
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -22,57 +18,26 @@
   background: #888;
 }
 
-.tooltip {
-  position: relative;
-  width: 300px;
-  height: 100%;
+.content {
+  height: 440px;
+  overflow-y: auto;
 
-  .title {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background-color: rgba(50, 50, 50, 0.8);
-    margin: 0;
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid rgba(200, 200, 200, 0.3);
-    border-bottom: none;
-  }
+  .property {
+    margin: 2px;
+    padding: 3px;
+    font-size: 12px;
 
-  .content {
-    padding: 10px;
-    height: 100%;
-    overflow-y: auto;
-    background: linear-gradient(rgba(50, 50, 50, 0.8), rgba(0, 0, 0, 0.8));
-    border: 1px solid rgba(200, 200, 200, 0.3);
-    border-bottom: none;
-    border-top: none;
-
-    .property {
-      margin: 2px;
-      padding: 3px;
-      font-size: 12px;
-
-      .key {
-        display: inline-block;
-        text-align: right;
-        padding-right: 5px;
-        cursor: pointer;
-        width: 80px;
-      }
-
-      .value {
-        padding-left: 2px;
-        flex: 3;
-      }
+    .key {
+      display: inline-block;
+      text-align: right;
+      padding-right: 5px;
+      cursor: pointer;
+      width: 80px;
     }
-  }
 
-  .footer {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    height: 10px;
-    border: 1px solid rgba(200, 200, 200, 0.3);
-    border-top: none;
+    .value {
+      padding-left: 2px;
+      flex: 3;
+    }
   }
 }

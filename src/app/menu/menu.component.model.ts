@@ -6,4 +6,7 @@ export interface MenuComponentOptions {
   displayLanguage: boolean;
   displayTooltip: boolean;
   displayTimeLine: boolean;
+  isMobile: boolean;
+  isTablet: boolean;
+  isDesktopDevice: boolean;
 }

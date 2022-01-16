@@ -1,27 +1,17 @@
-:host {
-  padding: 10px;
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.6);
-  font-size: 12px;
-  font-weight: bold;
+input[type='range'] {
+  width: 100%;
+}
 
-  input[type='range'] {
-    width: 100%;
-  }
+p {
+  text-align: center;
+  font-size: 14px;
 
-  p {
-    text-align: center;
-    font-size: 14px;
+  &.actions {
+    font-size: 24px;
+    margin: 0;
 
-    &.actions {
-      font-size: 24px;
-      margin: 0;
-
-      a {
-        cursor: pointer;
-      }
+    a {
+      cursor: pointer;
     }
   }
 }

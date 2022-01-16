@@ -1,43 +1,52 @@
-:host {
-  background-color: rgba(0, 0, 0, 0.8);
-  width: 300px;
-  overflow-x: auto;
+.content {
+  .property {
+    margin: 2px;
+    padding: 3px;
+    font-size: 12px;
+
+    .key {
+      display: inline-block;
+      text-align: right;
+      padding-right: 5px;
+      cursor: pointer;
+      width: 80px;
+    }
+
+    .value {
+      padding-left: 2px;
+      flex: 3;
+    }
+  }
 }
 
-.catalogs {
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
+.catalog {
+  margin-bottom: 3px;
   padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  position: relative;
 
-  .catalog {
-    margin-bottom: 3px;
-    padding: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .custom-control-label {
+    font-size: 12px;
     cursor: pointer;
-    position: relative;
+    margin-right: 24px;
+  }
 
-    &.selected {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.5);
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .custom-control-label {
-      font-size: 12px;
-      cursor: pointer;
-      margin-right: 24px;
-    }
-
-    .options {
-      position: absolute;
-      font-size: 18px;
-      right: 5px;
-      width: 20px;
-      height: 20px;
-    }
+  .options {
+    position: absolute;
+    font-size: 18px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
   }
 }
 

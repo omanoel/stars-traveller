@@ -28,44 +28,58 @@ export class MenuComponent implements OnInit {
   }
 
   public toggleHelp(): void {
-    this.options.displayAbout = false;
-    this.options.displayLanguage = false;
-    this.options.displayCatalogs = false;
-    this.options.displayHelp = !this.options.displayHelp;
+    const previous = this.options.displayHelp;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayHelp = !previous;
   }
 
   public toggleAbout(): void {
-    this.options.displayLanguage = false;
-    this.options.displayHelp = false;
-    this.options.displayCatalogs = false;
-    this.options.displayAbout = !this.options.displayAbout;
+    const previous = this.options.displayAbout;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayAbout = !previous;
   }
 
   public toggleCatalogs(): void {
-    this.options.displayAbout = false;
-    this.options.displayLanguage = false;
-    this.options.displayHelp = false;
-    this.options.displayCatalogs = !this.options.displayCatalogs;
-    this.options.displayTimeLine = false;
+    const previous = this.options.displayCatalogs;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayCatalogs = !previous;
   }
 
   public toggleTooltip(): void {
-    this.options.displayTooltip = !this.options.displayTooltip;
+    const previous = this.options.displayTooltip;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayTooltip = !previous;
   }
 
   public toggleTimeLine(): void {
-    this.options.displayCatalogs = false;
-    this.options.displayTimeLine = !this.options.displayTimeLine;
+    const previous = this.options.displayTimeLine;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayTimeLine = !previous;
   }
 
   public toggleIndicators(): void {
-    this.options.displayIndicators = !this.options.displayIndicators;
+    const previous = this.options.displayIndicators;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayIndicators = !previous;
   }
 
   public toggleLanguage(): void {
-    this.options.displayAbout = false;
-    this.options.displayCatalogs = false;
-    this.options.displayHelp = false;
-    this.options.displayLanguage = !this.options.displayLanguage;
+    const previous = this.options.displayLanguage;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayLanguage = !previous;
   }
 }

@@ -5,8 +5,8 @@
     "GOTO_CLOSEST": "Go to closest approach",
     "GOTO_NEXT": "Go to next object",
     "GOTO_PREVIOUS": "Go to previous object",
-    "NEXT": "Next object >>",
-    "PREVIOUS": "<< Previous object",
+    "NEXT": ">>",
+    "PREVIOUS": "<<",
     "NEAR_DETECTION": "See only closest objects",
     "SEE_PROPER_MOTION": "Show proper motion",
     "DATE_MAX": "Max. date",
@@ -25,6 +25,12 @@
     "COLLAPSE": "Collapse this panel",
     "EXPAND": "Expand this panel"
   },
+  "HELP": {
+    "ROTATE": "Left mouse click and drag for rotation around the target",
+    "TRANSLATE": "Right mouse click and drag for translation of the target",
+    "ZOOM": "Mouse wheel for zooming/dezooming from target",
+    "GOTO": "Left mouse single click on an object to navigate"
+  },
   "HOME": {
     "SELECT": "Change language"
   },
@@ -35,23 +41,17 @@
     "HELPER_COORDS": "Helper coord."
   },
   "LANGUAGE": {
-    "TITLE": "Language"
+    "LABEL": "Change language"
   },
   "MENU": {
     "ABOUT": "About...",
-    "HELP": "Help on how to navigate in 3D view",
+    "HELP": "How to navigate",
     "INDICATORS": "Navigation parameters",
     "CATALOGS": "Catalogs",
     "HOME": "Stars traveller version 2.2.0",
-    "LANGUAGE": "Change language",
+    "LANGUAGE": "Language",
     "TIMELINE": "Timeline",
     "TOOLTIP": "Star details"
-  },
-  "NAVIGATE": {
-    "ROTATE": "Left mouse click and drag for rotation around the target",
-    "TRANSLATE": "Right mouse click and drag for translation of the target",
-    "ZOOM": "Mouse wheel for zooming/dezooming from target",
-    "GOTO": "Left mouse single click on an object to navigate"
   },
   "SEARCH": {
     "CHOOSE_CATALOG": "Choose your catalog",

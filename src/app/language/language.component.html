@@ -1,18 +1,18 @@
-<div class="language">
-  <h1 class="title">{{ 'LANGUAGE.TITLE' | translate }}</h1>
-  <div class="content">
-    <label>
-      {{ 'HOME.SELECT' | translate }}
-      <select #langSelect (change)="translate.use(langSelect.value)">
-        <option
-          *ngFor="let lang of translate.getLangs()"
-          [value]="lang"
-          [selected]="lang === translate.currentLang"
-        >
-          {{ lang }}
-        </option>
-      </select>
-    </label>
-  </div>
-  <div class="footer"></div>
+<h1 class="title">
+  <i class="bi bi-flag"></i> {{ 'MENU.LANGUAGE' | translate }}
+</h1>
+<div class="content">
+  <label>
+    {{ 'LANGUAGE.LABEL' | translate }}
+    <select #langSelect (change)="translate.use(langSelect.value)">
+      <option
+        *ngFor="let lang of translate.getLangs()"
+        [value]="lang"
+        [selected]="lang === translate.currentLang"
+      >
+        {{ lang }}
+      </option>
+    </select>
+  </label>
 </div>
+<div class="footer"></div>
