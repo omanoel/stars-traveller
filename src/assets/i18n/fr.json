@@ -1,26 +1,4 @@
 {
-  "COMMON": {
-    "CLOSE": "Fermer",
-    "LOADING_OBJECTS": "Chargement des objets du catalogue...",
-    "OPTIONS": "Voir les options",
-    "HOW_TO_NAVIGATE": "Comment naviguer",
-    "DATASTRO": "Visiter ce site génial",
-    "GITHUB": "Voir ce projet sur GitHub",
-    "ERROR_TOO_MANY_OBJECTS": "Trop d'objets correspondent aux critères. Affinez.",
-    "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
-    "COLLAPSE": "Réduire ce panneau",
-    "EXPAND": "Agrandrir ce panneau"
-  },
-  "MENU": {
-    "ABOUT": "A propos...",
-    "HELP": "Aide sur la nvigation dans la vue 3D",
-    "INDICATORS": "Indication de navigation",
-    "CATALOGS": "Catalogues",
-    "HOME": "Stars traveller version 2.2.0",
-    "LANGUAGE": "Changer de langue",
-    "TIMELINE": "Echelle de temps",
-    "TOOLTIP": "Détails"
-  },
   "CATALOGS": {
     "CLOSEST": "Objet le plus proche",
     "FILTERS": "Afficher modifier les filtres",
@@ -35,6 +13,18 @@
     "DATE_CURRENT": "Date courante (2000 par défaut)",
     "TIME_RUNNING": "Faire écouler le temps..."
   },
+  "COMMON": {
+    "CLOSE": "Fermer",
+    "LOADING_OBJECTS": "Chargement des objets du catalogue...",
+    "OPTIONS": "Voir les options",
+    "HOW_TO_NAVIGATE": "Comment naviguer",
+    "DATASTRO": "Visiter ce site génial",
+    "GITHUB": "Voir ce projet sur GitHub",
+    "ERROR_TOO_MANY_OBJECTS": "Trop d'objets correspondent aux critères. Affinez.",
+    "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
+    "COLLAPSE": "Réduire ce panneau",
+    "EXPAND": "Agrandrir ce panneau"
+  },
   "HOME": {
     "SELECT": "Changer de langue"
   },
@@ -43,6 +33,25 @@
     "DISTANCE_TO_HELPER": "Dist. au curseur",
     "DISTANCE_TO_LAST_OBJECT": "Dist. du dernier objet survolé",
     "HELPER_COORDS": "Coord. du curseur"
+  },
+  "LANGUAGE": {
+    "TITLE": "Langue"
+  },
+  "MENU": {
+    "ABOUT": "A propos...",
+    "HELP": "Aide sur la nvigation dans la vue 3D",
+    "INDICATORS": "Indication de navigation",
+    "CATALOGS": "Catalogues",
+    "HOME": "Stars traveller version 2.2.0",
+    "LANGUAGE": "Changer de langue",
+    "TIMELINE": "Echelle de temps",
+    "TOOLTIP": "Détails"
+  },
+  "NAVIGATE": {
+    "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
+    "TRANSLATE": "Clic droit souris plus déplacement pour effectuer un déplacement du curseur",
+    "ZOOM": "Molette souris pour zoomer / dézoomer",
+    "GOTO": "Clic gauche souris sur un objet pour le visualiser de près"
   },
   "SEARCH": {
     "CHOOSE_CATALOG": "Choisir un catalogue",
@@ -74,11 +83,8 @@
     "SLOWER": "Ralentir le temps",
     "STOP": "Arrêt"
   },
-  "NAVIGATE": {
-    "ROTATE": "Clic gauche souris plus déplacement pour effectuer une rotation autour du curseur",
-    "TRANSLATE": "Clic droit souris plus déplacement pour effectuer un déplacement du curseur",
-    "ZOOM": "Molette souris pour zoomer / dézoomer",
-    "GOTO": "Clic gauche souris sur un objet pour le visualiser de près"
+  "TOOLTIP": {
+    "TITLE": "Propriétés de l'étoile"
   },
   "HYG": {
     "ID": "Identifiant dans la base HYG",

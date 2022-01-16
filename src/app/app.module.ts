@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { LoaderModule } from '@ui-components/loader';
+import { UiComponentsModule } from '@ngx-repository/ui-components';
 
 import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
@@ -36,7 +36,7 @@ import { TimelineComponent } from './timeline/timeline.component';
     TranslateModule.forRoot(),
     ThreeModule,
     ReactiveFormsModule,
-    LoaderModule
+    UiComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

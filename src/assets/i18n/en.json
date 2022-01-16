@@ -1,26 +1,4 @@
 {
-  "COMMON": {
-    "CLOSE": "Close",
-    "LOADING_OBJECTS": "Loading objects catalog...",
-    "OPTIONS": "See options",
-    "HOW_TO_NAVIGATE": "How to navigate",
-    "DATASTRO": "Visit this awesome website",
-    "GITHUB": "See on GitHub",
-    "ERROR_TOO_MANY_OBJECTS": "Too many objects match the criterias.",
-    "CATALOG_NOT_READY": "This catalog doesn't respond.",
-    "COLLAPSE": "Collapse this panel",
-    "EXPAND": "Expand this panel"
-  },
-  "MENU": {
-    "ABOUT": "About...",
-    "HELP": "Help on how to navigate in 3D view",
-    "INDICATORS": "Navigation parameters",
-    "CATALOGS": "Catalogs",
-    "HOME": "Stars traveller version 2.2.0",
-    "LANGUAGE": "Change language",
-    "TIMELINE": "Timeline",
-    "TOOLTIP": "Star details"
-  },
   "CATALOGS": {
     "CLOSEST": "Closest object",
     "FILTERS": "Show / modify filters",
@@ -35,6 +13,18 @@
     "DATE_CURRENT": "Current date (2000 by default)",
     "TIME_RUNNING": "Time running..."
   },
+  "COMMON": {
+    "CLOSE": "Close",
+    "LOADING_OBJECTS": "Loading objects catalog...",
+    "OPTIONS": "See options",
+    "HOW_TO_NAVIGATE": "How to navigate",
+    "DATASTRO": "Visit this awesome website",
+    "GITHUB": "See on GitHub",
+    "ERROR_TOO_MANY_OBJECTS": "Too many objects match the criterias.",
+    "CATALOG_NOT_READY": "This catalog doesn't respond.",
+    "COLLAPSE": "Collapse this panel",
+    "EXPAND": "Expand this panel"
+  },
   "HOME": {
     "SELECT": "Change language"
   },
@@ -43,6 +33,25 @@
     "DISTANCE_TO_HELPER": "Dist. to helper",
     "DISTANCE_TO_LAST_OBJECT": "Dist. to last hover object",
     "HELPER_COORDS": "Helper coord."
+  },
+  "LANGUAGE": {
+    "TITLE": "Language"
+  },
+  "MENU": {
+    "ABOUT": "About...",
+    "HELP": "Help on how to navigate in 3D view",
+    "INDICATORS": "Navigation parameters",
+    "CATALOGS": "Catalogs",
+    "HOME": "Stars traveller version 2.2.0",
+    "LANGUAGE": "Change language",
+    "TIMELINE": "Timeline",
+    "TOOLTIP": "Star details"
+  },
+  "NAVIGATE": {
+    "ROTATE": "Left mouse click and drag for rotation around the target",
+    "TRANSLATE": "Right mouse click and drag for translation of the target",
+    "ZOOM": "Mouse wheel for zooming/dezooming from target",
+    "GOTO": "Left mouse single click on an object to navigate"
   },
   "SEARCH": {
     "CHOOSE_CATALOG": "Choose your catalog",
@@ -74,11 +83,8 @@
     "SLOWER": "Go slower",
     "STOP": "Stop"
   },
-  "NAVIGATE": {
-    "ROTATE": "Left mouse click and drag for rotation around the target",
-    "TRANSLATE": "Right mouse click and drag for translation of the target",
-    "ZOOM": "Mouse wheel for zooming/dezooming from target",
-    "GOTO": "Left mouse single click on an object to navigate"
+  "TOOLTIP": {
+    "TITLE": "Star properties"
   },
   "HYG": {
     "ID": "The database primary key",

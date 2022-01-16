@@ -12,7 +12,8 @@
     "build": "ng build --configuration=production",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "compodoc": "npx compodoc -p src/tsconfig.app.json"
+    "compodoc": "npx compodoc -p src/tsconfig.app.json",
+    "link-ngx": "cd ../libraries/ngx-repository/dist/ui-components && npm link && cd ../../../../stars-traveller && npm link @ngx-repository/ui-components"
   },
   "private": true,
   "dependencies": {
@@ -23,12 +24,13 @@
     "@angular/material": "13.1.2",
     "@angular/platform-browser": "13.1.2",
     "@angular/platform-browser-dynamic": "13.1.2",
+    "@ngx-repository/ui-components": "file:libs/ngx-repository-ui-components-13.0.0.tgz",
     "@ngx-translate/core": "14.0.0",
     "@ngx-translate/http-loader": "7.0.0",
-    "@ui-components/loader": "file:libs/ui-components-loader-13.0.1.tgz",
     "core-js": "3.20.3",
     "echarts": "5.2.2",
     "ngx-echarts": "8.0.1",
+    "normalize.css": "8.0.1",
     "rxjs": "7.5.2",
     "three": "0.136.0",
     "tslib": "2.3.1",

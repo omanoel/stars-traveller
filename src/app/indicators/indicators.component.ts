@@ -5,14 +5,12 @@ import { PerspectiveCameraService } from '@app/three/shared/perspective-camera/p
 import { TargetService } from '@app/three/shared/target/target.service';
 import { TrackballControlsService } from '@app/three/shared/trackball-controls/trackball-controls.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LoaderService } from '@ui-components/loader';
 import { Vector3 } from 'three';
 
 @Component({
   selector: 'app-indicators',
   templateUrl: './indicators.component.html',
-  styleUrls: ['./indicators.component.scss'],
-  providers: [LoaderService]
+  styleUrls: ['./indicators.component.scss']
 })
 export class IndicatorsComponent implements OnInit, OnDestroy {
   //

@@ -23,13 +23,6 @@
     left: 5px;
   }
 
-  app-language {
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 50%;
-  }
-
   app-about {
     position: absolute;
     top: 25%;
@@ -44,10 +37,16 @@
     width: 50%;
   }
 
+  app-language {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
   app-tooltip {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    top: 110px;
+    right: 10px;
   }
 
   app-timeline {
