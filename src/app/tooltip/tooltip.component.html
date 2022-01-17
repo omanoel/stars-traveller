@@ -10,6 +10,13 @@
     <span class="value">
       {{ getValue(model.lastObjectProperties, prop) }}
     </span>
+    <span class="url" *ngIf="prop.key === 'id'">
+      <a
+        target="_blank"
+        title="{{ 'TOOLTIP.HYGMAP' | translate }}"
+        href="{{ getHygMapUrl(getValue(model.lastObjectProperties, prop)) }}"
+        ><i class="bi bi-box-arrow-up-right"></i></a
+    ></span>
   </p>
 </div>
 <div class="footer"></div>

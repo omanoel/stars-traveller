@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MainModel } from '@app/app.model';
+import { HygMapService } from '@app/shared/external/hygmap.service';
 
 import {
   BaseCatalogData,
@@ -72,6 +73,10 @@ export class TooltipComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  public getHygMapUrl(id: string): string {
+    return HygMapService.getUrl(id);
   }
 
   /**

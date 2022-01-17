@@ -20,6 +20,7 @@
     "HOW_TO_NAVIGATE": "How to navigate",
     "DATASTRO": "Visit this awesome website",
     "GITHUB": "See on GitHub",
+    "HYGMAP": "Visit the HYG Map website",
     "ERROR_TOO_MANY_OBJECTS": "Too many objects match the criterias.",
     "CATALOG_NOT_READY": "This catalog doesn't respond.",
     "COLLAPSE": "Collapse this panel",
@@ -84,6 +85,7 @@
     "STOP": "Stop"
   },
   "TOOLTIP": {
+    "HYGMAP": "See this star on HYGMap website",
     "TITLE": "Star properties"
   },
   "HYG": {

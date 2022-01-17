@@ -20,6 +20,7 @@
     "HOW_TO_NAVIGATE": "Comment naviguer",
     "DATASTRO": "Visiter ce site génial",
     "GITHUB": "Voir ce projet sur GitHub",
+    "HYGMAP": "Visiter le site web HYG map",
     "ERROR_TOO_MANY_OBJECTS": "Trop d'objets correspondent aux critères. Affinez.",
     "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
     "COLLAPSE": "Réduire ce panneau",
@@ -84,6 +85,7 @@
     "STOP": "Arrêt"
   },
   "TOOLTIP": {
+    "HYGMAP": "Voir cette étoile sur le site web HYGMap.",
     "TITLE": "Propriétés de l'étoile"
   },
   "HYG": {
