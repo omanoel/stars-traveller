@@ -12,6 +12,12 @@ A demo is accessible at http://manoloexpo.free.fr/__experimentations/stars-trave
 
 ## Latest evolutions
 
+### V2.3.0
+
+- Add a link to hygmap website
+- Bugfix on time line cursor
+- Add a chart panel
+
 ### V2.2.0
 
 - Display luminosiy with absolute magnitude
