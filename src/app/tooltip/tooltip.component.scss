@@ -39,5 +39,15 @@
       padding-left: 2px;
       flex: 3;
     }
+
+    .url {
+      a {
+        color: white;
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
   }
 }

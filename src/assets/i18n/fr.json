@@ -20,6 +20,7 @@
     "HOW_TO_NAVIGATE": "Comment naviguer",
     "DATASTRO": "Visiter ce site génial",
     "GITHUB": "Voir ce projet sur GitHub",
+    "HYGMAP": "Visiter le site web HYG map",
     "ERROR_TOO_MANY_OBJECTS": "Trop d'objets correspondent aux critères. Affinez.",
     "CATALOG_NOT_READY": "Ce catalogue ne répond pas.",
     "COLLAPSE": "Réduire ce panneau",
@@ -45,10 +46,11 @@
   },
   "MENU": {
     "ABOUT": "A propos...",
-    "HELP": "Aide à la navigation",
-    "INDICATORS": "Indication de navigation",
     "CATALOGS": "Catalogues",
+    "CHARTS": "Graphes",
+    "HELP": "Aide à la navigation",
     "HOME": "Stars traveller version 2.2.0",
+    "INDICATORS": "Indication de navigation",
     "LANGUAGE": "Langue",
     "TIMELINE": "Echelle de temps",
     "TOOLTIP": "Détails de l'étoile"
@@ -84,6 +86,7 @@
     "STOP": "Arrêt"
   },
   "TOOLTIP": {
+    "HYGMAP": "Voir cette étoile sur le site web HYGMap.",
     "TITLE": "Propriétés de l'étoile"
   },
   "HYG": {

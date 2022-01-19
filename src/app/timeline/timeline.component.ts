@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MainModel } from '@app/app.model';
 import { TranslateService } from '@ngx-translate/core';
 import { TimelineModel } from './timeline.model';
 
@@ -12,9 +11,11 @@ import { TimelineModel } from './timeline.model';
 export class TimelineComponent implements OnInit {
   //
   public readonly DELTA_EPOCH_FC = 'deltaEpochFc';
-  private _timelineForm: FormGroup;
   //
   @Input() model: TimelineModel;
+
+  private _timelineForm: FormGroup;
+  private _updateByCursor = false;
 
   constructor(public translate: TranslateService) {
     // Empty
@@ -30,12 +31,18 @@ export class TimelineComponent implements OnInit {
     this._timelineForm
       .get(this.DELTA_EPOCH_FC)
       .valueChanges.subscribe((value: number) => {
+        this._updateByCursor = true;
         this.model.deltaEpoch = +value;
+        this.model.displayAnimation = true;
       });
     this.model.deltaEpoch$.subscribe((value: number) => {
-      this._timelineForm
-        .get(this.DELTA_EPOCH_FC)
-        .setValue(value, { emitEvent: false });
+      if (this._updateByCursor) {
+        this.model.displayAnimation = false;
+      } else {
+        this._timelineForm
+          .get(this.DELTA_EPOCH_FC)
+          .setValue(value, { emitEvent: false });
+      }
     });
   }
 
@@ -48,10 +55,12 @@ export class TimelineComponent implements OnInit {
   }
 
   public play(): void {
+    this._updateByCursor = false;
     this._togglePlayPause();
   }
 
   public pause(): void {
+    this._updateByCursor = false;
     this._togglePlayPause();
   }
 
@@ -64,6 +73,7 @@ export class TimelineComponent implements OnInit {
   }
 
   public stop(): void {
+    this._updateByCursor = false;
     this.model.deltaEpoch = 0;
     this.model.displayAnimation = false;
   }

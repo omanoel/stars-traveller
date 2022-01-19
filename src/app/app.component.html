@@ -18,6 +18,10 @@
     [model]="mainModel"
     *ngIf="mainModel.menuOptions.displayCatalogs"
   ></app-catalogs>
+  <app-charts
+    [model]="mainModel"
+    *ngIf="mainModel.menuOptions.displayCharts"
+  ></app-charts>
   <app-search [model]="mainModel" *ngIf="mainModel.showSearch"></app-search>
   <app-tooltip
     [model]="mainModel"

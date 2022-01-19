@@ -81,3 +81,10 @@ export interface BaseCatalogData {
 export interface CountOfStars {
   total: number;
 }
+
+export type BaseCatalogProp = keyof BaseCatalogData;
+
+export interface BaseCatalogRange {
+  min: number;
+  max: number;
+}

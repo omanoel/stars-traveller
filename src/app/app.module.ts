@@ -16,11 +16,14 @@ import { SearchComponent } from './search/search.component';
 import { ThreeModule } from './three/three.module';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { ChartsComponent } from './charts/charts.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
     AppComponent,
     CatalogsComponent,
+    ChartsComponent,
     IndicatorsComponent,
     SearchComponent,
     TooltipComponent,
@@ -36,7 +39,10 @@ import { TimelineComponent } from './timeline/timeline.component';
     TranslateModule.forRoot(),
     ThreeModule,
     ReactiveFormsModule,
-    UiComponentsModule
+    UiComponentsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],
