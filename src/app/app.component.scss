@@ -38,6 +38,10 @@
     position: absolute;
   }
 
+  app-charts {
+    position: absolute;
+  }
+
   ui-loader {
     position: absolute;
     top: 25%;
@@ -137,6 +141,14 @@
     top: 100px;
     width: 90%;
   }
+
+  app-charts {
+    left: 5%;
+    right: auto;
+    top: 100px;
+    width: 90%;
+    height: calc(90% - 100px);
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -192,6 +204,14 @@
     top: 10px;
     width: 200px;
     height: 500px;
+  }
+
+  app-charts {
+    left: 5%;
+    right: auto;
+    top: 100px;
+    width: 90%;
+    height: calc(90% - 100px);
   }
 }
 

@@ -46,10 +46,11 @@
   },
   "MENU": {
     "ABOUT": "A propos...",
-    "HELP": "Aide à la navigation",
-    "INDICATORS": "Indication de navigation",
     "CATALOGS": "Catalogues",
+    "CHARTS": "Graphes",
+    "HELP": "Aide à la navigation",
     "HOME": "Stars traveller version 2.2.0",
+    "INDICATORS": "Indication de navigation",
     "LANGUAGE": "Langue",
     "TIMELINE": "Echelle de temps",
     "TOOLTIP": "Détails de l'étoile"

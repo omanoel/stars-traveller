@@ -19,6 +19,11 @@
       ><i class="bi bi-calendar-range"></i
     ></a>
   </li>
+  <li [ngClass]="{ active: options.displayCharts }">
+    <a (click)="toggleCharts()" title="{{ 'MENU.CHARTS' | translate }}"
+      ><i class="bi bi-graph-up"></i
+    ></a>
+  </li>
   <li [ngClass]="{ active: options.displayTooltip }">
     <a (click)="toggleTooltip()" title="{{ 'MENU.TOOLTIP' | translate }}"
       ><i class="bi bi-file-text"></i

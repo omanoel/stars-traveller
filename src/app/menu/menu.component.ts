@@ -21,6 +21,7 @@ export class MenuComponent implements OnInit {
     this.options.displayAbout = false;
     this.options.displayLanguage = false;
     this.options.displayCatalogs = false;
+    this.options.displayCharts = false;
     this.options.displayHelp = false;
     this.options.displayIndicators = false;
     this.options.displayTooltip = false;
@@ -49,6 +50,12 @@ export class MenuComponent implements OnInit {
       this.toggleAll();
     }
     this.options.displayCatalogs = !previous;
+  }
+
+  public toggleCharts(): void {
+    const previous = this.options.displayCharts;
+    this.toggleAll();
+    this.options.displayCharts = !previous;
   }
 
   public toggleTooltip(): void {

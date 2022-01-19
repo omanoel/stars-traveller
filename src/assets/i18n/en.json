@@ -46,10 +46,11 @@
   },
   "MENU": {
     "ABOUT": "About...",
-    "HELP": "How to navigate",
-    "INDICATORS": "Navigation parameters",
+    "CHARTS": "Charts",
     "CATALOGS": "Catalogs",
+    "HELP": "How to navigate",
     "HOME": "Stars traveller version 2.2.0",
+    "INDICATORS": "Navigation parameters",
     "LANGUAGE": "Language",
     "TIMELINE": "Timeline",
     "TOOLTIP": "Star details"

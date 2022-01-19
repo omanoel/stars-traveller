@@ -1,0 +1,19 @@
+.content {
+  font-size: 16px;
+
+  .half {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+  }
+
+  .quarter {
+    display: inline-block;
+    width: 25%;
+    vertical-align: top;
+  }
+
+  .echarts {
+    height: calc(100% - 200px);
+  }
+}

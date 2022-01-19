@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
       menuOptions: {
         displayAbout: false,
         displayCatalogs: false,
+        displayCharts: false,
         displayHelp: false,
         displayIndicators: false,
         displayLanguage: false,

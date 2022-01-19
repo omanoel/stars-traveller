@@ -1,0 +1,62 @@
+<h1 class="title">
+  <i class="bi bi-graph-up"></i> {{ 'MENU.CHARTS' | translate }}
+</h1>
+<div class="content">
+  <div class="quarter">
+    <p>
+      <label for="xAxis"
+        >X axis
+        <select
+          id="xAxis"
+          #xAxisSelect
+          (change)="selectXAxis(xAxisSelect.value)"
+        >
+          <option
+            *ngFor="let prop of properties"
+            [value]="prop"
+            [selected]="prop === xProp"
+          >
+            {{ prop }}
+          </option>
+        </select></label
+      ><button (click)="addFilterOnX()">Set filter on X axis</button>
+    </p>
+    <p>
+      <label for="yAxis"
+        >Y axis
+        <select
+          id="yAxis"
+          #yAxisSelect
+          (change)="selectYAxis(yAxisSelect.value)"
+        >
+          <option
+            *ngFor="let prop of properties"
+            [value]="prop"
+            [selected]="prop === yProp"
+          >
+            {{ prop }}
+          </option>
+        </select></label
+      ><button (click)="addFilterOnY()">Set filter on Y axis</button>
+    </p>
+  </div>
+  <div class="quarter">
+    <p><button (click)="addFilterOnXY()">Set filter on XY axis</button></p>
+    <p><button (click)="resetAllFilters()">Reset all filters</button></p>
+  </div>
+  <div class="quarter">
+    <p>{{ model.objectsFiltered.length }} stars</p>
+  </div>
+  <div class="quarter">
+    <p *ngFor="let filter of arrayFilters">
+      {{ filter[0] }} : [{{ filter[1] }} / {{ filter[2] }}]
+    </p>
+  </div>
+  <div
+    echarts
+    [options]="options"
+    (chartDataZoom)="onChartEvent($event, 'chartDataZoom')"
+    class="echarts"
+  ></div>
+</div>
+<div class="footer"></div>

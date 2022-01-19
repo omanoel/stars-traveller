@@ -1,6 +1,7 @@
 export interface MenuComponentOptions {
   displayAbout: boolean;
   displayCatalogs: boolean;
+  displayCharts: boolean;
   displayHelp: boolean;
   displayIndicators: boolean;
   displayLanguage: boolean;
