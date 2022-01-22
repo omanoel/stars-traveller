@@ -39,25 +39,27 @@ export class CatalogsComponent implements OnInit {
     });
     this.model.catalogs.forEach((catalog) => {
       const catalogExt: CatalogExt = { ...catalog, count: 0 };
-      this._count$(catalog).subscribe(
-        (counter) => {
+      this._count$(catalog).subscribe({
+        next: (counter) => {
           catalogExt.count = counter;
         },
-        () => {
+        error: () => {
           catalogExt.count = NaN;
         }
-      );
+      });
       this.catalogsExt.push(catalogExt);
     });
     // subscriptions
-    this.catalogsForm.get('catalogFc').valueChanges.subscribe((id: string) => {
-      this.model.selectedCatalog = this.model.catalogs.find(
-        (c) => c.id === +id
-      );
-      this.model.showSearch = false;
-      this._catalogService
-        .getCatalogService(this.model.selectedCatalog)
-        .load(this.model);
+    this.catalogsForm.get('catalogFc').valueChanges.subscribe({
+      next: (id: string) => {
+        this.model.selectedCatalog = this.model.catalogs.find(
+          (c) => c.id === +id
+        );
+        this.model.showSearch = false;
+        this._catalogService
+          .getCatalogService(this.model.selectedCatalog)
+          .load(this.model);
+      }
     });
   }
 

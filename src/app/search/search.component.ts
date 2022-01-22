@@ -35,8 +35,10 @@ export class SearchComponent implements OnInit {
 
     this.searchForm.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((values: unknown) => {
-        this._manageFormProperties(values);
+      .subscribe({
+        next: (values: unknown) => {
+          this._manageFormProperties(values);
+        }
       });
   }
 
@@ -52,7 +54,11 @@ export class SearchComponent implements OnInit {
     this._catalogService
       .getCatalogService(this.model.selectedCatalog)
       .search$(this.model)
-      .subscribe();
+      .subscribe({
+        complete: () => {
+          // search complete
+        }
+      });
   }
 
   public close(): void {

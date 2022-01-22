@@ -161,9 +161,11 @@ export class ChartsComponent implements OnInit {
       this._catalogService
         .getCatalogService(this.model.selectedCatalog)
         .search$(this.model)
-        .subscribe(() => {
-          this.model.objectsFiltered = this.model.objectsImported;
-          this._initOptions();
+        .subscribe({
+          next: () => {
+            this.model.objectsFiltered = this.model.objectsImported;
+            this._initOptions();
+          }
         });
     } else {
       this._initOptions();

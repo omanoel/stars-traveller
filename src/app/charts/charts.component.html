@@ -5,7 +5,7 @@
   <div class="quarter">
     <p>
       <label for="xAxis"
-        >X axis
+        >{{ 'CHARTS.X_AXIS' | translate }}
         <select
           id="xAxis"
           #xAxisSelect
@@ -19,11 +19,13 @@
             {{ prop }}
           </option>
         </select></label
-      ><button (click)="addFilterOnX()">Set filter on X axis</button>
+      ><button (click)="addFilterOnX()">
+        {{ 'CHARTS.X_AXIS_FILTER' | translate }}
+      </button>
     </p>
     <p>
       <label for="yAxis"
-        >Y axis
+        >{{ 'CHARTS.Y_AXIS' | translate }}
         <select
           id="yAxis"
           #yAxisSelect
@@ -37,15 +39,25 @@
             {{ prop }}
           </option>
         </select></label
-      ><button (click)="addFilterOnY()">Set filter on Y axis</button>
+      ><button (click)="addFilterOnY()">
+        {{ 'CHARTS.Y_AXIS_FILTER' | translate }}
+      </button>
     </p>
   </div>
   <div class="quarter">
-    <p><button (click)="addFilterOnXY()">Set filter on XY axis</button></p>
-    <p><button (click)="resetAllFilters()">Reset all filters</button></p>
+    <p>
+      <button (click)="addFilterOnXY()">
+        {{ 'CHARTS.XY_AXIS_FILTER' | translate }}
+      </button>
+    </p>
+    <p>
+      <button (click)="resetAllFilters()">
+        {{ 'CHARTS.RESET_FILTERS' | translate }}
+      </button>
+    </p>
   </div>
   <div class="quarter">
-    <p>{{ model.objectsFiltered.length }} stars</p>
+    <p>{{ model.objectsFiltered.length }} {{ 'CHARTS.STARS' | translate }}</p>
   </div>
   <div class="quarter">
     <p *ngFor="let filter of arrayFilters">

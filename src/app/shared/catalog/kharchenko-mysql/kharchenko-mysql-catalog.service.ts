@@ -12,6 +12,7 @@ import {
   CountOfStars,
   ICatalogService
 } from '../catalog.model';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
 
   // @override
   public count$(catalog: Catalog): Observable<number> {
-    return this._http.get(catalog.url + '/count').pipe(
+    return this._http.get(environment.basePath + catalog.url + '/count').pipe(
       map((result) => {
         return result[0].total;
       })
@@ -65,7 +66,11 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
     mainModel.errorMessage = null;
     mainModel.filters.clear();
     mainModel.filters.set('bmag', [-1429, 7000]);
-    this.search$(mainModel).subscribe();
+    this.search$(mainModel).subscribe({
+      complete: () => {
+        //
+      }
+    });
   }
 
   // @override
@@ -153,5 +158,15 @@ export class KharchenkoMysqlCatalogService implements ICatalogService {
       mainModel.scale;
     item.z =
       (item.dist * Math.sin((item.dec * Math.PI) / 180)) / mainModel.scale;
+    item.ci = (item.bmag - item.vmag) / 1000;
+    item.mag = (item.bmag + item.vmag) / 2000;
+    item.absmag = this._computeAbsoluteMagnitude(item.mag, item.dist);
+  }
+
+  private _computeAbsoluteMagnitude(
+    magnitude: number,
+    distance: number
+  ): number {
+    return magnitude + 5 * Math.log(distance) - 5;
   }
 }

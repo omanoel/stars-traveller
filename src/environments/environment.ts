@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  catalogCsvPath: '/assets/catalogs/',
-  assetsPath: '/assets/i18n/'
+  basePath: '/',
+  catalogCsvPath: 'assets/catalogs/',
+  assetsPath: 'assets/i18n/'
 };
 
 /*
