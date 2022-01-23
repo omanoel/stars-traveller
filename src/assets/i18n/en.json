@@ -13,6 +13,15 @@
     "DATE_CURRENT": "Current date (2000 by default)",
     "TIME_RUNNING": "Time running..."
   },
+  "CHARTS": {
+    "RESET_FILTERS": "Reset all filters",
+    "STARS": "stars",
+    "X_AXIS": "X axis",
+    "X_AXIS_FILTER": "Set filter on X axis",
+    "XY_AXIS_FILTER": "Set filter on XY axis",
+    "Y_AXIS": "Y axis",
+    "Y_AXIS_FILTER": "Set filter on Y axis"
+  },
   "COMMON": {
     "CLOSE": "Close",
     "LOADING_OBJECTS": "Loading objects catalog...",
@@ -49,7 +58,7 @@
     "CHARTS": "Charts",
     "CATALOGS": "Catalogs",
     "HELP": "How to navigate",
-    "HOME": "Stars traveller version 2.2.0",
+    "HOME": "Stars traveller version 2.3.0",
     "INDICATORS": "Navigation parameters",
     "LANGUAGE": "Language",
     "TIMELINE": "Timeline",

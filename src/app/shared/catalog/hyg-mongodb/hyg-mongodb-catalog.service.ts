@@ -33,7 +33,11 @@ export class HygMongodbCatalogService implements ICatalogService {
     mainModel.errorMessage = null;
     mainModel.filters.clear();
     mainModel.filters.set('dist', [0, 30]);
-    this.search$(mainModel).subscribe();
+    this.search$(mainModel).subscribe({
+      complete: () => {
+        //
+      }
+    });
   }
 
   // @override

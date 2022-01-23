@@ -47,6 +47,7 @@ export class ObjectsService {
 
   public refreshAfterLoadingCatalog(mainModel: MainModel): void {
     mainModel.average = '';
+    mainModel.objectsFiltered = mainModel.objectsImported;
     this.createStarsAsPoints(mainModel.objectsImported);
     this._model.groupOfClosestObjectsHelpers.children = [];
     this._model.groupOfClosestObjects.children = [];

@@ -2,7 +2,7 @@
   "id": 4,
   "name": "Kharchenko Catalog",
   "production": true,
-  "url": "http://manoloexpo.free.fr/__experimentations/stars-traveller/2.0.0/api/index.php/kharchenko",
+  "url": "api/index.php/kharchenko",
   "service": "KharchenkoMysqlCatalogService",
   "scale": 1,
   "properties": [

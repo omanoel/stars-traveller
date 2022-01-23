@@ -34,7 +34,9 @@ export class HygCsvCatalogService implements ICatalogService {
     return new Promise((resolve, reject) => {
       new FileLoader().load(
         // resource URL
-        environment.catalogCsvPath + mainModel.selectedCatalog.url,
+        environment.basePath +
+          environment.catalogCsvPath +
+          mainModel.selectedCatalog.url,
 
         // Function when resource is loaded
         (data: string) => {

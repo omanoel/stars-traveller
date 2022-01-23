@@ -50,9 +50,9 @@ export class StarsAsPointsService {
     for (let i = 0; i < objectsFiltered.length; i++) {
       const record = objectsFiltered[i];
       vertices.push(
-        record.x + record.vx * deltaTimeInYear,
-        record.y + record.vy * deltaTimeInYear,
-        record.z + record.vz * deltaTimeInYear
+        record.x + (record.vx ? record.vx : 0) * deltaTimeInYear,
+        record.y + (record.vy ? record.vy : 0) * deltaTimeInYear,
+        record.z + (record.vz ? record.vz : 0) * deltaTimeInYear
       );
       const color = new Color(model.colors[this._getSpectrum(model, record)]);
       // const color = new Color(
@@ -185,21 +185,24 @@ export class StarsAsPointsService {
     });
   }
 
+  /**
+   *
+   * @param absmag the absolute magnitude
+   * @returns
+   */
   private _computeMagnitude(absmag: number): number {
-    const minMagnitude = 0.1;
-    const maxMagnitude = 3;
+    const min = 0.1;
+    const max = 3;
     const minAbsMag = -17;
     const maxAbsMag = 20;
     if (absmag > maxAbsMag) {
-      return minMagnitude;
+      return min;
     }
     if (absmag < minAbsMag) {
-      return maxMagnitude;
+      return max;
     }
     const magnitude =
-      minMagnitude +
-      ((maxMagnitude - minMagnitude) * (maxAbsMag - absmag)) /
-        (maxAbsMag - minAbsMag);
+      min + ((max - min) * (maxAbsMag - absmag)) / (maxAbsMag - minAbsMag);
     return magnitude;
   }
 }

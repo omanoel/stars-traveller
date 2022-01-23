@@ -32,16 +32,16 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
       nearDetectionFc: new FormControl(this.model.closeToTarget)
     });
     // subscriptions
-    this.indicatorsForm
-      .get('properMotionFc')
-      .valueChanges.subscribe((value: boolean) => {
+    this.indicatorsForm.get('properMotionFc').valueChanges.subscribe({
+      next: (value: boolean) => {
         this.model.showProperMotion = value;
-      });
-    this.indicatorsForm
-      .get('nearDetectionFc')
-      .valueChanges.subscribe((value: boolean) => {
+      }
+    });
+    this.indicatorsForm.get('nearDetectionFc').valueChanges.subscribe({
+      next: (value: boolean) => {
         this.model.closeToTarget$.next(value);
-      });
+      }
+    });
   }
 
   public ngOnDestroy(): void {

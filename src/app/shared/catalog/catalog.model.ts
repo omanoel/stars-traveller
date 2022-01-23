@@ -48,8 +48,10 @@ export interface BaseCatalogData {
   rv: string;
   mag: number;
   absmag: number;
+  bmag: number;
+  vmag: number;
   spect: string;
-  ci: string;
+  ci: number;
   x: number;
   y: number;
   z: number;

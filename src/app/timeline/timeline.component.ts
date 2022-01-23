@@ -28,20 +28,22 @@ export class TimelineComponent implements OnInit {
       this.DELTA_EPOCH_FC,
       new FormControl(this.model.deltaEpoch)
     );
-    this._timelineForm
-      .get(this.DELTA_EPOCH_FC)
-      .valueChanges.subscribe((value: number) => {
+    this._timelineForm.get(this.DELTA_EPOCH_FC).valueChanges.subscribe({
+      next: (value: number) => {
         this._updateByCursor = true;
         this.model.deltaEpoch = +value;
         this.model.displayAnimation = true;
-      });
-    this.model.deltaEpoch$.subscribe((value: number) => {
-      if (this._updateByCursor) {
-        this.model.displayAnimation = false;
-      } else {
-        this._timelineForm
-          .get(this.DELTA_EPOCH_FC)
-          .setValue(value, { emitEvent: false });
+      }
+    });
+    this.model.deltaEpoch$.subscribe({
+      next: (value: number) => {
+        if (this._updateByCursor) {
+          this.model.displayAnimation = false;
+        } else {
+          this._timelineForm
+            .get(this.DELTA_EPOCH_FC)
+            .setValue(value, { emitEvent: false });
+        }
       }
     });
   }

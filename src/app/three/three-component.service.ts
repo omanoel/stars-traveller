@@ -84,13 +84,15 @@ export class ThreeComponentService {
       this._sceneService.model
     );
     this._objectsService.initialize();
-    threeComponentModel.mainModel.catalogReadySubject.subscribe((isReady) => {
-      if (isReady) {
-        this._afterInitCatalog(threeComponentModel);
+    threeComponentModel.mainModel.catalogReadySubject.subscribe({
+      next: (isReady) => {
+        if (isReady) {
+          this._afterInitCatalog(threeComponentModel);
+        }
       }
     });
-    threeComponentModel.mainModel.closeToTarget$.subscribe(
-      (isCloseToTarget) => {
+    threeComponentModel.mainModel.closeToTarget$.subscribe({
+      next: (isCloseToTarget) => {
         threeComponentModel.mainModel.closeToTarget = isCloseToTarget;
         if (isCloseToTarget) {
           threeComponentModel.mainModel.objectsFiltered =
@@ -103,7 +105,7 @@ export class ThreeComponentService {
           threeComponentModel.mainModel.objectsFiltered
         );
       }
-    );
+    });
   }
 
   public resetWidthHeight(

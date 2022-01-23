@@ -13,6 +13,15 @@
     "DATE_CURRENT": "Date courante (2000 par défaut)",
     "TIME_RUNNING": "Faire écouler le temps..."
   },
+  "CHARTS": {
+    "RESET_FILTERS": "Effacer les filtres",
+    "STARS": "étoiles",
+    "X_AXIS": "axe X",
+    "X_AXIS_FILTER": "Filtre selon l'axe X",
+    "XY_AXIS_FILTER": "Filtre selon les axes XY",
+    "Y_AXIS": "axe Y",
+    "Y_AXIS_FILTER": "Filtre selon l'axe Y"
+  },
   "COMMON": {
     "CLOSE": "Fermer",
     "LOADING_OBJECTS": "Chargement des objets du catalogue...",
@@ -49,7 +58,7 @@
     "CATALOGS": "Catalogues",
     "CHARTS": "Graphes",
     "HELP": "Aide à la navigation",
-    "HOME": "Stars traveller version 2.2.0",
+    "HOME": "Stars traveller version 2.3.0",
     "INDICATORS": "Indication de navigation",
     "LANGUAGE": "Langue",
     "TIMELINE": "Echelle de temps",
