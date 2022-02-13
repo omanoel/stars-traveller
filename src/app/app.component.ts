@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 
-import { WEBGL } from 'three/examples/jsm/WebGL';
+import WebGL from 'three/examples/jsm/capabilities/WebGL';
 
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
@@ -39,9 +39,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!WEBGL.isWebGLAvailable()) {
+    if (!WebGL.isWebGLAvailable()) {
       this._isWebGLAvailable = false;
-      const warning = WEBGL.getWebGLErrorMessage();
+      const warning = WebGL.getWebGLErrorMessage();
       this._element.nativeElement.appendChild(warning);
       return;
     }
