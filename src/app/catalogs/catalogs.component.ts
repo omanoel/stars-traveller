@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import { MainModel } from '@app/app.model';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,7 +26,7 @@ export class CatalogsComponent implements OnInit {
   model: MainModel;
 
   public catalogsExt: CatalogExt[] = [];
-  public catalogsForm: FormGroup;
+  public catalogsForm: UntypedFormGroup;
   public interval;
 
   constructor(
@@ -31,8 +35,8 @@ export class CatalogsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.catalogsForm = new FormGroup({
-      catalogFc: new FormControl(
+    this.catalogsForm = new UntypedFormGroup({
+      catalogFc: new UntypedFormControl(
         '' + this.model.selectedCatalog.id,
         Validators.required
       )

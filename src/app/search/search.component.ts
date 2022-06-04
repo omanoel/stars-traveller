@@ -1,7 +1,7 @@
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MainModel } from '@app/app.model';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
   @Input() model: MainModel;
 
   public isHelpVisible = false;
-  public searchForm: FormGroup;
+  public searchForm: UntypedFormGroup;
   public selectedCatalog: Catalog;
   public isSelectedCatalogWithSearch: boolean;
 
@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
     this.isSelectedCatalogWithSearch =
       this._catalogService.getCatalogService(this.model.selectedCatalog)
         .search$ != null;
-    this.searchForm = new FormGroup({});
+    this.searchForm = new UntypedFormGroup({});
     this._buildRangeForProperties(this.model);
 
     this.searchForm.valueChanges
@@ -144,11 +144,11 @@ export class SearchComponent implements OnInit {
         max = model.filters.get(prop.key)[1];
       }
 
-      this.searchForm.addControl(prop.key, new FormControl(isUsed));
-      this.searchForm.addControl(prop.key + '_1', new FormControl(min));
-      this.searchForm.addControl(prop.key + '_2', new FormControl(max));
-      this.searchForm.addControl(prop.key + '_r1', new FormControl(min));
-      this.searchForm.addControl(prop.key + '_r2', new FormControl(max));
+      this.searchForm.addControl(prop.key, new UntypedFormControl(isUsed));
+      this.searchForm.addControl(prop.key + '_1', new UntypedFormControl(min));
+      this.searchForm.addControl(prop.key + '_2', new UntypedFormControl(max));
+      this.searchForm.addControl(prop.key + '_r1', new UntypedFormControl(min));
+      this.searchForm.addControl(prop.key + '_r2', new UntypedFormControl(max));
       if (!isUsed) {
         this.searchForm.get(prop.key + '_1').disable({ emitEvent: false });
         this.searchForm.get(prop.key + '_r1').disable({ emitEvent: false });
