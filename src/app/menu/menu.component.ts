@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { MenuComponentOptions } from './menu.component.model';
@@ -10,6 +10,7 @@ import { MenuComponentOptions } from './menu.component.model';
 })
 export class MenuComponent implements OnInit {
   @Input() options: MenuComponentOptions;
+  @Output() resetView: EventEmitter<void> = new EventEmitter();
 
   constructor(public translate: TranslateService) {}
 
@@ -17,7 +18,7 @@ export class MenuComponent implements OnInit {
     //
   }
 
-  public toggleAll(): void {
+  public toggleAll(withReset = false): void {
     this.options.displayAbout = false;
     this.options.displayLanguage = false;
     this.options.displayCatalogs = false;
@@ -26,6 +27,9 @@ export class MenuComponent implements OnInit {
     this.options.displayIndicators = false;
     this.options.displayTooltip = false;
     this.options.displayTimeLine = false;
+    if (withReset) {
+      this.resetView.emit();
+    }
   }
 
   public toggleHelp(): void {

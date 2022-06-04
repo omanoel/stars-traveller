@@ -119,4 +119,21 @@ export class AppComponent implements OnInit {
         this._mainModel.catalogReadySubject.next(true);
       });
   }
+
+  public resetView(): void {
+    // reset all filters
+    this._mainModel.timeline.deltaEpoch = 0;
+    this._mainModel.timeline.displayAnimation = false;
+    this._mainModel.closeToTarget$.next(false);
+    this._mainModel.showProperMotion = false;
+    this._mainModel.filters = new Map();
+    this._catalogService
+      .getCatalogService(this._mainModel.selectedCatalog)
+      .search$(this._mainModel)
+      .subscribe({
+        next: () => {
+          this._mainModel.objectsFiltered = this._mainModel.objectsImported;
+        }
+      });
+  }
 }
