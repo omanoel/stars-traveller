@@ -31,5 +31,10 @@
         "../libraries/ngx-repository/projects/ui-components/src/lib/*"
       ]
     }
-  }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "preserveWhitespaces": true,
+    // ...
+  },
 }
