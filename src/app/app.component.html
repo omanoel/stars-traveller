@@ -31,7 +31,10 @@
     [model]="mainModel"
     *ngIf="mainModel.menuOptions.displayIndicators"
   ></app-indicators>
-  <app-menu [options]="mainModel.menuOptions"></app-menu>
+  <app-menu
+    [options]="mainModel.menuOptions"
+    (resetView)="resetView()"
+  ></app-menu>
   <app-language *ngIf="mainModel.menuOptions.displayLanguage"></app-language>
   <app-about *ngIf="mainModel.menuOptions.displayAbout"></app-about>
   <app-help *ngIf="mainModel.menuOptions.displayHelp"></app-help>
