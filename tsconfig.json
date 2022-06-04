@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -31,5 +31,10 @@
         "../libraries/ngx-repository/projects/ui-components/src/lib/*"
       ]
     }
-  }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "preserveWhitespaces": true,
+    // ...
+  },
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TimelineModel } from './timeline.model';
 
@@ -14,7 +14,7 @@ export class TimelineComponent implements OnInit {
   //
   @Input() model: TimelineModel;
 
-  private _timelineForm: FormGroup;
+  private _timelineForm: UntypedFormGroup;
   private _updateByCursor = false;
 
   constructor(public translate: TranslateService) {
@@ -23,10 +23,10 @@ export class TimelineComponent implements OnInit {
 
   ngOnInit(): void {
     // Empty
-    this._timelineForm = new FormGroup({});
+    this._timelineForm = new UntypedFormGroup({});
     this._timelineForm.addControl(
       this.DELTA_EPOCH_FC,
-      new FormControl(this.model.deltaEpoch)
+      new UntypedFormControl(this.model.deltaEpoch)
     );
     this._timelineForm.get(this.DELTA_EPOCH_FC).valueChanges.subscribe({
       next: (value: number) => {
@@ -48,7 +48,7 @@ export class TimelineComponent implements OnInit {
     });
   }
 
-  public get timelineForm(): FormGroup {
+  public get timelineForm(): UntypedFormGroup {
     return this._timelineForm;
   }
 

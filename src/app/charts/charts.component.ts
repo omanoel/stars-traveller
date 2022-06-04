@@ -133,15 +133,15 @@ export class ChartsComponent implements OnInit {
     this._initData(true);
   }
 
-  public selectXAxis(prop: BaseCatalogProp): void {
-    this.xProp = prop;
+  public selectXAxis(prop: string): void {
+    this.xProp = prop as BaseCatalogProp;
     this.xRange = [Infinity, -Infinity];
     this.xSelectedRange = [Infinity, -Infinity];
     this._initData();
   }
 
-  public selectYAxis(prop: BaseCatalogProp): void {
-    this.yProp = prop;
+  public selectYAxis(prop: string): void {
+    this.yProp = prop as BaseCatalogProp;
     this.yRange = [Infinity, -Infinity];
     this.ySelectedRange = [Infinity, -Infinity];
     this._initData();

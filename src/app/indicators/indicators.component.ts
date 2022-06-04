@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MainModel } from '@app/app.model';
 import { PerspectiveCameraService } from '@app/three/shared/perspective-camera/perspective-camera.service';
 import { TargetService } from '@app/three/shared/target/target.service';
@@ -16,7 +16,7 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
   //
   @Input() model: MainModel;
   public target: Vector3;
-  public indicatorsForm: FormGroup;
+  public indicatorsForm: UntypedFormGroup;
   //
   constructor(
     public translate: TranslateService,
@@ -27,9 +27,9 @@ export class IndicatorsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.target = this._trackballControlsService.model.controls.target;
-    this.indicatorsForm = new FormGroup({
-      properMotionFc: new FormControl(this.model.showProperMotion),
-      nearDetectionFc: new FormControl(this.model.closeToTarget)
+    this.indicatorsForm = new UntypedFormGroup({
+      properMotionFc: new UntypedFormControl(this.model.showProperMotion),
+      nearDetectionFc: new UntypedFormControl(this.model.closeToTarget)
     });
     // subscriptions
     this.indicatorsForm.get('properMotionFc').valueChanges.subscribe({
