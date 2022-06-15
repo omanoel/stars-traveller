@@ -1,7 +1,4 @@
-<h1 class="title">
-  <i class="bi bi-graph-up"></i> {{ 'MENU.CHARTS' | translate }}
-</h1>
-<div class="content">
+<app-card icon="graph-up" title="{{ 'MENU.CHARTS' | translate }}">
   <div class="quarter">
     <p>
       <label for="xAxis"
@@ -69,6 +66,5 @@
     [options]="options"
     (chartDataZoom)="onChartEvent($event, 'chartDataZoom')"
     class="echarts"
-  ></div>
-</div>
-<div class="footer"></div>
+  ></div
+></app-card>

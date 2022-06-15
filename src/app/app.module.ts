@@ -18,6 +18,7 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { ChartsComponent } from './charts/charts.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { CardComponent } from './shared/ui/card/card.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     LanguageComponent,
     AboutComponent,
     HelpComponent,
-    TimelineComponent
+    TimelineComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [TranslateModule]
+  exports: [TranslateModule, CardComponent]
 })
 export class AppModule {}

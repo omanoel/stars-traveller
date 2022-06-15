@@ -1,7 +1,4 @@
-<h1 class="title">
-  <i class="bi bi-book"></i> {{ 'MENU.CATALOGS' | translate }}
-</h1>
-<div class="content">
+<app-card icon="book" title="{{ 'MENU.CATALOGS' | translate }}">
   <form [formGroup]="catalogsForm">
     <div *ngFor="let _catalog of catalogsExt">
       <div
@@ -30,5 +27,4 @@
       </div>
     </div>
   </form>
-</div>
-<div class="footer"></div>
+</app-card>
