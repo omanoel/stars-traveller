@@ -1,4 +1,4 @@
-# Stars traveller v2.3.0
+# Stars traveller v2.3.3
 
 ## Goal
 
@@ -6,9 +6,10 @@ The goal of this web application is to simulate a traveller in a space ship, whi
 
 ## Technologies
 
-- Angular v13
+- Angular v14
 - Three.js
 - Typescript
+- echarts
 
 ## Roadmap
 
