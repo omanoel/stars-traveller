@@ -1,7 +1,4 @@
-<h1 class="title">
-  <i class="bi bi-compass"></i> {{ 'MENU.INDICATORS' | translate }}
-</h1>
-<div class="content">
+<app-card icon="compass" title="{{ 'MENU.INDICATORS' | translate }}">
   <div class="indicators" *ngIf="model.average === '' && model.objectsFiltered">
     <div class="indicator">
       <p class="count">
@@ -69,5 +66,4 @@
       </form>
     </div>
   </div>
-</div>
-<div class="footer"></div>
+</app-card>

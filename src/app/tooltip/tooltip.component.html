@@ -1,29 +1,5 @@
-<h1 class="title">
-  <i class="bi bi-file-text"></i> {{ 'MENU.TOOLTIP' | translate }}
-</h1>
-<div *ngIf="model.lastObjectProperties" class="content">
-  <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
-    <span class="key" title="{{ prop.tooltip | translate }}">{{
-      prop.key
-    }}</span
-    >:
-    <span class="value">
-      {{ getValue(model.lastObjectProperties, prop) }}
-    </span>
-    <span class="url" *ngIf="prop.key === 'id'">
-      <a
-        target="_blank"
-        title="{{ 'TOOLTIP.HYGMAP' | translate }}"
-        href="{{ getHygMapUrl(getValue(model.lastObjectProperties, prop)) }}"
-        ><i class="bi bi-box-arrow-up-right"></i></a
-    ></span>
-  </p>
-</div>
-<div class="footer"></div>
-
-<!--ui-pop-in-projection>
-  <span title>{{ 'TOOLTIP.TITLE' | translate }}</span>
-  <div *ngIf="model.lastObjectProperties" class="properties">
+<app-card icon="file-text" title="{{ 'MENU.TOOLTIP' | translate }}">
+  <div class="overflow" *ngIf="model.lastObjectProperties">
     <p class="property" *ngFor="let prop of model.selectedCatalog.properties">
       <span class="key" title="{{ prop.tooltip | translate }}">{{
         prop.key
@@ -32,7 +8,13 @@
       <span class="value">
         {{ getValue(model.lastObjectProperties, prop) }}
       </span>
+      <span class="url" *ngIf="prop.key === 'id'">
+        <a
+          target="_blank"
+          title="{{ 'TOOLTIP.HYGMAP' | translate }}"
+          href="{{ getHygMapUrl(getValue(model.lastObjectProperties, prop)) }}"
+          ><i class="bi bi-box-arrow-up-right"></i></a
+      ></span>
     </p>
   </div>
-  <div class="bottom"></div>
-</ui-pop-in-projection-->
+</app-card>

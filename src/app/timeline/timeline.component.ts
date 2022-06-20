@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TimelineModel } from './timeline.model';
 
+export interface TimelineFormGroup {
+  deltaEpochFc: FormControl<number>;
+}
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
@@ -11,10 +14,9 @@ import { TimelineModel } from './timeline.model';
 export class TimelineComponent implements OnInit {
   //
   public readonly DELTA_EPOCH_FC = 'deltaEpochFc';
-  //
   @Input() model: TimelineModel;
 
-  private _timelineForm: UntypedFormGroup;
+  private _timelineForm: FormGroup<TimelineFormGroup>;
   private _updateByCursor = false;
 
   constructor(public translate: TranslateService) {
@@ -23,11 +25,9 @@ export class TimelineComponent implements OnInit {
 
   ngOnInit(): void {
     // Empty
-    this._timelineForm = new UntypedFormGroup({});
-    this._timelineForm.addControl(
-      this.DELTA_EPOCH_FC,
-      new UntypedFormControl(this.model.deltaEpoch)
-    );
+    this._timelineForm = new FormGroup<TimelineFormGroup>({
+      deltaEpochFc: new FormControl<number>(this.model.deltaEpoch)
+    });
     this._timelineForm.get(this.DELTA_EPOCH_FC).valueChanges.subscribe({
       next: (value: number) => {
         this._updateByCursor = true;
@@ -48,7 +48,7 @@ export class TimelineComponent implements OnInit {
     });
   }
 
-  public get timelineForm(): UntypedFormGroup {
+  public get timelineForm(): FormGroup<TimelineFormGroup> {
     return this._timelineForm;
   }
 

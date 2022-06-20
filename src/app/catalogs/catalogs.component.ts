@@ -1,9 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MainModel } from '@app/app.model';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +9,10 @@ import { CatalogService } from '../shared/catalog/catalog.service';
 
 export interface CatalogExt extends Catalog {
   count: number;
+}
+
+export interface CatalogsFormGroup {
+  catalogFc: FormControl<string | null>;
 }
 
 @Component({
@@ -26,7 +26,7 @@ export class CatalogsComponent implements OnInit {
   model: MainModel;
 
   public catalogsExt: CatalogExt[] = [];
-  public catalogsForm: UntypedFormGroup;
+  public catalogsForm: FormGroup<CatalogsFormGroup>;
   public interval;
 
   constructor(
@@ -35,8 +35,8 @@ export class CatalogsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.catalogsForm = new UntypedFormGroup({
-      catalogFc: new UntypedFormControl(
+    this.catalogsForm = new FormGroup<CatalogsFormGroup>({
+      catalogFc: new FormControl<string | null>(
         '' + this.model.selectedCatalog.id,
         Validators.required
       )
@@ -78,15 +78,15 @@ export class CatalogsComponent implements OnInit {
     this.model.showSearch = !this.model.showSearch;
   }
 
-  private _count$(catalog: Catalog): Observable<number> {
-    return this._catalogService.getCatalogService(catalog).count$(catalog);
-  }
-
   public getCurrentId(): string {
     if (this.model.lastObjectProperties) {
       return this.model.lastObjectProperties.id.toString();
     } else {
       return '-';
     }
+  }
+
+  private _count$(catalog: Catalog): Observable<number> {
+    return this._catalogService.getCatalogService(catalog).count$(catalog);
   }
 }

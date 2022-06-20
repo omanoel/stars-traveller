@@ -1,7 +1,4 @@
-<h1 class="title">
-  <i class="bi bi-flag"></i> {{ 'MENU.LANGUAGE' | translate }}
-</h1>
-<div class="content">
+<app-card icon="flag" title="{{ 'MENU.LANGUAGE' | translate }}">
   <label>
     {{ 'LANGUAGE.LABEL' | translate }}
     <select #langSelect (change)="translate.use(langSelect.value)">
@@ -14,5 +11,4 @@
       </option>
     </select>
   </label>
-</div>
-<div class="footer"></div>
+</app-card>
