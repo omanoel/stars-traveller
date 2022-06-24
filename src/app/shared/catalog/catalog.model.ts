@@ -10,6 +10,7 @@ export interface Catalog {
   properties: Property[];
   service: string;
   scale: number;
+  data?: BaseCatalogData[];
 }
 
 export interface Property {

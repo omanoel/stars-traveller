@@ -4,15 +4,19 @@ import { MainModel } from '@app/app.model';
 import { ObjectsService } from '@app/three/shared/objects/objects.service';
 import { environment } from '@env/environment';
 
-import { BaseCatalogData, ICatalogService } from '../catalog.model';
+import { BaseCatalogData, Catalog, ICatalogService } from '../catalog.model';
 import { FileLoader } from 'three';
+import { CatalogDbService } from '../catalog-db.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HygCsvCatalogService implements ICatalogService {
   //
-  constructor(private _objectsService: ObjectsService) {
+  constructor(
+    private _objectsService: ObjectsService,
+    private _catalogDbService: CatalogDbService
+  ) {
     // Empty
   }
 
@@ -31,30 +35,46 @@ export class HygCsvCatalogService implements ICatalogService {
 
   public initialize$(mainModel: MainModel): Promise<void> {
     mainModel.average = 'Loading objects...';
-    return new Promise((resolve, reject) => {
-      new FileLoader().load(
-        // resource URL
-        environment.basePath +
-          environment.catalogCsvPath +
-          mainModel.selectedCatalog.url,
+    return this._catalogDbService
+      .getOne(mainModel.selectedCatalog.id)
+      .then((catalog: Catalog) => {
+        if (catalog) {
+          mainModel.selectedCatalog = catalog;
+          mainModel.objectsImported = catalog.data;
+        } else {
+          return new Promise<void>((resolve, reject) => {
+            new FileLoader().load(
+              // resource URL
+              environment.basePath +
+                environment.catalogCsvPath +
+                mainModel.selectedCatalog.url,
 
-        // Function when resource is loaded
-        (data: string) => {
-          mainModel.objectsImported = this._transform(data);
-          resolve();
-        },
+              // Function when resource is loaded
+              (data: string) => {
+                mainModel.objectsImported = this._transform(data);
+                mainModel.selectedCatalog.data = mainModel.objectsImported;
+                resolve();
+              },
 
-        // Function called when download progresses
-        (progress: ProgressEvent) => {
-          mainModel.average = this._displaySize(progress.loaded);
-        },
+              // Function called when download progresses
+              (progress: ProgressEvent) => {
+                mainModel.average = this._displaySize(progress.loaded);
+              },
 
-        // Function called when download errors
-        () => {
-          reject();
+              // Function called when download errors
+              () => {
+                reject();
+              }
+            );
+          })
+            .then(() => {
+              return this._catalogDbService.add(mainModel.selectedCatalog);
+            })
+            .then(() => {
+              // Nothing
+            });
         }
-      );
-    });
+      });
   }
 
   // @override

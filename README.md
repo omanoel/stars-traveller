@@ -14,7 +14,8 @@ A demo is accessible at http://manoloexpo.free.fr/__experimentations/stars-trave
 
 ### V2.3.3
 
-- ...
+- Use component projection (technical task)
+- Use indexedDb to store localy catalog
 
 ### V2.3.2
 
