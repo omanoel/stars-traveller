@@ -1,4 +1,4 @@
-# Stars Traveller v2.3.2
+# Stars Traveller v2.3.3
 
 The goal of this web application is to simulate a traveller in a space ship, which wants to navigate between stars. It's in 3D view, and the stars are extracted from the HYG catalog (among 110 000 stars)
 
@@ -11,6 +11,11 @@ Run `ng build` or `npm run build` to build the project. The build artifacts will
 A demo is accessible at http://manoloexpo.free.fr/__experimentations/stars-traveller/index.html
 
 ## Latest evolutions
+
+### V2.3.3
+
+- Use component projection (technical task)
+- Use indexedDb to store localy catalog
 
 ### V2.3.2
 

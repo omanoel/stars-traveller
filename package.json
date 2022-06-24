@@ -1,6 +1,6 @@
 {
   "name": "stars-traveller",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A simple stars traveller",
   "license": "MIT",
   "contributors": [
@@ -28,6 +28,7 @@
     "@ngx-translate/core": "14.0.0",
     "@ngx-translate/http-loader": "7.0.0",
     "core-js": "3.22.8",
+    "dexie": "3.2.2",
     "echarts": "5.3.2",
     "ngx-device-detector": "3.0.0",
     "ngx-echarts": "8.0.1",
