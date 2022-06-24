@@ -10,6 +10,7 @@ import { SceneService } from './shared/scene/scene.service';
 import { TargetService } from './shared/target/target.service';
 import { TrackballControlsService } from './shared/trackball-controls/trackball-controls.service';
 import { ThreeComponentModel } from './three-component.model';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,8 @@ export class ThreeComponentService {
       renderer: new WebGLRenderer({
         antialias: true
       }),
+      renderRequested: false,
+      stats: null,
       frameId: null,
       element: element,
       collection3d: null,
@@ -63,6 +66,16 @@ export class ThreeComponentService {
     threeComponentModel.element.nativeElement
       .querySelector('div.map')
       .appendChild(threeComponentModel.renderer.domElement);
+
+    threeComponentModel.stats = Stats();
+    document.body.append(threeComponentModel.stats.dom);
+    const listHtmlCanvas =
+      threeComponentModel.stats.dom.querySelectorAll('canvas');
+
+    listHtmlCanvas.forEach((htmlCanvas) => {
+      htmlCanvas.style.width = '160px';
+      htmlCanvas.style.height = '96px';
+    });
     threeComponentModel.renderer.setPixelRatio(
       Math.floor(window.devicePixelRatio)
     );
@@ -111,12 +124,16 @@ export class ThreeComponentService {
   public resetWidthHeight(
     threeComponentModel: ThreeComponentModel,
     width: number,
-    height: number
+    height: number,
+    rendering = false
   ): void {
     threeComponentModel.width = width;
     threeComponentModel.height = height;
     threeComponentModel.renderer.setSize(width, height);
     this._perspectiveCameraService.updateCamera(width, height);
+    if (rendering) {
+      this._render(threeComponentModel);
+    }
   }
 
   public gotoTarget(threeComponentModel: ThreeComponentModel): void {
@@ -124,6 +141,7 @@ export class ThreeComponentService {
       this._targetService.goToThisPosition(
         threeComponentModel.mainModel.currentIntersected.parent.position
       );
+      threeComponentModel.mainModel.menuOptions.displayTooltip = true;
     }
   }
 
@@ -157,6 +175,7 @@ export class ThreeComponentService {
   }
 
   private _render(threeComponentModel: ThreeComponentModel): void {
+    threeComponentModel.renderRequested = false;
     const deltaDateTime =
       new Date().getTime() - threeComponentModel.dateTimeStartLoop;
     if (threeComponentModel.mainModel.timeline.displayAnimation) {
@@ -191,8 +210,12 @@ export class ThreeComponentService {
     //
     this._targetService.update();
     //
+    const dist = this._perspectiveCameraService.camera.position.distanceTo(
+      this._trackballControlsService.model.controls.target
+    );
+    const zoomSpeed = dist < 1 ? 0.1 : 1.2 * (2 / dist);
     //
-    this._trackballControlsService.updateControls();
+    this._trackballControlsService.updateControls(false, zoomSpeed);
     //
     this._referentielService.update();
     //
@@ -204,6 +227,7 @@ export class ThreeComponentService {
       threeComponentModel.myObjectOver,
       this._targetService.model.axesHelper.position
     );
+    threeComponentModel.stats.update();
     //
     threeComponentModel.renderer.render(
       this._sceneService.model,
@@ -251,6 +275,28 @@ export class ThreeComponentService {
       threeComponentModel.mainModel.objectsFiltered
     );
     this._objectsService.addObjectsInScene();
+    /*
+     */
     this._animate(threeComponentModel);
+    /*
+    this._trackballControlsService.model.controls.addEventListener(
+      'change',
+      () => this._requestRenderIfRequested(threeComponentModel)
+    );
+    this._trackballControlsService.model.controls.addEventListener(
+      'start',
+      () => this._requestRenderIfRequested(threeComponentModel)
+    );
+    this._trackballControlsService.model.controls.addEventListener('end', () =>
+      this._requestRenderIfRequested(threeComponentModel)
+    );
+    */
+  }
+
+  private _requestRenderIfRequested(model: ThreeComponentModel): void {
+    if (!model.renderRequested) {
+      model.renderRequested = true;
+      requestAnimationFrame(() => this._render(model));
+    }
   }
 }

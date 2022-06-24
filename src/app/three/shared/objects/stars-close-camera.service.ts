@@ -10,11 +10,13 @@ import {
   Mesh,
   MeshBasicMaterial,
   Object3D,
+  Quaternion,
   SphereBufferGeometry,
   Vector3
 } from 'three';
 import { BaseCatalogData } from '../../../shared/catalog/catalog.model';
 import { PerspectiveCameraService } from '../perspective-camera/perspective-camera.service';
+import { TextService } from '../text/text.service';
 import {
   ATTRIBUTE_POSITION,
   Collection3d,
@@ -32,7 +34,10 @@ export class StarsCloseCameraService {
   private readonly CLOSEST_DISTANCE = 20;
 
   //
-  constructor(private _perspectiveCameraService: PerspectiveCameraService) {
+  constructor(
+    private _perspectiveCameraService: PerspectiveCameraService,
+    private _textService: TextService
+  ) {
     // Empty
   }
 
@@ -50,6 +55,7 @@ export class StarsCloseCameraService {
       this._createOrUpdateClosestObjectsAndHelpers(model, mainModel);
     } else {
       model.groupOfClosestObjects.children = [];
+      model.groupOfClosestObjectsLabel.children = [];
     }
   }
 
@@ -87,6 +93,10 @@ export class StarsCloseCameraService {
       model.groupOfClosestObjects.children.filter((c) =>
         nearestIds.includes(c.userData.properties.id)
       );
+    model.groupOfClosestObjectsLabel.children =
+      model.groupOfClosestObjectsLabel.children.filter((c) =>
+        nearestIds.includes(c.userData.properties.id)
+      );
     // add not existing closest objects
     const geometrySphere = new SphereBufferGeometry(0.02, 32, 16);
     nearest.forEach((near) => {
@@ -100,6 +110,10 @@ export class StarsCloseCameraService {
           geometrySphere
         );
         model.groupOfClosestObjects.add(closest);
+        if (near.proper) {
+          const label = this._textService.create(near);
+          model.groupOfClosestObjectsLabel.add(label);
+        }
       }
     });
   }
@@ -118,7 +132,6 @@ export class StarsCloseCameraService {
     const mesh = new Mesh(geometrySphere, materialSphere);
     mesh.userData.properties = near;
     sphere.add(mesh);
-    model.groupOfClosestObjects.add(sphere);
     sphere.add(
       this._createClosestObjectHelper(
         new Vector3(near.x, near.y, near.z),

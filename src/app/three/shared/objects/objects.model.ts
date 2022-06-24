@@ -10,6 +10,7 @@ export interface Collection3d {
   groupOfClosestObjects: Object3D;
   groupOfClosestObjectsHelpers: Object3D;
   groupOfClosestObjectsProperMotion: Object3D;
+  groupOfClosestObjectsLabel: Object3D;
   // all objects as points
   groupOfObjectsPoints: Object3D;
   groupOfObjectsMovement: Object3D;
