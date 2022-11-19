@@ -22,6 +22,7 @@ export class MenuComponent implements OnInit {
     this.options.displayAbout = false;
     this.options.displayLanguage = false;
     this.options.displayCatalogs = false;
+    this.options.displayPovControls = false;
     this.options.displayCharts = false;
     this.options.displayHelp = false;
     this.options.displayIndicators = false;
@@ -32,20 +33,20 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  public toggleHelp(): void {
-    const previous = this.options.displayHelp;
-    if (this.options.isMobile) {
-      this.toggleAll();
-    }
-    this.options.displayHelp = !previous;
-  }
-
   public toggleAbout(): void {
     const previous = this.options.displayAbout;
     if (this.options.isMobile) {
       this.toggleAll();
     }
     this.options.displayAbout = !previous;
+  }
+
+  public toggleControls(): void {
+    const previous = this.options.displayPovControls;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayPovControls = !previous;
   }
 
   public toggleCatalogs(): void {
@@ -60,6 +61,14 @@ export class MenuComponent implements OnInit {
     const previous = this.options.displayCharts;
     this.toggleAll();
     this.options.displayCharts = !previous;
+  }
+
+  public toggleHelp(): void {
+    const previous = this.options.displayHelp;
+    if (this.options.isMobile) {
+      this.toggleAll();
+    }
+    this.options.displayHelp = !previous;
   }
 
   public toggleTooltip(): void {

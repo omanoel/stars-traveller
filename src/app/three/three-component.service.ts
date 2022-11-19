@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, NgZone, SimpleChanges } from '@angular/core';
 import { MainModel } from '@app/app.model';
-import { Vector2, WebGLRenderer } from 'three';
+import { Clock, Vector2, WebGLRenderer } from 'three';
 import { ObjectsService } from './shared/objects/objects.service';
 import { OnObjectOverService } from './shared/objects/on-object-over.service';
 import { PerspectiveCameraService } from './shared/perspective-camera/perspective-camera.service';
@@ -11,6 +11,7 @@ import { TargetService } from './shared/target/target.service';
 import { TrackballControlsService } from './shared/trackball-controls/trackball-controls.service';
 import { ThreeComponentModel } from './three-component.model';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { PovControlsService } from './shared/pov-controls/pov-controls.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class ThreeComponentService {
     private _ngZone: NgZone,
     private _perspectiveCameraService: PerspectiveCameraService,
     private _trackballControlsService: TrackballControlsService,
+    private _povControlsService: PovControlsService,
     private _raycasterService: RaycasterService,
     private _sceneService: SceneService,
     private _referentielService: ReferentielService,
@@ -30,13 +32,15 @@ export class ThreeComponentService {
 
   public initModel(
     element: ElementRef,
-    mainModel: MainModel
+    mainModel: MainModel,
+    clock: Clock
   ): ThreeComponentModel {
     return {
       renderer: new WebGLRenderer({
         antialias: true
       }),
       renderRequested: false,
+      clock: clock,
       stats: null,
       frameId: null,
       element: element,
@@ -82,6 +86,11 @@ export class ThreeComponentService {
 
     this._trackballControlsService.setupControls(
       threeComponentModel.renderer.domElement
+    );
+
+    this._povControlsService.setupControls(
+      threeComponentModel.renderer.domElement,
+      threeComponentModel.clock
     );
 
     this._perspectiveCameraService.camera.position.y = 1;
@@ -215,9 +224,25 @@ export class ThreeComponentService {
     );
     const zoomSpeed = dist < 1 ? 0.1 : 1.2 * (2 / dist);
     //
-    this._trackballControlsService.updateControls(false, zoomSpeed);
+    if (threeComponentModel.mainModel.menuOptions.displayPovControls) {
+      if (!this._povControlsService.model.enabled) {
+        this._povControlsService.enableControls();
+        this._povControlsService.model.enabled = true;
+        this._trackballControlsService.model.enabled = false;
+      }
+      this._povControlsService.updateControls();
+    } else {
+      if (this._povControlsService.model.enabled) {
+        this._povControlsService.disableControls();
+        this._povControlsService.model.enabled = false;
+        this._trackballControlsService.model.enabled = true;
+      }
+      this._trackballControlsService.updateControls(false, zoomSpeed);
+    }
     //
-    this._referentielService.update();
+    this._referentielService.update(
+      threeComponentModel.mainModel.menuOptions.displayPovControls
+    );
     //
     this._objectsService.createOrUpdateStarsCloseCamera(threeComponentModel);
     //

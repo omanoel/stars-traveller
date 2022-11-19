@@ -4,6 +4,15 @@
       ><i class="bi bi-stars"></i
     ></a>
   </li>
+  <li [ngClass]="{ active: options.displayPovControls }">
+    <a (click)="toggleControls()" title="{{ 'MENU.CONTROLS' | translate }}"
+      ><i
+        *ngIf="options.displayPovControls"
+        class="bi bi-universal-access-circle"
+      ></i
+      ><i *ngIf="!options.displayPovControls" class="bi bi-rocket-takeoff"></i
+    ></a>
+  </li>
   <li [ngClass]="{ active: options.displayCatalogs }">
     <a (click)="toggleCatalogs()" title="{{ 'MENU.CATALOGS' | translate }}"
       ><i class="bi bi-book"></i

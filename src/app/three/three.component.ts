@@ -45,7 +45,8 @@ export class ThreeComponent implements OnInit, OnChanges, OnDestroy {
   public ngOnInit(): void {
     this._threeComponentModel = this._threeComponentService.initModel(
       this._element,
-      this.options
+      this.options,
+      this.clock
     );
     this._threeComponentService.resetWidthHeight(
       this._threeComponentModel,

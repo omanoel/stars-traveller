@@ -5,6 +5,9 @@ import {
   EllipseCurve,
   Line,
   LineBasicMaterial,
+  Mesh,
+  MeshBasicMaterial,
+  SphereGeometry,
   Vector3
 } from 'three';
 
@@ -39,24 +42,25 @@ export class ReferentielService {
     );
     this._model = {
       distReference: distance,
-      objects: this._buildObjects(color, distance)
+      objects: this._buildObjects(color, distance),
+      skyMap: undefined
     };
   }
 
-  public update(): void {
+  public update(isPovControl = false): void {
     const dist = this._perspectiveCameraService.camera.position.distanceTo(
       new Vector3(0, 0, 0)
     );
     if (dist > this._model.distReference * (ReferentielService.FACTOR - 1)) {
       this._model.distReference = dist;
-      this._updateObjects();
+      this._updateObjects(isPovControl);
     } else if (dist < this._model.distReference) {
       this._model.distReference = dist / (ReferentielService.FACTOR - 1);
-      this._updateObjects();
+      this._updateObjects(isPovControl);
     }
   }
 
-  private _updateObjects(): void {
+  private _updateObjects(isPovControl: boolean): void {
     for (const ellipse of this._model.objects) {
       this._sceneService.model.remove(ellipse);
     }
@@ -65,6 +69,26 @@ export class ReferentielService {
     for (const ellipse of this._model.objects) {
       this._sceneService.model.add(ellipse);
     }
+    this._sceneService.model.remove(this._model.skyMap);
+    if (isPovControl) {
+      const skyMap = this._buildSky(0xffffff, 10.0);
+      this._model.skyMap = skyMap;
+      this._sceneService.model.add(skyMap);
+    }
+  }
+
+  private _buildSky(color: number, distance: number): Mesh {
+    const geometry = new SphereGeometry(distance, 32, 16);
+    const material = new MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.3,
+      wireframe: true
+    });
+    const sky = new Mesh(geometry, material);
+    sky.position.copy(this._perspectiveCameraService.camera.position);
+    sky.rotateX(Math.PI / 2);
+    return sky;
   }
 
   private _buildObjects(color: number, distance: number): Line[] {
@@ -138,7 +162,7 @@ export class ReferentielService {
       const material = new LineBasicMaterial({
         color: color,
         transparent: true,
-        opacity: 0.3 / i
+        opacity: 0.5 / i
       });
 
       // Create the final object to add to the scene

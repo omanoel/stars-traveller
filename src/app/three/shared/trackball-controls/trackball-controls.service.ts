@@ -38,6 +38,7 @@ export class TrackballControlsService {
     if (reduceZoomSpeed) {
       this._model.controls.zoomSpeed = zoomSpeed;
     }
+    this._model.controls.enabled = this._model.enabled;
     this._model.controls.update();
   }
 }
