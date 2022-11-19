@@ -1,12 +1,15 @@
 import { ElementRef } from '@angular/core';
 import { MainModel } from '@app/app.model';
 import { Object3D, Vector2, WebGLRenderer } from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 import { Collection3d } from './shared/objects/objects.model';
 
 export interface ThreeComponentModel {
   element: ElementRef;
   renderer: WebGLRenderer;
+  stats: Stats;
+  renderRequested: boolean;
   frameId: number;
   collection3d: Collection3d;
   mouse: Vector2;

@@ -31,7 +31,8 @@ export class MapComponent {
     this._threeComponentService.resetWidthHeight(
       this.model,
       window.innerWidth,
-      window.innerHeight
+      window.innerHeight,
+      false
     );
   }
 

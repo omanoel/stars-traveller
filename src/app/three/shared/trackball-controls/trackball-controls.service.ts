@@ -32,13 +32,12 @@ export class TrackballControlsService {
       canvasElement
     );
     this._model.controls.enabled = this._model.enabled;
-    this._model.controls.addEventListener('end', () => {
-      // this._starsService.updateProximityStars(threeComponentModel);
-      // this._model.target$.next(this._model.controls.target);
-    });
   }
 
-  public updateControls(): void {
+  public updateControls(reduceZoomSpeed = false, zoomSpeed = 1.2): void {
+    if (reduceZoomSpeed) {
+      this._model.controls.zoomSpeed = zoomSpeed;
+    }
     this._model.controls.update();
   }
 }

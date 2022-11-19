@@ -33,6 +33,7 @@ export class ObjectsService {
       groupOfClosestObjects: new Object3D(),
       groupOfClosestObjectsHelpers: new Object3D(),
       groupOfClosestObjectsProperMotion: new Object3D(),
+      groupOfClosestObjectsLabel: new Object3D(),
       groupOfObjectsMovement: new Object3D(),
       geometryMovementGlow: null,
       shaderMaterials: new Map(),
@@ -53,6 +54,7 @@ export class ObjectsService {
     this._model.groupOfClosestObjects.children = [];
     this._model.groupOfObjectsMovement.children = [];
     this._model.groupOfClosestObjectsProperMotion.children = [];
+    this._model.groupOfClosestObjectsLabel.children = [];
     const first = mainModel.objectsImported[0];
     const position = new Vector3(first.x, first.y, first.z);
     this._targetService.goToThisPosition(position);
@@ -70,6 +72,7 @@ export class ObjectsService {
       this._sceneService.model.add(
         this._model.groupOfClosestObjectsProperMotion
       );
+      this._sceneService.model.add(this._model.groupOfClosestObjectsLabel);
       this._model.loaded = true;
     }
   }

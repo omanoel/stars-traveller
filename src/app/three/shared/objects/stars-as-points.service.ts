@@ -16,8 +16,7 @@ import {
   ATTRIBUTE_POSITION,
   ATTRIBUTE_SIZE,
   Collection3d,
-  ColorIndex,
-  starColorFromColorIndex
+  ColorIndex
 } from './objects.model';
 import { ShadersConstant } from './shaders.constant';
 
